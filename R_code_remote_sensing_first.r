@@ -11,3 +11,9 @@ p224r63_2011 <- brick("p224r63_2011_masked.grd")
 p224r63_2011
 # funzione plot per visualizzare le 7 bande
 plot(p224r63_2011)
+# funzione per cambiare colore e assegnamo un oggetto
+cl <- colorRampPalette(c("black","grey","light grey")) (100)
+plot(p224r63_2011, col=cl)
+# esercizio change colour -> new
+cl <- colorRampPalette(c("blue","pink","light pink","purple","green")) (100)
+plot(p224r63_2011, col=cl)
