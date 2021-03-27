@@ -149,7 +149,7 @@ dev.off()
 # confronto tra stretch lineare e histogram stretch
 plotRGB(p224r63_2011, r=3, g=4, b=2, stretch="Lin")
 plotRGB(p224r63_2011, r=3, g=4, b=2, stretch="hist")
-# l'immagine ottenuta con la funzione hist ha particolari in più, nella foresta vediamo le zone più umide in viola ed il movimento dell'acqua
+# l'immagine con l'histogram stretch ha particolari in più, nella foresta distinguiamo le zone di vegetazione più umide (in viola) ed il movimento dell'acqua
 
 # ESECIZIO: facciamo un par mfrow = 3righe, 1 colonna
 # immagine a colori naturali (3,2,1) - immagine a colori falsi (infrarosso vicino sul verde) - immagine a colori falsi con histogram stretch (infrarosso vicino sul verde)
