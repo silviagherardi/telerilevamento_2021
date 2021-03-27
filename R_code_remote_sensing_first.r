@@ -7,10 +7,11 @@ library(raster)
 # percorso Windows per lavorare con i dati contenuti nella cartella lab
 setwd("C:/lab/") 
 
-# funzione brick per IMPORTARE dentro a R l'intero blocco di immagini satellitari tra ""
+# funzione brick per IMPORTARE dentro a R l'intera immagine satellitare (blocco) tra ""
 # assegnare il risultato della funzione brick ad un oggetto (nome_immagine)
 p224r63_2011 <- brick("p224r63_2011_masked.grd")
-# nome immagine per conoscere INFORMAZIONI relative al file raster - Classe: RasterBrick (7 bande in formato raster) 
+# nome_immagine: per conoscere INFORMAZIONI relative al file raster: 
+# - Classe: RasterBrick (7 bande in formato raster) 
 # - Bande di Landsat:
 # B1: blu
 # B2: verde
@@ -40,39 +41,46 @@ plot(p224r63_2011, col=clb)
 # funzione dev off per RIPULIRE la finestra grafica (nel caso non si fosse chiusa manualmente) 
 dev.off()
 
-# funzione plot: visualizziamo l'immagine intera legata alla sua banda 1 (B1_sre - blu) 
-# simbolo $: lega i due blocchi, quindi lega l'immagine alla sua banda 1
+# funzione plot: visualizziamo l'immagine intera legata alla sua banda 1 
+# simbolo $: lega i due blocchi, quindi lega l'intera immagine alla sua banda 1 
 plot(p224r63_2011$B1_sre)
 
-# ESERCIZIO: visualizziamo la banda 1 con una scala di colori scelta da noi
+# ESERCIZIO: visualizzare solo la banda 1 con una scala di colori scelta da noi
 cls <- colorRampPalette(c("blue","light blue","magenta","light pink","white")) (100)
 # funzione(primo argomento:nome_immagine$banda1, secondo argomento:colore(col)=oggetto(cls))
 plot(p224r63_2011$B1_sre, col=cls)
 
-# funzione par: visualizzare solo due bande però una accanto all'altra
-# mfrow: n.righe, n.colonne; mfcol: n.colonne, n.righe
-# mfrow: 1 riga e 2 colonne
+# vogliamo visualizzare solo le bande che ci interessano (non tutte e nemmeno una singola), vogliamo vedere la banda del blu e la banda del verde:
+# funzione par: crea un GRAFICO e serve per fare il settaggio dei vari parametri grafici
+# stiamo facendo un multiframe -> mf e vogliamo un grafico con 1 riga e 2 colonne
+# mfrow = n.righe, n.colonne oppure mfcol = n.colonne, n.righe
+# par(mfrow=1,2)
+# 1,2 sono due caratteri dello stesso argomento (n.righe,n.colonne) dunque li inseriamo in un VETTORE c
 par(mfrow=c(1,2))
-plot(p224r63_2011$B1_sre)
-plot(p224r63_2011$B2_sre)
-# mfrow: 2 righe e 1 colonna
-par(mfrow=c(2,1))
+# plottiamo le due bande (blu,verde) legate ($) all'immagine intera 
 plot(p224r63_2011$B1_sre)
 plot(p224r63_2011$B2_sre)
 
-# esercizio: plottiamo le prime 4 bande di Landsat: mfrow 4 righe e 1 colonna
+# ESERICIZIO: plottiamo le due bande (blue e verde) su 2 righe e 1 colonna
+par(mfrow=c(2,1))
+plot(p224r63_2011$B1_sre)
+plot(p224r63_2011$B2_sre)
+# plottiamo le prime 4 bande di Landsat su 4 righe e 1 colonna
 par(mfrow=c(4,1))
 plot(p224r63_2011$B1_sre)
 plot(p224r63_2011$B2_sre)
 plot(p224r63_2011$B3_sre)
 plot(p224r63_2011$B4_sre)
-# esercizio: plottiamo le prime 4 bande in un quadrato 2x2
+# plottiamo le prime 4 bande di Landsat in un quadrato 2x2
 par(mfrow=c(2,2)) 
 plot(p224r63_2011$B1_sre)
 plot(p224r63_2011$B2_sre)
 plot(p224r63_2011$B3_sre)
 plot(p224r63_2011$B4_sre)
-# esercizio: plottiamo le prime 4 bande in un quadrato 2x2, per ogni banda assegniamo una colorRampPalette associata al sensore della banda
+
+# ESERCIZIO: plottiamo le prime 4 bande di Landsat in un quadrato 2x2
+# per ogni banda assegniamo una colorRampPalette che faccia riferimento ai sensori di quella banda
+# 1- funzione par mforw=2righe,2olonne / 2- oggetto <- funzione colorRampPalette / 3- funzione plot (nome_immagine$bandax, col=oggetto)
 par(mfrow=c(2,2)) 
 # B1(blu): colorRampPalette blue
 clb <- colorRampPalette(c("dark blue","blue","light blue")) (100)
@@ -83,11 +91,11 @@ plot(p224r63_2011$B2_sre, col=clg)
 # B3(rosso): colorRampPalette red
 clr <- colorRampPalette(c("dark red","red","pink")) (100)
 plot(p224r63_2011$B3_sre, col=clr)
-# B4(infrarosso vicino): colorRampPalette basata sui gialli
+# B4(infrarosso vicino): colorRampPalette sfumature gialle
 clnir <- colorRampPalette(c("red","orange","yellow")) (100)
 plot(p224r63_2011$B4_sre, col=clnir)
 
-# visualizzare tutta l'immagine a colori naturali
+# vogliamo visualizzare tutta l'immagine a colori naturali
 # funzione plotRGB: 
 # primo argomento:immagine, red=banda 3 - green=banda 2 - blue=banda 1, stretch
 plotRGB(p224r63_2011,  r=3, g=2, b=1, stretch="Lin")
@@ -120,7 +128,7 @@ dev.off()
 plotRGB(p224r63_2011, r=3, g=4, b=2, stretch="Lin")
 plotRGB(p224r63_2011, r=3, g=4, b=2, stretch="hist")
 
-# esercitazione: 
+# ESECIZIO: 
 par(mfrow=c(3,1))
 plotRGB(p224r63_2011, r=3, g=2, b=1, stretch="Lin")
 plotRGB(p224r63_2011, r=3, g=4, b=2, stretch="Lin")
