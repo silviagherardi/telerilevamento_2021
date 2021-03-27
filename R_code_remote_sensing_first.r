@@ -7,8 +7,8 @@ library(raster)
 # percorso Windows per lavorare con i dati contenuti nella cartella lab
 setwd("C:/lab/") 
 
-# funzione brick per IMPORTARE dentro a R l'intero blocco di immagini satellitari
-# assegnare il risultato della funzione brick ad un oggetto (nome immagine)
+# funzione brick per IMPORTARE dentro a R l'intero blocco di immagini satellitari tra ""
+# assegnare il risultato della funzione brick ad un oggetto (nome_immagine)
 p224r63_2011 <- brick("p224r63_2011_masked.grd")
 # nome immagine per conoscere INFORMAZIONI relative al file raster - Classe: RasterBrick (7 bande in formato raster) 
 # - Bande di Landsat:
@@ -25,11 +25,12 @@ plot(p224r63_2011)
 
 # funzione colorRampPalette per CAMBIARE il COLORE delle 7 bande, ogni colore è un etichetta scritta tra ""
 # le etichette dei colori sono elementi di uno stesso argomento (colore) quindi vengono racchiusi all'interno di un VETTORE c 
+# funzione(c("elemento 1","elemento 2","elemento 3"...))
 # 100: livelli di ogni colore, sono fuori dalla funzione e sono un altro argomento 
 # assegnare l'oggetto (cl) al risultato della funzione 
 cl <- colorRampPalette(c("black","grey","light grey")) (100)
 # funzione plot: visualizziamo l'immagine con la nuova palette di colori
-# (primo argomento:immagine, secondo argomento:colore(col)=oggetto(cl) 
+# funzione(primo argomento:nome_immagine, secondo argomento:colore(col)=oggetto(cl))
 plot(p224r63_2011, col=cl)
 
 # ESERCIZIO: creiamo una nuova palette di colori scelta da noi e visualizziamo 
@@ -39,12 +40,13 @@ plot(p224r63_2011, col=clb)
 # funzione dev off per RIPULIRE la finestra grafica (nel caso non si fosse chiusa manualmente) 
 dev.off()
 
-# funzione plot: visualizziamo l'immagine intera legata alla sua banda 1 (blu) 
-# simbolo $: lega i due blocchi ovvero l'immagine e la sua banda 
+# funzione plot: visualizziamo l'immagine intera legata alla sua banda 1 (B1_sre - blu) 
+# simbolo $: lega i due blocchi, quindi lega l'immagine alla sua banda 1
 plot(p224r63_2011$B1_sre)
 
 # ESERCIZIO: visualizziamo la banda 1 con una scala di colori scelta da noi
 cls <- colorRampPalette(c("blue","light blue","magenta","light pink","white")) (100)
+# funzione(primo argomento:nome_immagine$banda1, secondo argomento:colore(col)=oggetto(cls))
 plot(p224r63_2011$B1_sre, col=cls)
 
 # funzione par: visualizzare solo due bande però una accanto all'altra
