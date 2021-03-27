@@ -100,7 +100,8 @@ plot(p224r63_2011$B4_sre, col=clnir)
 # primo argomento:immagine, red=banda 3 - green=banda 2 - blue=banda 1, stretch
 plotRGB(p224r63_2011,  r=3, g=2, b=1, stretch="Lin")
 
-# visualizzare tutta l'immagine a infrarossi
+# Visualizziamo i dati utilizzando lo schema RGB
+# vogliamo visualizzare tutta l'immagine a infrarossi
 # infrarosso (banda 4) sulla componente red (RGB)
 plotRGB(p224r63_2011,  r=4, g=3, b=2, stretch="Lin")
 # infrarosso (banda 4) sulla componente green (RGB)
