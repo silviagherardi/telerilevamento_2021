@@ -1,10 +1,11 @@
 # Il mio primo codice in R per il telerilevamento!
+
 # funzione install per INSTALLARE il pacchetto raster e gestire i dati in formato raster
 install.packages("raster") 
 # funzione library per UTILIZZARE il pacchetto raster
 library(raster) 
 
-# percorso Windows per lavorare con i dati contenuti nella cartella lab
+# percorso Windows per GESTIRE i dati contenuti nella cartella lab
 setwd("C:/lab/") 
 
 # funzione brick per IMPORTARE dentro a R l'intera immagine satellitare (blocco) tra ""
@@ -23,7 +24,10 @@ p224r63_2011 <- brick("p224r63_2011_masked.grd")
 p224r63_2011
 # funzione plot per VISUALIZZARE i dati, in questo caso visualizziamo le 7 bande dell'immagine satellitare
 plot(p224r63_2011)
+# -------------------------------------------------------------------------------------------------------------------------
 
+# colorRampPalette
+# vogliamo cambiare la scala di colori di default 
 # funzione colorRampPalette per CAMBIARE il COLORE delle 7 bande, ogni colore è un etichetta scritta tra ""
 # le etichette dei colori sono elementi di uno stesso argomento (colore) quindi vengono racchiusi all'interno di un VETTORE c 
 # funzione(c("elemento 1","elemento 2","elemento 3"...))
@@ -49,7 +53,9 @@ plot(p224r63_2011$B1_sre)
 cls <- colorRampPalette(c("blue","light blue","magenta","light pink","white")) (100)
 # funzione(primo argomento:nome_immagine$banda1, secondo argomento:colore(col)=oggetto(cls))
 plot(p224r63_2011$B1_sre, col=cls)
+# ---------------------------------------------------------------------------------------------------------------
 
+# par
 # vogliamo visualizzare solo le bande che ci interessano (non tutte e nemmeno una singola), vogliamo vedere la banda del blu e la banda del verde:
 # funzione par: crea un GRAFICO e serve per fare il settaggio dei vari parametri grafici
 # stiamo facendo un multiframe -> mf e vogliamo un grafico con 1 riga e 2 colonne
@@ -94,29 +100,42 @@ plot(p224r63_2011$B3_sre, col=clr)
 # B4(infrarosso vicino): colorRampPalette sfumature gialle
 clnir <- colorRampPalette(c("red","orange","yellow")) (100)
 plot(p224r63_2011$B4_sre, col=clnir)
+# ------------------------------------------------------------------------------------------------------------
 
-# vogliamo visualizzare tutta l'immagine a colori naturali
-# funzione plotRGB: 
-# primo argomento:immagine, red=banda 3 - green=banda 2 - blue=banda 1, stretch
+# plotRGB
+# visualizziamo i dati utilizzando lo schema RGB
+# SCHEMA RGB: red,green,blue - per ogni componente dello schema RGB utilizziamo una banda 
+# utilizziamo solo 3 bande per volta per visualizzare l'immagine intera 
+# componente rossa R3 -> banda 3 (banda del rosso)
+# componente verde G2 -> banda 2 (banda del verde)
+# componente blu B1 -> banda 1 (banda del blu)
+
+# visualizzare tutta l'immagine a colori naturali
+# funzione plotRGB: VISUALIZZAZIONE, attraverso lo schema RGB, di un oggetto raster multi-layered (molte bande)
+# primo argomento: nome_immagine / quali componenti per ogni banda: r=3, g=2, b=1 / ultimo argomento: stretch="Lin"
+# stretch lineare per mostrare tutte le gradazioni di colore ed evitare uno schiacciamento verso una sola parte del colore
 plotRGB(p224r63_2011,  r=3, g=2, b=1, stretch="Lin")
 
-# Visualizziamo i dati utilizzando lo schema RGB
-# vogliamo visualizzare tutta l'immagine a infrarossi
-# infrarosso (banda 4) sulla componente red (RGB)
-plotRGB(p224r63_2011,  r=4, g=3, b=2, stretch="Lin")
-# infrarosso (banda 4) sulla componente green (RGB)
-plotRGB(p224r63_2011,  r=3, g=4, b=2, stretch="Lin")
-# infrarosso (banda 4) sulla componente blue (RGB)
-plotRGB(p224r63_2011,  r=3, g=2, b=4, stretch="Lin")
+# visualizzare tutta l'immagine a falsi colori
+# banda 4 (infrarosso vicino) sulla componente rossa, banda 3 (rosso) sulla componente verde, banda 2 (verde) sulla componente blu
+# vegetazione tutta rossa 
+plotRGB(p224r63_2011,  r=4, g=3, b=2, stretch="Lin") 
+# banda 3 (rosso) sulla componente rossa, banda 4 (infrarosso vicino) sulla componente verde, banda 2 (verde) sulla componente blu
+# vegetazione tutta verde e suolo nudo viola
+plotRGB(p224r63_2011,  r=3, g=4, b=2, stretch="Lin")  
+# banda 3 (rossa) sulla componente rossa, banda 2 (verde) sulla componente verde, banda 4 (infrarosso vicino) sulla componente blu
+# vegetazione tutta blu e suolo nudo giallo
+plotRGB(p224r63_2011,  r=3, g=2, b=4, stretch="Lin") 
 
-#ESERCIZIO: visualizzare tutte le 4 immagini in un quadrato 2x2
+#ESERCIZIO: facciamo un multiframe delle 4 immagini appena create e le mettiamo in un quadrato 2x2
 par(mfrow=c(2,2)) 
 plotRGB(p224r63_2011, r=3, g=2, b=1, stretch="Lin")
 plotRGB(p224r63_2011, r=4, g=3, b=2, stretch="Lin")
 plotRGB(p224r63_2011, r=3, g=4, b=2, stretch="Lin")
 plotRGB(p224r63_2011, r=3, g=2, b=4, stretch="Lin")
 
-# creiamo un pdf delle 4 immagini appena create
+# funzione pdf: SALVIAMO le 4 immagini appena create come pdf nella cartella lab
+# l'argomento è il nome del file tra "" e senza spazi
 pdf("immagine_multiframe_2x2")
 par(mfrow=c(2,2)) 
 plotRGB(p224r63_2011, r=3, g=2, b=1, stretch="Lin")
@@ -125,19 +144,23 @@ plotRGB(p224r63_2011, r=3, g=4, b=2, stretch="Lin")
 plotRGB(p224r63_2011, r=3, g=2, b=4, stretch="Lin")
 dev.off()
 
-# da stretch lineare a histogram stretch
+# histogram stretch: non è lineare ma tira i valori intermedi di riflettanza al centro grazie ad una pendenza molto accentuata della curva
+# immagine a colori falsi -> banda 4 (infrarosso vicino) sulla componente verde 
+# confronto tra stretch lineare e histogram stretch
 plotRGB(p224r63_2011, r=3, g=4, b=2, stretch="Lin")
 plotRGB(p224r63_2011, r=3, g=4, b=2, stretch="hist")
+# l'immagine ottenuta con la funzione hist ha particolari in più, nella foresta vediamo le zone più umide in viola ed il movimento dell'acqua
 
-# ESECIZIO: 
+# ESECIZIO: facciamo un par mfrow = 3righe, 1 colonna
+# immagine a colori naturali (3,2,1) - immagine a colori falsi (infrarosso vicino sul verde) - immagine a colori falsi con histogram stretch (infrarosso vicino sul verde)
 par(mfrow=c(3,1))
 plotRGB(p224r63_2011, r=3, g=2, b=1, stretch="Lin")
 plotRGB(p224r63_2011, r=3, g=4, b=2, stretch="Lin")
 plotRGB(p224r63_2011, r=3, g=4, b=2, stretch="hist")
+# -------------------------------------------------------------------------------------------------------------
 
 install.packages("RStoolbox")
 library(RStoolbox)
-
 
 
 
