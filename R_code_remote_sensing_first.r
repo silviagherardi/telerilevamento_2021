@@ -1,30 +1,17 @@
 # Il mio primo codice in R per il telerilevamento!
-# funzione install per installare il pacchetto raster e gestire i dati in formato raster
+# funzione install per INSTALLARE il pacchetto raster e gestire i dati in formato raster
 install.packages("raster") 
-# funzione library per visualizzare il pacchetto raster
+# funzione library per UTILIZZARE il pacchetto raster
 library(raster) 
 
 # percorso Windows per lavorare con i dati contenuti nella cartella lab
 setwd("C:/lab/") 
 
-# funzione brick per importare dentro a R l'intero blocco di immagini satellitari
-# assegnare l'oggetto (nome immagine) alla funzione 
+# funzione brick per IMPORTARE dentro a R l'intero blocco di immagini satellitari
+# assegnare il risultato della funzione brick ad un oggetto (nome immagine)
 p224r63_2011 <- brick("p224r63_2011_masked.grd")
-# nome immagine: vedere cosa contiene il file
-p224r63_2011
-# funzione plot per visualizzare le 7 bande dell'immagine
-plot(p224r63_2011)
-
-# funzione colorRampPalette: per cambiare colore
-# assegnare l'oggetto (cl) alla funzione  
-cl <- colorRampPalette(c("black","grey","light grey")) (100)
-# funzione plot -> primo argomento:immagine, secondo argomento:colore
-plot(p224r63_2011, col=cl)
-# esercizio: cambiamo il colore della palette di colori di default
-clb <- colorRampPalette(c("blue","pink","light pink","purple","green")) (100)
-plot(p224r63_2011, col=clb)
-
-# Bande di Landsat:
+# nome immagine per conoscere INFORMAZIONI relative al file raster - Classe: RasterBrick (7 bande in formato raster) 
+# - Bande di Landsat:
 # B1: blu
 # B2: verde
 # B3: rosso 
@@ -32,16 +19,35 @@ plot(p224r63_2011, col=clb)
 # B5: infrarosso medio
 # B6: infrarosso termico 
 # B7: infrarosso medio 
+p224r63_2011
+# funzione plot per VISUALIZZARE i dati, in questo caso visualizziamo le 7 bande dell'immagine satellitare
+plot(p224r63_2011)
 
-# comando dev off per ripulire la finestra grafica
+# funzione colorRampPalette per CAMBIARE il COLORE delle 7 bande, ogni colore è un etichetta scritta tra ""
+# le etichette dei colori sono elementi di uno stesso argomento (colore) quindi vengono racchiusi all'interno di un VETTORE c 
+# 100: livelli di ogni colore, sono fuori dalla funzione e sono un altro argomento 
+# assegnare l'oggetto (cl) al risultato della funzione 
+cl <- colorRampPalette(c("black","grey","light grey")) (100)
+# funzione plot: visualizziamo l'immagine con la nuova palette di colori
+# (primo argomento:immagine, secondo argomento:colore(col)=oggetto(cl) 
+plot(p224r63_2011, col=cl)
+
+# ESERCIZIO: creiamo una nuova palette di colori scelta da noi e visualizziamo 
+clb <- colorRampPalette(c("blue","pink","light pink","purple","green")) (100)
+plot(p224r63_2011, col=clb)
+
+# funzione dev off per RIPULIRE la finestra grafica (nel caso non si fosse chiusa manualmente) 
 dev.off()
-# funzione plot: plottiamo l'immagine intera legata alla sua banda 1 ($ per legare i due blocchi) 
+
+# funzione plot: visualizziamo l'immagine intera legata alla sua banda 1 (blu) 
+# simbolo $: lega i due blocchi ovvero l'immagine e la sua banda 
 plot(p224r63_2011$B1_sre)
-# esercizio: plot della banda 1 con una scala di colori scelta da noi
+
+# ESERCIZIO: visualizziamo la banda 1 con una scala di colori scelta da noi
 cls <- colorRampPalette(c("blue","light blue","magenta","light pink","white")) (100)
 plot(p224r63_2011$B1_sre, col=cls)
 
-# funzione par: plottiamo solo due bande: una accanto all'altra
+# funzione par: visualizzare solo due bande però una accanto all'altra
 # mfrow: n.righe, n.colonne; mfcol: n.colonne, n.righe
 # mfrow: 1 riga e 2 colonne
 par(mfrow=c(1,2))
