@@ -151,7 +151,7 @@ plotRGB(p224r63_2011, r=3, g=4, b=2, stretch="Lin")
 plotRGB(p224r63_2011, r=3, g=4, b=2, stretch="hist")
 # l'immagine con l'histogram stretch ha particolari in più, nella foresta distinguiamo le zone di vegetazione più umide (in viola) ed il movimento dell'acqua
 
-# ESECIZIO: facciamo un par mfrow = 3righe, 1 colonna
+# ESERCIZIO: facciamo un par mfrow = 3righe, 1 colonna
 # immagine a colori naturali (3,2,1) - immagine a colori falsi (infrarosso vicino sul verde) - immagine a colori falsi con histogram stretch (infrarosso vicino sul verde)
 par(mfrow=c(3,1))
 plotRGB(p224r63_2011, r=3, g=2, b=1, stretch="Lin")
