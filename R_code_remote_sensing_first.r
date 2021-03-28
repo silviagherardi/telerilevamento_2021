@@ -29,8 +29,8 @@ plot(p224r63_2011)
 # colorRampPalette
 # vogliamo cambiare la scala di colori di default 
 # funzione colorRampPalette per CAMBIARE il COLORE delle 7 bande, ogni colore è un etichetta scritta tra ""
-# le etichette dei colori sono elementi di uno stesso argomento (colore) quindi vengono racchiusi all'interno di un VETTORE c 
-# funzione(c("elemento 1","elemento 2","elemento 3"...))
+# le etichette dei colori sono caratteri di uno stesso argomento (colore) quindi vengono racchiusi all'interno di un VETTORE c 
+# funzione(c("carattere 1","carattere 2","carattere 3"...))
 # 100: livelli di ogni colore, sono fuori dalla funzione e sono un altro argomento 
 # assegnare l'oggetto (cl) al risultato della funzione 
 cl <- colorRampPalette(c("black","grey","light grey")) (100)
@@ -46,7 +46,7 @@ plot(p224r63_2011, col=clb)
 dev.off()
 
 # funzione plot: visualizziamo l'immagine intera legata alla sua banda 1 
-# simbolo $: lega i due blocchi, quindi lega l'intera immagine alla sua banda 1 
+# simbolo $: LEGA i due blocchi, quindi lega l'intera immagine alla sua banda 1 
 plot(p224r63_2011$B1_sre)
 
 # ESERCIZIO: visualizzare solo la banda 1 con una scala di colori scelta da noi
@@ -63,11 +63,11 @@ plot(p224r63_2011$B1_sre, col=cls)
 # par(mfrow=1,2)
 # 1,2 sono due caratteri dello stesso argomento (n.righe,n.colonne) dunque li inseriamo in un VETTORE c
 par(mfrow=c(1,2))
-# plottiamo le due bande (blu,verde) legate ($) all'immagine intera 
+# plottiamo le due bande (blu - verde) legate ($) all'immagine intera 
 plot(p224r63_2011$B1_sre)
 plot(p224r63_2011$B2_sre)
 
-# ESERICIZIO: plottiamo le due bande (blue e verde) su 2 righe e 1 colonna
+# ESERICIZIO: plottiamo le due bande (blue - verde) su 2 righe e 1 colonna
 par(mfrow=c(2,1))
 plot(p224r63_2011$B1_sre)
 plot(p224r63_2011$B2_sre)
