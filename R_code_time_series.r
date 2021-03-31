@@ -6,3 +6,6 @@
 library(raster)
 # percorso Windows per lavorare con la cartella greenland che si trova dentro la cartella lab
 setwd("C:/lab/greenland") 
+
+
+
