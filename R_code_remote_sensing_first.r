@@ -159,8 +159,52 @@ plotRGB(p224r63_2011, r=3, g=4, b=2, stretch="Lin")
 plotRGB(p224r63_2011, r=3, g=4, b=2, stretch="hist")
 # -------------------------------------------------------------------------------------------------------------
 
-install.packages("RStoolbox")
-library(RStoolbox)
+# MULTITEMPORAL SET
+# facciamo un confronto temporale tra l'immagine del 2011 e l'immagine del 1988 (rappresentano la stessa zona)
+# vogliamo utilizzare l'immagine del 1988 quindi dobbiamo richiamare la library raster ed il percorso della cartella lab (dove c'è l'immagine che ci serve)
+library(raster)
+set("C:/lab/") 
 
+# funzione brick: IMPORTA l'intero set di dati (bande) creando un oggetto che si chiama raster brick
+# importiamo in R il file: immagine del 2011
+p224r63_2011 <- brick("p224r63_2011_masked.grd")
+# richiamiamo l'oggeto della funzione per vedere le informazioni del file
+p224r63_2011
+# importiamo in R il file: immagine del 1988
+p224r63_1988 <- brick("p224r63_1988_masked.grd")
+# richiamiamo l'oggeto della funzione per vedere le informazioni del file
+p224r63_1988
 
+# funzione plot: visualizziamo le singole bande (sono esattamente le stesse dell'immagine del 2011) con la scala di colori di default
+plot(p224r63_1988)
 
+# SCHEMA RGB 
+# vediamo l'immagine del 1988 a colori naturali (3,2,1: banda rossa sulla componente R, banda verde sulla componente G, banda blu sulla componente B)
+plotRGB(p224r63_1988,  r=3, g=2, b=1, stretch="Lin")
+# vediamo l'immagine del 1988 a colori falsi (4,3,2: banda infraorosso sulla componente R, banda rossa sulla componente G, banda verde sulla componente B)
+plotRGB(p224r63_1988,  r=4, g=3, b=2, stretch="Lin") # vegetazione tutta rossa, situazione antropica meno prevalente
+
+# ESERCIZIO: creare un multiframe con par: schema con 2 righe e 1 colonna delle due immagini a confronto 
+par(mfrow=c(2,1)) 
+plotRGB(p224r63_2011, r=4, g=3, b=2, stretch="Lin")
+plotRGB(p224r63_1988,  r=4, g=3, b=2, stretch="Lin")
+# ESERCIZIO: creare un multiframe con par: schema con 2 righe e 2 colonne, dove prima riga: stretch lin; seconda riga: histogram stretch 
+# GRAFICO -> LIN   1988 - 2011
+#            HIST  1988 - 2011
+par(mfrow=c(2,2)) 
+# Lin
+plotRGB(p224r63_1988,  r=4, g=3, b=2, stretch="Lin")
+plotRGB(p224r63_2011, r=4, g=3, b=2, stretch="Lin")
+# hist
+plotRGB(p224r63_1988,  r=4, g=3, b=2, stretch="hist")
+plotRGB(p224r63_2011, r=4, g=3, b=2, stretch="hist")
+
+# PDF nella cartella lab
+pdf("confronto_1988_2011_2x2")
+par(mfrow=c(2,2))
+plotRGB(p224r63_1988,  r=4, g=3, b=2, stretch="Lin")
+plotRGB(p224r63_2011, r=4, g=3, b=2, stretch="Lin")
+plotRGB(p224r63_1988,  r=4, g=3, b=2, stretch="hist")
+plotRGB(p224r63_2011, r=4, g=3, b=2, stretch="hist")
+dev.off()
+# ------------------------------------------------------------------------------------------------------------------------------------
