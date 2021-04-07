@@ -26,12 +26,34 @@ plot(lst_2015)
 lst_2005
 # values: 0, 65535  (min, max) -> immagine a 16 bit, 2^16 = 65.356 valori possibili
 
-# creiamo un multipanel con le 4 immagini in un quadrato 2x2
-par(mfrow=c(2,2)
+# ESERCIZIO: creiamo un multiframe con le 4 immagini in un quadrato 2x2
+par(mfrow=c(2,2))
 plot(lst_2000)
 plot(lst_2005)
 plot(lst_2010)
 plot(lst_2015)
+
+# CREIAMO UN PACCHETTO UNICO COSTITUITO DAI 4 FILE
+# 1- funzione LIST.FILES: 
+rlist <- list.files(pattern="lst")  
+rlist
+# 2 - funzione IMPORT: 
+import <- lapply(rlist,raster)
+import
+# 3- funzione STACK: 
+TGr <- stack(import)
+plot(TGr)
+
+# 
+plotRGB(TGr, 1, 2, 3, stretch="Lin")
+#
+plotRGB(TGr, 2, 3, 4, stretch="Lin")
+
+# installare il pacchetto rasterVis
+install.packages("rasterVis")
+library(rasterVis)
+# ----------------------------------------------------------------------------------------------
+
 
 
 
