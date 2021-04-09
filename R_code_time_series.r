@@ -48,11 +48,71 @@ plot(TGr)
 plotRGB(TGr, 1, 2, 3, stretch="Lin")
 #
 plotRGB(TGr, 2, 3, 4, stretch="Lin")
+# ----------------------------------------------------------------------------------------------
 
-# installare il pacchetto rasterVis
+# 
+# installare il pacchetto rasterVis: metodi di visualizzazione dei dati raster
 install.packages("rasterVis")
 library(rasterVis)
-# ----------------------------------------------------------------------------------------------
+# definiamo di nuovo il percorso per utilizzare i dati dentro la cartella greenland
+# setwd("C:/lab/greenland") 
+# rlist <- list.files(pattern="lst")
+# rlist
+# import <- lapply(rlist,raster)
+# import
+# TGr <- stack(import)
+# TGr
+
+# funzione LEVELPLOT: 
+levelplot(TGr)
+# applicchiamo la stessa funzione levelplot al file TGr ma considerando ogni singolo strato
+# $ per legare ogni singolo pezzo ad un altro
+levelplot(TGr$lst_2000)
+
+#
+cl <- colorRampPalette(c("blue","light blue","pink","red"))(100)
+levelplot(TGr, col.regions=cl)
+# 
+# names.attr=c("July 2000","July 2005", "July 2010", "July 2015"))
+levelplot(TGr, col.regions=cl, names.attr=c("July 2000","July 2005", "July 2010", "July 2015"))
+# 
+# main="LST variation in time"
+levelplot(TGr,col.regions=cl, main="LST variation in time", names.attr=c("July 2000","July 2005", "July 2010", "July 2015"))
+# -----------------------------------------------------------------------------------------------------------------------------
+
+# MELT
+# meltlist: creiamo una lista di tutti i file che hanno la parola melt in comune
+meltlist <- list.files(pattern="melt")  
+# 
+melt_import <- lapply(meltlist,raster)
+#
+melt <- stack(melt_import)
+
+
+# funzione plot: 
+plot(melt)
+# oggetto melt per vedere le informazioni che contiene
+melt
+
+
+levelplot(melt)
+# sottrazione tra uno strato e l'altro
+melt_amount <- melt$X2007annual_melt - melt$X1979annual_melt
+clb <- colorRampPalette(c("blue","white","red"))(100)
+plot(melt_amount, col=clb)
+
+levelplot(melt_amount, col.regions=clb)
+
+
+# --------------------------------------------------------------------------------------------------
+
+# installare un pacchetto che serve per fare un report
+install.packages("knitr") 
+library(knitr) 
+
+
+
+
 
 
 
