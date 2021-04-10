@@ -9,10 +9,12 @@ library(raster)
 # funzione setwd: settiamo la working directory: percorso Windows per GESTIRE i dati contenuti nella cartella lab
 setwd("C:/lab/") 
 
-# funzione brick per IMPORTARE dentro a R l'intera immagine satellitare (blocco) tra ""
-# assegnare il risultato della funzione brick ad un oggetto (nome_immagine)
+# funzione brick: serve per IMPORTARE dentro a R l'intera immagine satellitare costituita da tutte le sue singole bande (intero blocco)
+# l'immagine satellitare va scritta tra "" perchè si trova all'esterno di R
+# assegnare il risultato della funzione brick ad un oggetto chiamato con il nome dell'immagine
 p224r63_2011 <- brick("p224r63_2011_masked.grd")
-# nome_immagine: per conoscere INFORMAZIONI relative al file raster: 
+# scriviamo il nome dell'immagine per conoscere le INFORMAZIONI relative al file raster
+p224r63_2011
 # - Classe: RasterBrick (7 bande in formato raster) 
 # - Bande di Landsat:
 # B1: blu
@@ -22,8 +24,8 @@ p224r63_2011 <- brick("p224r63_2011_masked.grd")
 # B5: infrarosso medio
 # B6: infrarosso termico 
 # B7: infrarosso medio 
-p224r63_2011
-# funzione plot per VISUALIZZARE i dati, in questo caso visualizziamo le 7 bande dell'immagine satellitare
+
+# funzione plot: serve per VISUALIZZARE i dati: in questo caso visualizziamo tutte le 7 bande dell'intera immagine satellitare
 plot(p224r63_2011)
 # -------------------------------------------------------------------------------------------------------------------------
 
