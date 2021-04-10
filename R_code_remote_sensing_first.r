@@ -166,10 +166,10 @@ library(raster)
 set("C:/lab/") 
 
 # importiamo in R il file corrispondente all'immagine del 2011
-# funzione brick: IMPORTA l'intera immagine satellitare, dunque tutte le singole bande all'interno dell'immagine saltellitare
-# assegnamo il rislutato della funzione ad un oggetto che chiamiamo come il nome dell'immagine
+# funzione brick: IMPORTA l'intera immagine satellitare, dunque importa tutte le singole bande all'interno di un unica immagine saltellitare
+# assegnamo il rislutato della funzione brick ad un oggetto che chiamiamo come il nome dell'immagine
 p224r63_2011 <- brick("p224r63_2011_masked.grd")
-# scriviamo il nome dell'immagine (oggetto) per vedere le informazioni del file
+# richiamiamo l'immagine (oggetto della funzione brick) per vedere le informazioni del file
 p224r63_2011
 
 # importiamo in R il file corrispondente all'immagine del 1988
