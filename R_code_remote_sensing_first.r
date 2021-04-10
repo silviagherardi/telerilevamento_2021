@@ -1,6 +1,7 @@
 # Il mio primo codice in R per il telerilevamento!
 
 # funzione install.packages: serve per INSTALLARE il pacchetto raster e gestire i dati in formato raster
+# il pacchetto raster si scrive tra "" perchè si trova all'esterno del software R 
 install.packages("raster") 
 # funzione library: serve UTILIZZARE il pacchetto raster, non mettiamo le "" perchè il pacchetto è già dentro R
 library(raster) 
