@@ -90,25 +90,37 @@ plotRGB(TGr, 1,2,3, stretch="Lin")
 # 2,3,4: file 2005 sulla componente red, file 2010 sulla componente green, file 2015 sulla componente blue 
 plotRGB(TGr, 2,3,4, stretch="Lin")
 # otteniamo un’immagine simile a quella precedente, dove c’è la parte blu riguarda i valori di lst più alti nel 2015
-# ----------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------------------------------------------
 
+# richiamiamo il pacchetto raster e definiamo di nuovo la working directory per gestire i dati dentro la cartella greenland
+library(raster)
+setwd("C:/lab/greenland")
 # installare il pacchetto rasterVis: metodi di visualizzazione dei dati raster
 install.packages("rasterVis")
 library(rasterVis)
-# definiamo di nuovo il percorso per utilizzare i dati dentro la cartella greenland
-# setwd("C:/lab/greenland") 
-# rlist <- list.files(pattern="lst")
-# rlist
-# import <- lapply(rlist,raster)
-# import
-# TGr <- stack(import)
-# TGr
 
-# funzione LEVELPLOT: 
+# dobbiamo ricreare l'unico file che contiene tutti e 4 i files raster (singoli strati) nella cartella greenland 
+rlist <- list.files(pattern="lst")
+rlist
+import <- lapply(rlist,raster)
+import
+TGr <- stack(import)
+# scriviamo l'oggetto della funzione stack per vedere le informazioni che contiene il file
+TGr
+# classe: Raster Stack
+# dimensioni: 4.428.595 pixel per ogni livello
+# nomi: sono i vari livelli quindi: lst_2000, lst_2005, lst_2010, lst_2015
+
+# funzione levelplot: crea un grafico utilizzando il blocco intero (costituito dai 4 file) e una singola legenda
 levelplot(TGr)
-# applicchiamo la stessa funzione levelplot al file TGr ma considerando ogni singolo strato
-# $ per legare ogni singolo pezzo ad un altro
+# vediamo le 4 mappe di lst derivate da immagini satellitari
+
+# applicchiamo la stessa funzione levelplot al file TGr ma considerando solo lo strato interno del 2000
+# $: corda per legare ogni singolo pezzo ad un altro -> RasterStack$strato2000
 levelplot(TGr$lst_2000)
+# grafico: si basa sui valori medi dei pixel per ogni colonna e per ogni riga 
+# i punti più caldi della mappa (valori medi dei pixel più alti) rimangono a ovest
+# i punti più freddi della mappa (valori medi dei pixel più bassi) sono al centro della mappa (in Groenlandia) 
 
 #
 cl <- colorRampPalette(c("blue","light blue","pink","red"))(100)
@@ -119,7 +131,6 @@ levelplot(TGr, col.regions=cl, names.attr=c("July 2000","July 2005", "July 2010"
 # 
 # main="LST variation in time"
 levelplot(TGr,col.regions=cl, main="LST variation in time", names.attr=c("July 2000","July 2005", "July 2010", "July 2015"))
-# -----------------------------------------------------------------------------------------------------------------------------
 
 # MELT
 # meltlist: creiamo una lista di tutti i file che hanno la parola melt in comune
