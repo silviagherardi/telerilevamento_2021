@@ -77,13 +77,20 @@ TGr <- stack(import)
 # funzione plot: visualizziamo il file unico costituito dai 4 files raster separati
 plot(TGr)
 
-# ESERCITAZIONE: facciamo un plotRGB delle prime tre immagini: 1,2,3 (file 2000 sulla componente red, file 2005 sulla componente blu, file 2010 sulla componente green)
-# primo argomento:   / secondo argomento: montiamo i file sulle componenti RGB / terzo argomento: stretch
+# ESERCITAZIONE: facciamo un plotRGB delle prime tre immagini
+# 1,2,3: file 2000 sulla componente red, file 2005 sulla componente green, file 2010 sulla componente blue
+# primo argomento: file unico  / secondo argomento: montiamo i file sulle componenti RGB / terzo argomento: stretch
 plotRGB(TGr, 1,2,3, stretch="Lin")
-#
-plotRGB(TGr, 2,3,4, stretch="Lin")
-# ----------------------------------------------------------------------------------------------
+# vediamo la sovrapposizione di 3 immagini tutte insieme (2000-2005-2010)
+# SPIEGAZIONE: - colori rossi: valori lst più alti nella mappa del 2000 
+#              - colori verdi: valori lst più alti nella mappa del 2005
+#              - colori blu: valori lst più alti nella mappa del 2010
+# la mappa totale è tendenzialmente blu (soprattutto al centro) significa che ho valori di lst più alti nel 2010
 
+# 2,3,4: file 2005 sulla componente red, file 2010 sulla componente green, file 2015 sulla componente blue 
+plotRGB(TGr, 2,3,4, stretch="Lin")
+# otteniamo un’immagine simile a quella precedente, dove c’è la parte blu riguarda i valori di lst più alti nel 2015
+# ----------------------------------------------------------------------------------------------
 
 # installare il pacchetto rasterVis: metodi di visualizzazione dei dati raster
 install.packages("rasterVis")
