@@ -112,7 +112,7 @@ plot(p224r63_2011$B4_sre, col=clnir)
 
 # visualizzare tutta l'immagine a colori naturali
 # funzione plotRGB: VISUALIZZAZIONE, attraverso lo schema RGB, di un oggetto raster multi-layered (molte bande)
-# primo argomento: nome_immagine / quali componenti per ogni banda: r=3, g=2, b=1 / ultimo argomento: stretch="Lin"
+# primo argomento: nome_immagine / secondo argomento: quali componenti per ogni banda: r=3, g=2, b=1 / terzo argomento: stretch="Lin"
 # stretch lineare per mostrare tutte le gradazioni di colore ed evitare uno schiacciamento verso una sola parte del colore
 plotRGB(p224r63_2011,  r=3, g=2, b=1, stretch="Lin")
 
@@ -160,46 +160,55 @@ plotRGB(p224r63_2011, r=3, g=4, b=2, stretch="hist")
 # -------------------------------------------------------------------------------------------------------------
 
 # MULTITEMPORAL SET
-# facciamo un confronto temporale tra l'immagine del 2011 e l'immagine del 1988 (rappresentano la stessa zona)
-# vogliamo utilizzare l'immagine del 1988 quindi dobbiamo richiamare la library raster ed il percorso della cartella lab (dove c'è l'immagine che ci serve)
+# facciamo un confronto temporale tra l'immagine del 2011 e l'immagine del 1988 che rappresentano la stessa zona (stesse path e raw)
+# dobbiamo utilizzare l'immagine del 1988: 1- richiamare il pacchetto raster 2- settare la working directory: cartella che utiliziamo per caricare i dati
 library(raster)
 set("C:/lab/") 
 
-# funzione brick: IMPORTA l'intero set di dati (bande) creando un oggetto che si chiama raster brick
-# importiamo in R il file: immagine del 2011
+# importiamo in R il file corrispondente all'immagine del 2011
+# funzione brick: IMPORTA l'intera immagine satellitare, dunque tutte le singole bande all'interno dell'immagine saltellitare
+# assegnamo il rislutato della funzione ad un oggetto che chiamiamo come il nome dell'immagine
 p224r63_2011 <- brick("p224r63_2011_masked.grd")
-# richiamiamo l'oggeto della funzione per vedere le informazioni del file
+# scriviamo il nome dell'immagine (oggetto) per vedere le informazioni del file
 p224r63_2011
-# importiamo in R il file: immagine del 1988
+
+# importiamo in R il file corrispondente all'immagine del 1988
 p224r63_1988 <- brick("p224r63_1988_masked.grd")
 # richiamiamo l'oggeto della funzione per vedere le informazioni del file
 p224r63_1988
 
-# funzione plot: visualizziamo le singole bande (sono esattamente le stesse dell'immagine del 2011) con la scala di colori di default
+# funzione plot: VISUALIZZIAMO l'intera immagine satellitare con le sue singole bande (esattamente le stesse dell'immagine del 2011) e con la scala di colori di default
 plot(p224r63_1988)
 
-# SCHEMA RGB 
+# plotRGB 
 # vediamo l'immagine del 1988 a colori naturali (3,2,1: banda rossa sulla componente R, banda verde sulla componente G, banda blu sulla componente B)
 plotRGB(p224r63_1988,  r=3, g=2, b=1, stretch="Lin")
 # vediamo l'immagine del 1988 a colori falsi (4,3,2: banda infraorosso sulla componente R, banda rossa sulla componente G, banda verde sulla componente B)
-plotRGB(p224r63_1988,  r=4, g=3, b=2, stretch="Lin") # vegetazione tutta rossa, situazione antropica meno prevalente
+plotRGB(p224r63_1988,  r=4, g=3, b=2, stretch="Lin") 
+# vegetazione tutta colorata di rosso, rispetto al 2011 notiamo una componente antropica meno prevalente
 
 # ESERCIZIO: creare un multiframe con par: schema con 2 righe e 1 colonna delle due immagini a confronto 
 par(mfrow=c(2,1)) 
 plotRGB(p224r63_2011, r=4, g=3, b=2, stretch="Lin")
 plotRGB(p224r63_1988,  r=4, g=3, b=2, stretch="Lin")
-# ESERCIZIO: creare un multiframe con par: schema con 2 righe e 2 colonne, dove prima riga: stretch lin; seconda riga: histogram stretch 
+
+# ESERCIZIO: mettiamo a confronto le due immagini (1988 - 2011) con la funzione plotRGB: vediamo le due immagini a colori falsi (4,3,2)
+# funzione par: creare un grafico con 2 righe e 2 colonne -> prima riga: stretch lin; seconda riga: histogram stretch 
 # GRAFICO -> LIN   1988 - 2011
 #            HIST  1988 - 2011
 par(mfrow=c(2,2)) 
-# Lin
+# Lin (prima riga)
 plotRGB(p224r63_1988,  r=4, g=3, b=2, stretch="Lin")
 plotRGB(p224r63_2011, r=4, g=3, b=2, stretch="Lin")
-# hist
+# hist (seconda riga) 
 plotRGB(p224r63_1988,  r=4, g=3, b=2, stretch="hist")
 plotRGB(p224r63_2011, r=4, g=3, b=2, stretch="hist")
+# RISULTATO DEL CONFRONTO: 
+# immagine 1988: all'interno della foresta vediamo bene le zone di transizione: passaggio graduale dalla componente vegetale (foresta pluviale) alla componente umana (campi agricoli)
+# immagine 2011: vediamo una soglia netta e marcata tra la foresta pluviale e l’impatto umano
+# le immagini con l'histogram stretch (seconda riga) contengono molto rumore: non permette di visualizzare bene le variazioni reali 
 
-# PDF nella cartella lab
+# PDF: salviamo il risultato del confronto delle due immagini nella cartella lab
 pdf("confronto_1988_2011_2x2")
 par(mfrow=c(2,2))
 plotRGB(p224r63_1988,  r=4, g=3, b=2, stretch="Lin")
