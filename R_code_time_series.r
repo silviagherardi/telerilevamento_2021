@@ -123,6 +123,9 @@ levelplot(TGr$lst_2000)
 # i punti più freddi della mappa (valori medi dei pixel più bassi) sono al centro della mappa (in Groenlandia) 
 
 # ESERCIZIO: cambiamo la colorRampPalette del TGr (RasterStack)
+# blue: < T
+# light blue: T intermedie
+# red: > T
 cl <- colorRampPalette(c("blue","light blue","pink","red"))(100)
 # una volta cambiata la colorRampPalette plottiamo il file TGr con il levelplot
 # col.regions: argomento della funzione levelplot per cambiare la colorRampPalette
@@ -132,6 +135,14 @@ levelplot(TGr, col.regions=cl)
 # differenze plot e levelplot con la nuova colorRampPalette
 plot(TGr, col=cl) # -> legenda, spazio minore, coordinate minori, gamma di colori meno ampia
 levelplot(TGr, col.regions=cl)
+
+# matrix algebra
+# osserviamo la differenza di T tra il 2000 e il 2015 in Groenlandia
+TGr_amount <- TGr$lst_2015 - TGr$lst_2000
+TGr_amount
+# class: RasterLayer 
+# values: -1150, 1349  (min, max)
+levelplot(TGr_amount, col.regions=cl, main="LST variation 2000-2015")
 
 # cambiamo i nomi dei 4 livelli con la funzione levelplot (lst_2000 - lst_2005 - lst_2010 - lst_2015)
 # i singoli strati di uno stack raster sono attributi
@@ -207,12 +218,3 @@ levelplot(melt_amount, col.regions=clb, main="melt_1979-2007")
 # installare il pacchetto knitr che serve per fare un report
 install.packages("knitr") 
 library(knitr) 
-
-
-
-
-
-
-
-
-
