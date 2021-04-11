@@ -122,43 +122,89 @@ levelplot(TGr$lst_2000)
 # i punti più caldi della mappa (valori medi dei pixel più alti) rimangono a ovest
 # i punti più freddi della mappa (valori medi dei pixel più bassi) sono al centro della mappa (in Groenlandia) 
 
-#
+# ESERCIZIO: cambiamo la colorRampPalette del TGr (RasterStack)
 cl <- colorRampPalette(c("blue","light blue","pink","red"))(100)
+# una volta cambiata la colorRampPalette plottiamo il file TGr con il levelplot
+# col.regions: argomento della funzione levelplot per cambiare la colorRampPalette
 levelplot(TGr, col.regions=cl)
-# 
+# risultato: trend di cambiamento di T, dal 2000 al 2015 c'è un aumento graduale di T
+
+# differenze plot e levelplot con la nuova colorRampPalette
+plot(TGr, col=cl) # -> legenda, spazio minore, coordinate minori, gamma di colori meno ampia
+levelplot(TGr, col.regions=cl)
+
+# cambiamo i nomi dei 4 livelli con la funzione levelplot (lst_2000 - lst_2005 - lst_2010 - lst_2015)
+# i singoli strati di uno stack raster sono attributi
+# le T dei 4 livelli sono state misurate a Luglio
+# rinominiamo i livelli rispettivamente: "July 2000", "July 2005", "July 2010", "July 2015" e vanno tutti tra "" perchè sono dei testi 
+# names.attr: argomento della funzione levelplot per rinominare i singoli attributi
+# questi attributi sono caratteri di uno stesso argomento (nome) dunque vanno inseriti in un vettore c
 # names.attr=c("July 2000","July 2005", "July 2010", "July 2015"))
 levelplot(TGr, col.regions=cl, names.attr=c("July 2000","July 2005", "July 2010", "July 2015"))
-# 
+
+# inseriamo il titolo totale della mappa finale 
+# titolo: "LST variazion in time" e va tra "" perchè è un testo
+# main: argomento della funzione levelplot per dare un titolo 
 # main="LST variation in time"
 levelplot(TGr,col.regions=cl, main="LST variation in time", names.attr=c("July 2000","July 2005", "July 2010", "July 2015"))
+# ----------------------------------------------------------------------------------------------------------------------------------------
 
-# MELT
-# meltlist: creiamo una lista di tutti i file che hanno la parola melt in comune
+# Melt-data
+# vogliamo ottenere una stima relativa sulla quantità di ghiaccio che è stata persa dal 1978 ad oggi
+
+# creiamo un unico file Raster Stack costituito da tutti i files melt (sono molto numerosi perchè vanno dal 1979 al 2007)
+# 1- funzione list.files
+# meltlist: creiamo una lista di tutti i file melt 
+# pattern: melt perchè è la parola che hanno in comune nel nome 
 meltlist <- list.files(pattern="melt")  
-# 
+meltlist
+# 2- funzione lapply
 melt_import <- lapply(meltlist,raster)
-#
+melt_import
+# 2- funzione stack
 melt <- stack(melt_import)
-
-
-# funzione plot: 
-plot(melt)
-# oggetto melt per vedere le informazioni che contiene
 melt
+# classe: Raster Stack
+# bit: file a 16 bit con valori pari a 2^16 = 65.536 , da 0 a 65.535 
+# nomi dei vari layers:  X1979annual_melt, X1980annual_melt, X1981annual_melt, X1982annual_melt ecc 
 
-
+# funzione plot: plottiamo il file melt (Raster Stack) costituito da tutti i suoi layers 
+plot(melt)
+# funzione levelplot: plottiamo il file melt (Raster Stack) ma con il levelplot
 levelplot(melt)
-# sottrazione tra uno strato e l'altro
+# valori di scioglimento dei ghiacci: più alto è il valore e maggiore sarà lo scioglimento
+# dal 1979 al 2007 la striscia di ghiacci persa è molto maggiore 
+
+# matrix algebra
+# vogliamo conoscere lo scioglimento dal 1979 al 2007 
+# 2 layers: X2007annual_melt , X1979annual_melt
+# i valori di scioglimento dei ghiacci sono basati sui bit
+# sottrazione: valore dell'immagine del 2007 - valore dell'immagine del 1979
+# > valore di differenza -> > scioglimento dei ghiacci (dal 1979 al 2007)  
+# $: leghiamo il Raster Stack (melt) ai suoi layer 
+# alla funzione di sottrazione associamo un oggetto chiamato melt_amount (quantità nel tempo di scioglimento dei ghiacci)
 melt_amount <- melt$X2007annual_melt - melt$X1979annual_melt
+melt_amount
+# class: RasterLayer
+# values: -87, 92  (min, max)
+
+# cambiamo la colorRampPalette: 
+# blue = valori più bassi di scioglimento
+# white = valori medi
+# red = valori più alti di scioglimento
 clb <- colorRampPalette(c("blue","white","red"))(100)
+# funzione plot di melt_amount
 plot(melt_amount, col=clb)
+# tutte le zone rosse sono quelle dove dal 1979 al 2007 c’è stato uno scioglimento dei ghiacci più alto
 
+# funzione levelplot di melt_amount
 levelplot(melt_amount, col.regions=clb)
-
-
+# titolo: "melt_1979-2007"
+levelplot(melt_amount, col.regions=clb, main="melt_1979-2007")
+# conclusione: nella zona sud-ovest c'è il picco di scioglimento dei ghiacci in Groenlandia dal 1979 al 2007
 # --------------------------------------------------------------------------------------------------
 
-# installare un pacchetto che serve per fare un report
+# installare il pacchetto knitr che serve per fare un report
 install.packages("knitr") 
 library(knitr) 
 
