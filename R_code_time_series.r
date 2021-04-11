@@ -177,7 +177,7 @@ melt <- stack(melt_import)
 melt
 # classe: Raster Stack
 # bit: file a 16 bit con valori pari a 2^16 = 65.536 , da 0 a 65.535 
-# nomi dei vari layers:  X1979annual_melt, X1980annual_melt, X1981annual_melt, X1982annual_melt ecc 
+# nomi dei vari layers:  X1979annual_melt, X1980annual_melt, X1981annual_melt, X1982annual_melt, ... , X2007annual_melt 
 
 # funzione plot: plottiamo il file melt (Raster Stack) costituito da tutti i suoi layers 
 plot(melt)
