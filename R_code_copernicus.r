@@ -7,3 +7,4 @@ install.packages("ncdf4")
 library(ncdf4) 
 
 # settiamo la working directory
+setwd("C:/lab/")
