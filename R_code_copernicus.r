@@ -24,7 +24,7 @@ albedo
 # -180° a + 180° -> estensione possibile dei gradi di longitudine /  - 60° a + 80° -> estesnione possibile dei gradi di latitudine
 # crs: +proj=longlat +ellps=WGS84 +no_defs -> sistema di riferimento WGS84 (world geodetic system) ellissoide che copre tutta superficie della terra  
 # names: Broadband.hemispherical.albedo.over.total.spectrum -> nome dello strato 
-#z-value: 2020-06-13 -> recente 
+# z-value: 2020-06-13 -> recente 
 # zvar: AL_BH_BB -> come viene nominata la variabile per essere utilizzata
 
 # colorRampPalette
