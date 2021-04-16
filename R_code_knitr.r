@@ -19,3 +19,8 @@ library(tinytex)
 # funzione stitch
 # primo argomento: nome del nostro codice tra "" (R-code-Greenland.r) 
 stitch("R-code-Greenland.r", template=system.file("misc","knitr-template.Rnw", package="knitr"))
+
+# 2 azioni per risolvere il problema latex 
+# Errore: LaTex to compile R-code-Greenland.tex. 
+tinytex::install_tinytex()
+tinytex::tlmgr_update()
