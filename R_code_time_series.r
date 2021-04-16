@@ -213,8 +213,4 @@ levelplot(melt_amount, col.regions=clb)
 # titolo: "melt_1979-2007"
 levelplot(melt_amount, col.regions=clb, main="melt_1979-2007")
 # conclusione: nella zona sud-ovest c'è il picco di scioglimento dei ghiacci in Groenlandia dal 1979 al 2007
-# --------------------------------------------------------------------------------------------------
-
-# installare il pacchetto knitr che serve per fare un report
-install.packages("knitr") 
-library(knitr) 
+# ---------------------------------------------------------------------------------------------------------------- 
