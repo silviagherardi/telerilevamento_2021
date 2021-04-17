@@ -16,8 +16,12 @@ library(tinytex)
 # prendiamo la repository sulla Groenlandia, la copiamo e la incolliamo sul blocco note
 # salvare il blocco note (file di testo) nella cartella lab con il nome: R-code-Greenland.r
 # cambiare l'estensione da .txt a .r
+
 # funzione stitch: crea automaticamente un REPORT basato su uno script di R
-# primo argomento: nome del nostro codice tra "" -> "R-code-Greenland.r"
+# primo argomento: nome del codice che abbiamo salvato nella cartella lab tra "" -> "R-code-Greenland.r"
+# "misc": il tipo di template all'interno di knitr
+# "knit-template.Rnw": il file di riferimento 
+# "knitr": il pacchetto che si utilizza 
 stitch("R-code-Greenland.r", template=system.file("misc","knitr-template.Rnw", package="knitr"))
 
 # 2 azioni per risolvere il problema latex 
