@@ -13,9 +13,10 @@ library(knitr)
 install.packages("tinytex")
 library(tinytex)
 
-# prendiamo la repository sulla Groenlandia, la copiamo e la incolliamo sul blocco note
-# salvare il blocco note (file di testo) nella cartella lab con il nome: R-code-Greenland.r
-# cambiare l'estensione da .txt a .r
+# prendiamo la repository sulla Groenlandia: la copiamo e la incolliamo sul blocco note
+# salviamo il blocco note (file di testo) nella cartella lab con il nome: R-code-Greenland.r
+# cambiamo l'estensione da .txt a .r
+# usiamo il pacchetto knitr che utilizza il codice appena salvato nella cartella lab, lo carica dentro a R e poi genera il report
 
 # funzione stitch: crea automaticamente un REPORT basato su uno script di R
 # primo argomento: nome del codice che abbiamo salvato nella cartella lab tra "" -> "R-code-Greenland.r"
