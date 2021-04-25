@@ -114,4 +114,5 @@ gcc4
 plot(gcc4$map)
 # vediamo una differenziazione più alta
 # rilevamento: si va a terra per vedere quanto l'immagine può essere utilizzabile, quanto le classi individuate sono veritiere a terra
-# abbiamo usato solo le bande red-green-blue, se avessimo usato anche la banda dell'infrarosso vicino l'acqua sarebbe stata inserita in una classe a sè
+# abbiamo usato solo le bande red-green-blue, se avessimo usato anche la banda dell'infrarosso vicino, l'acqua sarebbe stata inserita in una classe a sè
+# -------------------------------------------------------------------------------------------------------------------------------------------------------------
