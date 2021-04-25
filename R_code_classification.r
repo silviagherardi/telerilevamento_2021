@@ -74,28 +74,47 @@ plotRGB(gc, r=1, g=2, b=3, stretch="Lin")
 # histogram stretch
 plotRGB(gc, r=1, g=2, b=3, stretch="hist")
 
+# Grand Canyon classified 2
+# n. classi = 2
+gcc2 <- unsuperClass(gc, nClasses=2)
+gcc2
+# *************** Map ******************
+# class: RasterLayer
+# dimensions: 6222, 9334, 58.076.148 (nrow, ncol, ncell)
+# resolution : 1, 1 (x, y)
+# extent: 0, 9334, 0, 6222 (xmin, xmax, ymin, ymax)
+# crs: NA
+# source: 
+# names: layer
+# values: 1, 2 (min, max)
 
+# plottiamo la mappa di gcc2
+# $: legare la mappa all’immagine intera
+plot(gcc2$map)
+# vediamo le due classi e possiamo fare un confronto con l'immagine originale
+# discriminazione più alta è nella zona centrale
+# tipo di roccia e composizione mineralogico molto caratteristica
 
+# Grand Canyon classified 4
+# n.classi = 4
+gcc4 <- unsuperClass(gc, nClasses=4)
+gcc4
+# *************** Map ******************
+# class: RasterLayer 
+# dimensions: 6222, 9334, 58076148  (nrow, ncol, ncell)
+# resolution: 1, 1  (x, y)
+# extent: 0, 9334, 0, 6222  (xmin, xmax, ymin, ymax)
+# crs: NA 
+# source: 
+# names: layer 
+# values: 1, 4  (min, max)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# plottiamo la mappa di gcc4
+# $: legare la mappa all’immagine intera
+plot(gcc4$map)
+# vediamo una differenziazione più alta
+# rilevamento: si va a terra per vedere quanto l'immagine può essere utilizzabile, quanto le classi individuate sono veritiere a terra
+# abbiamo usato solo le bande red-green-blue, se avessimo usato anche la banda dell'infrarosso vicino l'acqua sarebbe stata inserita in una classe a sè
 
 
 
