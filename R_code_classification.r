@@ -2,10 +2,9 @@
 
 # settiamo la working directory
 setwd("C:/lab/")
-
 # impostiamo le librerie che ci servono
 library(raster)
-# library(RStoolbox) 
+library(RStoolbox) 
 
 # 
 so <- brick("Solar_Orbiter_s_first_views_of_the_Sun_pillars.jpg")
@@ -50,6 +49,54 @@ set.seed(42)
 sunc <- unsuperClass(sun, nClasses=3)
 plot(sunc$map)
 # -----------------------------------------------------------------------------------------------------------------------------
+
+# Grand Canyon 
+# https://landsat.visibleearth.nasa.gov/view.php?id=80948
+
+# richiamare le librerie
+library(raster)
+library(RStoolbox) # indispensabile per la classificazione e l'analisi multivariata
+# settare la working directory
+setwd("C:/lab/") 
+
+# carichiamo l’immagine che è un RGB: formata da 3 livelli
+# funzione brick: per IMPORTARE tutti e 3 i livelli e creare la classe raster brick 
+# oggetto gc associato al risultato della funzione
+gc <- brick("dolansprings_oli_2013088_canyon_lrg.jpg")
+
+# visualizzare l'immagine RGB
+# funzione plotRGB: oggetto raster brick e con la funzione lo plottiamo 
+# x: oggetto dell'immagine (gc)
+# red = 1 (banda 1 sul rosso); green = 2 (banda 2 sul verde); blue = 3 (banda 3 sul blu)
+# stretch lineare: per aumentare la potenza visiva di tutti i colori possibili
+plotRGB(gc, r=1, g=2, b=3, stretch="Lin")
+
+# histogram stretch
+plotRGB(gc, r=1, g=2, b=3, stretch="hist")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
