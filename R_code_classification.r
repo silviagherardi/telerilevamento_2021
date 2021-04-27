@@ -7,20 +7,26 @@ setwd("C:/lab/")
 library(raster)
 library(RStoolbox) 
 
-# 
+# funzione brick: inseriamo l'immagine RGB con 3 livelli (pacchetto di dati) 
+# associamo l'oggetto so (solar orbiter) al risultato della funzione
 so <- brick("Solar_Orbiter_s_first_views_of_the_Sun_pillars.jpg")
 # vediamo le informazioni relative alle 3 bande
 so
-# values: da 0 a 255 → immagini a 8 bit → 28 = 256 valori 
+# calss: RasterBrick 
+# values: 0 , 255 → immagine a 8 bit → 2^8 = 256 valori 
 
-# visualizziamo i livelli RGB
-# funzione plotRGB: ci serve per visualizzare i 3 livelli dell'immagine
+# visualizziamo i 3 livelli dell'immagine RGB
+# funzione plotRGB: ci serve per visualizzare i 3 livelli dell'immagine RGB
+# X = oggetto
+# banda 1 sulla componenete red, banda 2 sulla componente green, banda 3 sulla componente blue
+# stretch lineare
 plotRGB(so, 1, 2, 3, stretch="Lin")
+# vediamo diversi livelli energitici, da alti (colore acceso) a bassi (grigio/nero) 
 
-# classifichiamo l'immagine - classificazione non supervisionata
-# 
+# classifichiamo l'immagine per individuare le 3 classi
+# classificazione non supervisionata
 
-library(RStoolbox)
+# library(RStoolbox) -> libreria che contiene la funzione unsuperClass
 
 # funzione unsupervised classification: dentro al pacchetto RStoolbox, si occupa della classificazione non supervisionata
 # so: inserimento dell'immagine 
