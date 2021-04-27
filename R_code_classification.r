@@ -1,4 +1,5 @@
 # R_code_classification.r
+# CLASSIFICAZIONE: processo che accorpa pixel con valori simili, una volta che questi pixel sono stati accorpati rappresentano una classe
 
 # settiamo la working directory
 setwd("C:/lab/")
