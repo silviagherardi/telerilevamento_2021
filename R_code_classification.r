@@ -100,7 +100,7 @@ gcc2
 # $: legare la mappa all’immagine intera
 plot(gcc2$map)
 # vediamo le due classi e possiamo fare un confronto con l'immagine originale
-# discriminazione più alta è nella zona centrale
+# la discriminazione più alta è nella zona centrale
 # tipo di roccia e composizione mineralogico molto caratteristica
 
 # Grand Canyon classified 4
