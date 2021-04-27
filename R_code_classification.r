@@ -73,7 +73,7 @@ library(RStoolbox) # indispensabile per la classificazione e l'analisi multivari
 setwd("C:/lab/") 
 
 # carichiamo l’immagine che è un RGB: formata da 3 livelli
-# funzione brick: per IMPORTARE tutti e 3 i livelli e creare la classe raster brick 
+# funzione brick: per IMPORTARE tutti e 3 i livelli e crea un oggetto raster brick 
 # oggetto gc associato al risultato della funzione
 gc <- brick("dolansprings_oli_2013088_canyon_lrg.jpg")
 
