@@ -40,8 +40,11 @@ soc <- unsuperClass(so, nClasses=3)
 # facciamo un plot dell'immagine classificata (soc) e in particolare della mappa
 # $: leghiamo l'immagine classificata (soc) alla sua mappa (map)
 plot(soc$map)
+# 3 classi: classe 1: bianca; classe 2: gialla; classe 3: verde
+# queste classi corrispondono ai diversi livelli di energia (alto - medio - basso)
 
-# funzione set.seed: 
+# la mia mappa finale è diversa dalle altre -> i pixel selezionati in entrata per il training set sono diversi di volta in volta
+# funzione set.seed: serve per fare una classificazione che sia sempre la stessa (usa sempre le stesse repliche per fare il modello) 
 set.seed(42)
 
 # esercitazione: Unsupervised Classification with 20 classes
@@ -49,12 +52,14 @@ set.seed(42)
 soc20 <- unsuperClass(so, nClasses=20)
 plot(soc20$map)
 
-# Download an image from: https://www.esa.int/ESA_Multimedia/Missions/Solar_Orbiter/(result_type)/images
+# esercitazione: download an image from: https://www.esa.int/ESA_Multimedia/Missions/Solar_Orbiter/(result_type)/images
+# funzione brick: importiamo l'immagine dentro R
 sun <- brick("sun.png")
 # classificazione dell'immaigne sun - Unsupervised classification
 # 3 classi 
 set.seed(42)
 sunc <- unsuperClass(sun, nClasses=3)
+# plottiamo la mappa dell'immagine sun classificata 
 plot(sunc$map)
 # -----------------------------------------------------------------------------------------------------------------------------
 
