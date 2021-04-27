@@ -24,20 +24,21 @@ plotRGB(so, 1, 2, 3, stretch="Lin")
 # vediamo diversi livelli energitici, da alti (colore acceso) a bassi (grigio/nero) 
 
 # classifichiamo l'immagine per individuare le 3 classi
-# classificazione non supervisionata
+# classificazione non supervisionata: si lascia al software la possibilità di definire il training set sulla base delle riflettanze dei pixel
+# training set: il software cattura pochi pixel all’interno dell’immagine per creare un set di controllo e poi si classifica l'intera immagine
+# maximum likelihood: per ogni pixel si calcola la distanza nello spazio multispettrale, in base a questa si associa il pixel ad una determinata classe 
+# per la classificazione serve la library(RStoolbox) -> libreria che contiene la funzione unsuperClass
+# library(RStoolbox) 
 
-# library(RStoolbox) -> libreria che contiene la funzione unsuperClass
-
-# funzione unsupervised classification: dentro al pacchetto RStoolbox, si occupa della classificazione non supervisionata
+# funzione unsuperClass: opera la classificazione non supervisionata (dentro al pacchetto RStoolbox) 
 # so: inserimento dell'immagine 
-# ci serve il numero di classi: nClasses=3
-# soc: associamo un oggetto al risultato della funzione e lo chiamiamo soc (solar orbiter classified) 
+# nClasses=3: numero di classi sulla base dell'immagine 
+# associamo l'oggetto soc (solar orbiter classified) al risultato della funzione
 soc <- unsuperClass(so, nClasses=3)
 
-# funzione plot per visualizzare l'oggetto soc
-#
-# 
-# 
+# funzione unsuperClass: ha creato l'immaigine classificata (soc) formata da più pezzi: modello + mappa 
+# facciamo un plot dell'immagine classificata (soc) e in particolare della mappa
+# $: leghiamo l'immagine classificata (soc) alla sua mappa (map)
 plot(soc$map)
 
 # funzione set.seed: 
