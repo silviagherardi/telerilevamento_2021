@@ -43,3 +43,70 @@ plot(p224r63_2011$B2_sre,p224r63_2011$B1_sre, col="red", pch=19, cex=2)
 # funzione pairs: serve per plottare tutte le correlazione possibili tra tutte le variabili di un dataset
 # mette in correlazione a due a due tutte le variabili di un certo dataset
 pairs(p224r63_2011)
+# sulla diagonale vediamo tutte le bande
+# parte sottostante alla diagonale: grafico che mostra la correlazione tra le bande 
+# parte sopra alla diagonale: indice di correlazione che varia tra -1 e 1
+
+# 
+p224r63_2011res <- aggregate(p224r63_2011, fact=10)
+p224r63_2011res
+# 
+#
+# 
+# 
+par(mfrow=c(2,1))
+plotRGB(p224r63_2011, r=4, g=3, b=2, stretch="Lin")
+plotRGB(p224r63_2011res, r=4, g=3, b=2, stretch="Lin")
+
+# funzione rasterPCA: 
+p224r63_2011res_pca <- rasterPCA(p224r63_2011res)
+
+# --------------------------
+# 
+summary(p224r63_2011res_pca$model)
+# Importance of components:
+#                           Comp.1      Comp.2       Comp.3       Comp.4
+# Standard deviation     1.2050671 0.046154880 0.0151509526 4.575220e-03
+# Proportion of Variance 0.9983595 0.001464535 0.0001578136 1.439092e-05
+# Cumulative Proportion  0.9983595 0.999824022 0.9999818357 9.999962e-01
+#                              Comp.5       Comp.6       Comp.7
+# Standard deviation     1.841357e-03 1.233375e-03 7.595368e-04
+# Proportion of Variance 2.330990e-06 1.045814e-06 3.966086e-07
+# Cumulative Proportion  9.999986e-01 9.999996e-01 1.000000e+00
+#--------------------------
+p224r63_2011res_pca
+$call
+# rasterPCA(img = p224r63_2011res)
+
+# $model
+# Call:
+# princomp(cor = spca, covmat = covMat[[1]])
+
+# Standard deviations:
+#       Comp.1       Comp.2       Comp.3       Comp.4       Comp.5       Comp.6 
+# 1.2050671158 0.0461548804 0.0151509526 0.0045752199 0.0018413569 0.0012333745 
+#       Comp.7 
+# 0.0007595368 
+
+# 7  variables and  44550 observations.
+
+# $map
+# class: RasterBrick 
+# dimensions: 150, 297, 44550, 7  (nrow, ncol, ncell, nlayers)
+# resolution: 300, 300  (x, y)
+# extent: 579765, 668865, -522735, -477735  (xmin, xmax, ymin, ymax)
+# crs: +proj=utm +zone=22 +datum=WGS84 +units=m +no_defs 
+# source: memory
+# names:         PC1,         PC2,         PC3,         PC4,         PC5,         PC6,         PC7 
+# min values: -1.96808589, -0.30213565, -0.07212294, -0.02976086, -0.02695825, -0.01712903, -0.00744772 
+# max values: 6.065265723, 0.142898435, 0.114509984, 0.056825372, 0.008628344, 0.010537396, 0.005594299 
+
+# attr(,"class")
+# [1] "rasterPCA" "RStoolbox"
+
+# 
+plot(p224r63_2011res_pca$map)
+
+#
+plotRGB(p224r63_2011res_pca$map, r=1, g=2, b=3, stretch="Lin")
+
