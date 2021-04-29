@@ -1,7 +1,9 @@
 # R_code_vegetation_indices.r
-# librerie:
+
+# librerie e working directory: 
 library(raster)
-# working directory:
+# install.packages("rasterdiv")
+library(rasterdiv)
 setwd("C:/lab/") 
 
 # funzione brick: importiamo le due immagini dentro R
