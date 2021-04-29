@@ -2,8 +2,6 @@
 
 # librerie e working directory: 
 library(raster)
-# install.packages("rasterdiv")
-library(rasterdiv)
 setwd("C:/lab/") 
 
 # funzione brick: importiamo le due immagini dentro R
