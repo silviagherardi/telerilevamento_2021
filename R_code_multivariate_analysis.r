@@ -87,14 +87,10 @@ p224r63_2011res_pca <- rasterPCA(p224r63_2011res)
 # funzione summaries: ci da un sommario del modello
 summary(p224r63_2011res_pca$model)
 # Importance of components:
-#                           Comp.1      Comp.2       Comp.3       Comp.4
-# Standard deviation     1.2050671  0.046154880   0.0151509526  4.575220e-03
-# Proportion of Variance 0.9983595  0.001464535   0.0001578136  1.439092e-05
-# Cumulative Proportion  0.9983595  0.999824022   0.9999818357  9.999962e-01
-#                              Comp.5       Comp.6       Comp.7
-# Standard deviation     1.841357e-03   1.233375e-03  7.595368e-04
-# Proportion of Variance 2.330990e-06   1.045814e-06  3.966086e-07
-# Cumulative Proportion  9.999986e-01   9.999996e-01  1.000000e+00
+#                             Comp.1      Comp.2       Comp.3       Comp.4          Comp.5       Comp.6       Comp.7
+# Standard deviation      1.2050671  0.046154880   0.0151509526  4.575220e-03   1.841357e-03   1.233375e-03  7.595368e-04
+# Proportion of Variance  0.9983595  0.001464535   0.0001578136  1.439092e-05   2.330990e-06   1.045814e-06  3.966086e-07
+# Cumulative Proportion   0.9983595  0.999824022   0.9999818357  9.999962e-01   9.999986e-01   9.999996e-01  1.000000e+00
 
 # Proportion of Variance: ci dice che la PC1 spiega il 99,835% della varianza
 # Cumulative Proportion: ci dice che con le prime 3 componenti (PC1-PC2-PC3) si spiega il 99,998% di variabilità quindi bastano le prime 3 componenti
