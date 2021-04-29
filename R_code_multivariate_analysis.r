@@ -92,8 +92,8 @@ summary(p224r63_2011res_pca$model)
 # Proportion of Variance  0.9983595  0.001464535   0.0001578136  1.439092e-05   2.330990e-06   1.045814e-06  3.966086e-07
 # Cumulative Proportion   0.9983595  0.999824022   0.9999818357  9.999962e-01   9.999986e-01   9.999996e-01  1.000000e+00
 
-# Proportion of Variance: ci dice che la PC1 spiega il 99,835% della varianza
-# Cumulative Proportion: ci dice che con le prime 3 componenti (PC1-PC2-PC3) si spiega il 99,998% di variabilità quindi bastano le prime 3 componenti
+# Proportion of Variance: ci dice quanta variabilità spiegano le singole bande, es: PC1 spiega il 99,835% della varianza
+# Cumulative Proportion: ci dice quanta variabilità spiegano le componenti insieme, es: PC1+PC2+PC3 si spiega il 99,998% di variabilità quindi bastano le prime 3 componenti
 
 # facciamo il plot dell'immagine_res_pca legata alla sua mappa: $map
 plot(p224r63_2011res_pca$map)
