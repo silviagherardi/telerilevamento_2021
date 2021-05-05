@@ -2,6 +2,9 @@
 # zone indagate: Rio Peixoto de Azevedo - centro Brasile (bordo foresta amazzonica) 
 
 # librerie e working directory: 
+# install.packaged("rasterdiv")
+# library(rasterdiv) 
+# library(rasterVis) 
 library(raster)
 library(RStoolbox) # for vegetation indices calculation
 setwd("C:/lab/") 
@@ -88,11 +91,21 @@ plot(si, col=cl)
 difndvi <- ndvi1 - ndvi2
 cld <- colorRampPalette(c('blue','white','red'))(100) 
 plot(difndvi, col=cld)
+# ------------------------------------------------------------------------------------------------
 
+# worldwide NDVI
+library(rasterdiv) # for the worldwide NDVI
+plot(copNDVI)
 
+#
+copNDVI <- reclassify(copNDVI, cbind(253:255, NA))
+plot(copNDVI)
 
-
-
+# 
+library(rasterVis) 
+levelplot(copNDVI)
+# 
+# ----------------------------------------------------------------------------------------------
 
 
 
