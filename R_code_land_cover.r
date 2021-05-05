@@ -17,7 +17,7 @@ defor2 <- brick("defor2.jpg")
 plotRGB(defor1, r=1, g=2, b=3, stretch="Lin")
 
 # funzione ggRGB: plottiamo le immagini raster con informazioni aggiuntive e in maniera più accattivante rispetto a plotRGB
-# immagine da plottare, 3 componenti RGB, stretch lineare
+# argomenti della funzione: immagine da plottare, 3 componenti RGB, stretch lineare
 ggRGB(defor1, r=1, g=2, b=3, stretch="Lin") 
 ggRGB(defor2, r=1, g=2, b=3, stretch="Lin") 
 
