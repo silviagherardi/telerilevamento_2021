@@ -6,6 +6,7 @@ library(raster)
 library(RStoolbox) # for classification 
 # install.packages("ggplot2")
 library(ggplot2) 
+# install.packages(gridExtra)
 library(gridExtra) # for grid.arrange
 
 # BANDE -> NIR: banda 1; RED: banda 2; GREEN: banda 3
@@ -29,13 +30,10 @@ plotRGB(defor1, r=1, g=2, b=3, stretch="Lin")
 plotRGB(defor2, r=1, g=2, b=3, stretch="Lin")
 
 # multiframe with ggplot2 and gridExtra 
-install.packages("gridExtra") # permette di usare il ggplot per dati raster
-library(gridExtra) 
-
 # la funzione parmfrow non funziona con immagini raster plottate con la funzione ggRGB
 # funzione grid.arrange: compone il multiframe come ci piace, va a mettere insieme vari pezzi di un grafico
-# p1: nome al primo ggRGB
-# p2: nome al secondo ggRGB
+# p1: nome per il primo ggRGB
+# p2: nome per il secondo ggRGB
 p1 <- ggRGB(defor1, r=1, g=2, b=3, stretch="Lin") 
 p2 <- ggRGB(defor2, r=1, g=2, b=3, stretch="Lin")
 # argomenti della funzone: nome primo ggRGB, nome secondo ggRGB, nrow=2 (n. righe) 
