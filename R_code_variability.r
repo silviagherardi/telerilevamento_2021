@@ -7,7 +7,7 @@ library(RStoolbox)
 library(ggplot2)
 library(gridExtra)
 # install.packages("viridis")
-library(viridis) # per la gestione dei colori 
+library(viridis) # per la gestione dei colori, colora i plot con ggplot in modo automatico
 
 # importiamo l'immagine sentinel.png dentro a R
 # funzione brick: importa tutto l'intero blocco di dati
@@ -155,6 +155,62 @@ summary(sentpca$model)
 # la prima componente principale (PC1) è quella che spiega lo 0,6736 quindi circa il 67% dell’informazione originale
 # a partire da questa immagine della PCA facciamo il calcolo della variabilità
 # significa che calcoliamo la deviazione standard sulla PC1
+# definiamo la banda con la quale vogliamo lavorare -> banda PC1
+# leghiamo l'immagine sentpca alla sua mapppa e alla PC1
+pc1 <- sentpca$map$PC1
+# funzione focal: calcoliamo la deviazione standard sulla pc1
+pc1sd5 <- focal(pc1, w=matrix(1/25, nrow=5, ncol=5), fun=sd)
+clsd <- colorRampPalette(c('blue','green','pink','magenta','orange','brown','red','yellow'))(100) 
+# plottiamo l'immagine pc1sd5
+plot(pc1sd5, col=clsd)
+# 
+# 
+# 
+# ------------------------------------------------------------------------------------------------------------------
+
+# source test 
+# scarichiamo un pezzo di codice da Virtuale: source_test_lezione.r
+# nel codice si calcola la deviazione standard sulla PC1 di 7x7 pixel (49 pixel possibili dentro la moving window)
+# funzione source: esce da R, prende un pezzo di codice e poi lo inserisce all’interno di R, dobbiamo usare le ""
+source("source_test_lezione.r.txt")
+# vediamo l’immagine della deviazione standard 7x7 pixel della PC1
+
+# library(ggplot2) per plottare con ggplot 
+# library(gridExtra) per mettere insieme tanti plot con ggplot
+# library(viridis) per i colori, colorare i plot con ggplot in modo automatico 
+# scarichiamo un pezzo di codice da Virtuale: source_ggplot.r
+# funzione source: inseriamo in R il pezzo di codice scaricato
+source("source_ggplot.r.txt")
+
+#
+#
+#
+ggplot() + geom_raster(pc1sd5, mapping=aes(x=x, y=y, fill=layer)) 
+
+#
+#
+# aggiungiamo il titolo 
+ggplot() + geom_raster(pc1sd5, mapping=aes(x=x, y=y, fill=layer)) + scale_fill_viridis() + ggtitle("Standard deviation of PC1 by viridis color scale") 
+
+#
+#
+ggplot() + geom_raster(pc1sd5, mapping=aes(x=x, y=y, fill=layer)) + scale_fill_viridis(option="magma") + ggtitle("Standard deviation of PC1 by magma color scale")
+
+#
+#
+ggplot() + geom_raster(pc1sd5, mapping=aes(x=x, y=y, fill=layer)) + scale_fill_viridis(option="inferno") + ggtitle("Standard deviation of PC1 by inferno color scale")
+
+#
+#
+#
+#
+p1 <- ggplot() + geom_raster(pc1sd5, mapping=aes(x=x, y=y, fill=layer)) + scale_fill_viridis() + ggtitle("Standard deviation of PC1 by viridis color scale")
+p2 <- ggplot() + geom_raster(pc1sd5, mapping=aes(x=x, y=y, fill=layer)) + scale_fill_viridis(option="magma") + ggtitle("Standard deviation of PC1 by magma color scale")
+p3 <- ggplot() + geom_raster(pc1sd5, mapping=aes(x=x, y=y, fill=layer)) + scale_fill_viridis(option="inferno") + ggtitle("Standard deviation of PC1 by inferno color scale")
+grid.arrange(p1, p2, p3, nrow=1)
+
+
+
 
 
 
