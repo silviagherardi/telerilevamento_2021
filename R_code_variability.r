@@ -181,7 +181,9 @@ source("source_test_lezione.r.txt")
 # scarichiamo un pezzo di codice da Virtuale: source_ggplot.r
 # funzione source: inseriamo in R il pezzo di codice scaricato
 source("source_ggplot.r.txt")
+# --------------------------------------------------------------------------------------------------------------------
 
+# plottiamo con ggplot 
 #
 #
 #
