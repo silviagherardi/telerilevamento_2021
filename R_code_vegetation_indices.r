@@ -4,7 +4,7 @@
 # librerie e working directory: 
 # install.packaged("rasterdiv")
 library(rasterdiv) 
-library(rasterVis) 
+library(rasterVis) # for levelplot 
 library(raster)
 library(RStoolbox) # for vegetation indices calculation
 setwd("C:/lab/") 
@@ -127,21 +127,37 @@ si <- spectralIndices(defor1, green = 3, red = 2, nir = 1)
 plot(si, col=cl)
 # risultato: calcola tutti gli indici (a parte quelli che hanno bisogno della banda del blu) e li mette tutti insieme
 
-# facciamo lo spectralIndices anche per la defor2:
+# facciamo lo spectralIndices anche per l'immagine defor2:
 si2 <- spectralIndices(defor2, green = 3, red = 2, nir = 1)
 plot(si2, col=cl)
 # -----------------------------------------------------------------------------------------------------------------------
 
 # worldwide NDVI
+# andiamo a vedere come varia l’indice NDVI all’interno del pianeta tramite la funzione levelplot
+# install.packages("rasterdiv")
 library(rasterdiv) # for the worldwide NDVI
-plot(copNDVI)
+# all’interno del pacchetto troviamo un dataset gratuito chiamato copNDVI; l'input dataset è un indice NDVI ed è un Long-Term dataset
 
-#
+# carichiamo il dataset con la funzione plot
+plot(copNDVI)
+# mappa del NDVI nel mondo che racchiude anche l’acqua: viene individuata da codici all’interno del set che vanno dal valore 253 fino al 255
+
+# l'acqua non ci interessa dunque dobbiamo eliminare i pixel di acqua
+# funzione reclassify: permette di cambiare i valori in altri valori 
+# i pixel 253-254-255 devono essere trasformati in non valori ovvero NA (not assigned) 
+# primo argomento: nome dell'immagine quindi copNDVI
+# secondo argomento: cbind(253:255, NA) -> significa che elimina i pixel 253-254-255 
 copNDVI <- reclassify(copNDVI, cbind(253:255, NA))
 plot(copNDVI)
+# mappa del NDVI a scala globale senza l'acqua
+# all'Equatore, nella parte del nord Europa e nord America l’NDVI è più alto 
+# nella fascia dei deserti l'NDVI è più basso
 
-# 
+# facciamo un levelplot per vedere i valori medi sulle righe e sulle colonne
+# la funzione levelplot si trova dentro il pacchetto rasterVis
 library(rasterVis) 
 levelplot(copNDVI)
-# 
-# ----------------------------------------------------------------------------------------------
+# vediamo come respira la terra dal 1999 al 2017
+# valori più alti: foresta dell’Amazzonia, foreste del centro Africa, foreste del Borneo, foresta continua del nord Europa-nord Asia-nord America
+# valori più bassi: deserti e grandi distese di neve
+# -------------------------------------------------------------------------------------------------------------------------------------------------
