@@ -5,21 +5,26 @@ setwd("C:/lab/")
 library(raster)
 library(RStoolbox) # for classification 
 # install.packages("ggplot2")
-library(ggplot2) 
+library(ggplot2) # for ggRGB
 # install.packages(gridExtra)
 library(gridExtra) # for grid.arrange
 
+# utilizziamo le immagini defor1 e defor2, luogo: foresta amazzonica nel Rio Peixoto
 # BANDE -> NIR: banda 1; RED: banda 2; GREEN: banda 3
 
-# brick: importiamo dentro R le immagini defor1 e defor2 che sono un pacchetto di dati
+# funzione brick: importiamo dentro R le immagini defor1 e defor2 che sono un pacchetto di dati
 defor1 <- brick("defor1.jpg")
 defor2 <- brick("defor2.jpg") 
 
-# plotRGB: banda 1 (NIR) sulla componente red, banda 2 (RED) sulla componente green, banda 3 (GREEN) sulla componente blue
+# funzione plotRGB: banda 1 (NIR) sulla componente red, banda 2 (RED) sulla componente green, banda 3 (GREEN) sulla componente blue
 plotRGB(defor1, r=1, g=2, b=3, stretch="Lin")
+plotRGB(defor2, r=1, g=2, b=3, stretch="Lin")
+# sono entrambe delle immagini abbastanza grezze come informazioni 
 
-# funzione ggRGB: plottiamo le immagini raster con informazioni aggiuntive e in maniera più accattivante rispetto a plotRGB
-# argomenti della funzione: immagine da plottare, 3 componenti RGB, stretch lineare
+# funzione ggRGB: plottiamo le immagini raster con informazioni aggiuntive e con una grafica più accattivante rispetto a plotRGB
+# funzione ggRGB è contenuta nel pacchetto ggplot2
+# abbiamo 3 bande per ogni immagine e possiamo creare una immagine singola di queste 3 bande
+# argomenti della funzione: immagine da plottare, 3 componenti RGB, stretch 
 ggRGB(defor1, r=1, g=2, b=3, stretch="Lin") 
 ggRGB(defor2, r=1, g=2, b=3, stretch="Lin") 
 # ci sono delle coordinate dell'immagine: n. pixel sulla x e sulla y 
@@ -36,9 +41,9 @@ plotRGB(defor2, r=1, g=2, b=3, stretch="Lin")
 # p2: nome per il secondo ggRGB
 p1 <- ggRGB(defor1, r=1, g=2, b=3, stretch="Lin") 
 p2 <- ggRGB(defor2, r=1, g=2, b=3, stretch="Lin")
-# argomenti della funzone: nome primo ggRGB, nome secondo ggRGB, nrow=2 (n. righe) 
+# argomenti della funzione grid.arrange: nome primo ggRGB, nome secondo ggRGB, nrow=2 (n. righe) 
 grid.arrange(p1, p2, nrow=2)
-# ---------------------------------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # Unsupervised classification 
 
@@ -77,7 +82,7 @@ plot(d2c3$map)
 # classe 3 (in verde): parte residua di foresta amazzonica  
 # classe 1 - 2 (bianco - giallo): parte agricola divisa in 2 zone 
 # probabilmente ci sono due agricolture diverse all’interno della zona che hanno una riflettanza diversa
-# ---------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # frequencies d1c$map 
 # qual è la frequenza delle due classi? 
@@ -120,7 +125,7 @@ prop2
 # [1,] 2.917783e-06   0.5213611     -> foresta amazzonica
 # [2,] 5.835565e-06   0.4786389     -> parte agricola
 # 52% di foresta amazzonica e 47,86% di agricolo 
-# -----------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # build a dataframe 
 # creiamo una tabella con 3 colonne
@@ -142,7 +147,7 @@ percentage
 #         cover         percent_1992    percent_2006
 # 1      Forest         89.96           52.13
 # 2      Agriculture    10.03           47.86
-# -------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------------------------------------------------------
 
 # let's plot them with ggplot 
 # creiamo un grafico per l'immagine del 1992 (defor1)
