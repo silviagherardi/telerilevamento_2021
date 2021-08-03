@@ -1,4 +1,4 @@
-# R_code_multivariate_analysis.r 
+# R_code_multivariate_analysis.r
 # Analisi multivariata: PCA (dati Landsat, 30m)
 # usiamo una PCA per compattare il sistema in un numero inferiore di bande ma conservando la stessa proporzione
 
