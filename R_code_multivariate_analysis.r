@@ -79,7 +79,7 @@ plotRGB(p224r63_2011res, r=4, g=3, b=2, stretch="Lin")
 # funzione rasterPCA - Principal Component Analysis for Rasters: prende il pacchetto di dati e va a compattarli in un numero minore di bande
 # associamo l'oggetto p224r63_2011res_pca al risultato della funzione
 p224r63_2011res_pca <- rasterPCA(p224r63_2011res)
-# --------------------
+# ----------------------------------------------------------------------------------------------------------------------------------------------
 
 # la funzione rasterPCA ci restituisce in uscita un’immagine che contiene la mappa e il modello
 # vogliamo visualizzare le informazioni solo del modello: leghiamo l’immagine totale (p224r63_2011res_pca) con il suo modello (model)
@@ -100,7 +100,7 @@ plot(p224r63_2011res_pca$map)
 # ci mostra tutte le 7 componenti principali e le variabilità che spiegano
 # PC1: spiega praticamente tutta la variabilità, dunque si vede bene la foresta, la parte agricola, i tagli dentro la foresta ecc
 # PC7: non si distingue più niente perchè spiega la minore variabilità del sistema
-# ----------------------------
+# ------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # scriviamo il nome dell'immagine_res_pca per vedere le informazioni che contiene
 p224r63_2011res_pca
@@ -128,7 +128,7 @@ p224r63_2011res_pca
 
 # attr(,"class")
 # [1] "rasterPCA" "RStoolbox"
-# ----------------------------------------
+# --------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # plottiamo in RGB le prime 3 componenti principali (PC1 - PC2 - PC3) 
 # l'immagine è p224r63_2011res_pca
