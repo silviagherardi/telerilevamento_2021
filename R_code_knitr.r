@@ -29,3 +29,4 @@ stitch("R-code-Greenland.r", template=system.file("misc","knitr-template.Rnw", p
 # Error: LaTex to compile R-code-Greenland.tex
 tinytex::install_tinytex()
 tinytex::tlmgr_update()
+ 
