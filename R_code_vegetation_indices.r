@@ -1,4 +1,4 @@
-# R_code_vegetation_indices.r
+# R_code_vegetation_indices.r 
 # zone indagate: Rio Peixoto de Azevedo - centro Brasile (bordo foresta amazzonica) 
 
 # librerie e working directory: 
