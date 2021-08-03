@@ -32,7 +32,7 @@ lst_2000
 lst_2005 <- raster("lst_2005.tif")
 plot(lst_2005)
 # 2010
-lst_2010 <- raster("lst_2010.tif")
+lst_2010 <- raster("lst_2010.tif") 
 plot(lst_2010)
 # 2015
 lst_2015 <- raster("lst_2015.tif")
