@@ -1,7 +1,7 @@
 # R_code_copernicus.r
 # Visualizing Copernicus data
 
-# importiamo le librerie necessarie per le operazioni
+# importiamo le librerie necessarie per le operazioni 
 library(raster)
 # installiamo la libreria ncdf4 per visualizzare i dati in formato .nc
 install.packages("ncdf4")
