@@ -1493,7 +1493,8 @@ click(defor2, id=T, xy=T, cell=T, type="p", pch=16, cex=4, col="yellow")
 # banda 2.2 (red): ha un valore abbastanza alto di riflettanza (pari a 76) perchè riflette questa lunghezza d'onda
 # banda 2.3 (green): ha un valore alto di riflettanza (pari a 139) perchè riflette questa lunghezza d'onda
 # se avessimo la banda del blu avrebbe una riflettanza ancora più alta 
-# -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
 
 # Dataframe
 # creiamo una tabella con 3 colonne
@@ -1549,7 +1550,8 @@ spectrals
 
 ggplot(spectrals, aes(x=band)) + geom_line(aes(y=forest), color="green") + geom_line(aes(y=water), color="blue") + labs(x="band", y="reflectance")
 # se volessimo mettere in ordine le bande come sono nella luce visibile, verde-rosso-infrarosso, dovremmo invertire i valori all’interno del band overo band(3,2,1) 
-# -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
 
 # Multitemporal 
 # creiamo tante spectral signature e facciamo un calcolo della variabilità di ogni classe
@@ -1620,7 +1622,8 @@ spectralst
 ggplot(spectralst, aes(x=band)) + geom_line(aes(y=time1.1), color="red") 
 + geom_line(aes(y=time1.2), color="red") + geom_line(aes(y=time2.1), color="gray")
 + geom_line(aes(y=time2.2), color="gray") + labs(x="band", y="reflectance")
-# --------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
 
 # sito Earth Observatory:
 # immagine: Flooding in Central China
