@@ -26,7 +26,7 @@ defor2
 # NIR, red, green 
 
 # plottiamo l'immagine defor2 con plotRGB
-# montiamo la banda 2.1 (NIR) sulla componente red, la banda 2.2 (red) sulla componente green e la banda 2.3 (green) sulla componente blu 
+# montiamo la banda 2.1 (NIR) sulla componente red, la banda 2.2 (red) sulla componente green e la banda 2.3 (green) sulla componente blu  
 plotRGB(defor2, r=1, g=2, b=3, stretch="Lin") 
 plotRGB(defor2, r=1, g=2, b=3, stretch="hist") 
 
