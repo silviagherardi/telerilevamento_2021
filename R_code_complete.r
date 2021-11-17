@@ -92,6 +92,7 @@ plot(p224r63_2011, col=clb)
 dev.off()
 
 # funzione plot: visualizziamo l'immagine intera legata alla sua banda 1 
+# banda 1 si chiama B1_sre
 # simbolo $: LEGA i due blocchi, quindi lega l'intera immagine alla sua banda 1 
 plot(p224r63_2011$B1_sre)
 
@@ -103,8 +104,9 @@ plot(p224r63_2011$B1_sre, col=cls)
 
 
 # par
-# vogliamo visualizzare solo le bande che ci interessano (non tutte e nemmeno una singola), vogliamo vedere la banda del blu e la banda del verde:
-# funzione par: crea un GRAFICO e serve per fare il settaggio dei vari parametri grafici
+# vogliamo visualizzare solo le bande che ci interessano (non tutte e nemmeno una singola)
+# vogliamo vedere l'immagine della banda del blu accanto all'immagine della banda del verde
+# funzione par: crea un GRAFICO e serve per fare il settaggio dei vari parametri grafici 
 # stiamo facendo un multiframe -> mf e vogliamo un grafico con 1 riga e 2 colonne
 # mfrow = n.righe, n.colonne oppure mfcol = n.colonne, n.righe
 # par(mfrow=1,2)
@@ -133,17 +135,24 @@ plot(p224r63_2011$B4_sre)
 
 # ESERCIZIO: plottiamo le prime 4 bande di Landsat in un quadrato 2x2
 # per ogni banda assegniamo una colorRampPalette che faccia riferimento ai sensori di quella banda
-# 1- funzione par mforw=2righe,2olonne / 2- oggetto <- funzione colorRampPalette / 3- funzione plot (nome_immagine$bandax, col=oggetto)
+# 1- funzione par mforw=2righe,2colonne
+# per ogni immagine: 
+# 2- oggetto <- funzione colorRampPalette
+# 3- funzione plot (nome_immagine$bandax, col=oggetto)
 par(mfrow=c(2,2)) 
+
 # B1(blu): colorRampPalette blue
 clb <- colorRampPalette(c("dark blue","blue","light blue")) (100)
 plot(p224r63_2011$B1_sre, col=clb)
+
 # B2(verde): colorRampPalette green
 clg <- colorRampPalette(c("dark green","green","light green")) (100)
 plot(p224r63_2011$B2_sre, col=clg)
+
 # B3(rosso): colorRampPalette red
 clr <- colorRampPalette(c("dark red","red","pink")) (100)
 plot(p224r63_2011$B3_sre, col=clr)
+
 # B4(infrarosso vicino): colorRampPalette sfumature gialle
 clnir <- colorRampPalette(c("red","orange","yellow")) (100)
 plot(p224r63_2011$B4_sre, col=clnir)
@@ -152,27 +161,30 @@ plot(p224r63_2011$B4_sre, col=clnir)
 
 # plotRGB
 # visualizziamo i dati utilizzando lo schema RGB
-# SCHEMA RGB: red,green,blue - per ogni componente dello schema RGB utilizziamo una banda 
-# utilizziamo solo 3 bande per volta per visualizzare l'immagine intera 
+# SCHEMA RGB: red,green,blue: per ogni componente dello schema RGB utilizziamo una banda 
+# possiamo utilizzare solo 3 bande per volta per visualizzare l'immagine intera 
 # componente rossa R3 -> banda 3 (banda del rosso)
 # componente verde G2 -> banda 2 (banda del verde)
 # componente blu B1 -> banda 1 (banda del blu)
 
 # visualizzare tutta l'immagine a colori naturali
 # funzione plotRGB: VISUALIZZAZIONE, attraverso lo schema RGB, di un oggetto raster multi-layered (molte bande)
-# primo argomento: nome_immagine / secondo argomento: quali componenti per ogni banda: r=3, g=2, b=1 / terzo argomento: stretch="Lin"
-# stretch lineare per mostrare tutte le gradazioni di colore ed evitare uno schiacciamento verso una sola parte del colore
+# primo argomento: nome_immagine
+# secondo argomento: associazione tra la componenete dello schema RGB e la banda: r=3, g=2, b=1
+# terzo argomento: stretch="Lin"
+# stretch lineare: prende i valori di riflettanza e li fa variare tra 0 e 1 
+                   # serve per mostrare tutte le gradazioni di colore ed evitare uno schiacciamento verso una sola parte del colore
 plotRGB(p224r63_2011,  r=3, g=2, b=1, stretch="Lin")
 
 # visualizzare tutta l'immagine a falsi colori
-# banda 4 (infrarosso vicino) sulla componente rossa, banda 3 (rosso) sulla componente verde, banda 2 (verde) sulla componente blu
-# vegetazione tutta rossa 
+# banda 4 (infrarosso vicino) sulla componente red, banda 3 (rosso) sulla componente green, banda 2 (verde) sulla componente blue
+# vegetazione tutta rossa perchè riflette molto nell'infrarosso vicino (banda 4) 
 plotRGB(p224r63_2011,  r=4, g=3, b=2, stretch="Lin") 
 # banda 3 (rosso) sulla componente rossa, banda 4 (infrarosso vicino) sulla componente verde, banda 2 (verde) sulla componente blu
-# vegetazione tutta verde e suolo nudo viola
+# vegetazione tutta verde e suolo nudo (componente agricola) viola
 plotRGB(p224r63_2011,  r=3, g=4, b=2, stretch="Lin")  
 # banda 3 (rossa) sulla componente rossa, banda 2 (verde) sulla componente verde, banda 4 (infrarosso vicino) sulla componente blu
-# vegetazione tutta blu e suolo nudo giallo
+# vegetazione tutta blu e suolo nudo (componente agricola) giallo
 plotRGB(p224r63_2011,  r=3, g=2, b=4, stretch="Lin") 
 
 #ESERCIZIO: facciamo un multiframe delle 4 immagini appena create e le mettiamo in un quadrato 2x2
@@ -200,7 +212,7 @@ plotRGB(p224r63_2011, r=3, g=4, b=2, stretch="hist")
 # l'immagine con l'histogram stretch ha particolari in più, nella foresta distinguiamo le zone di vegetazione più umide (in viola) ed il movimento dell'acqua
 
 # ESERCIZIO: facciamo un par mfrow = 3righe, 1 colonna
-# immagine a colori naturali (3,2,1) - immagine a colori falsi (infrarosso vicino sul verde) - immagine a colori falsi con histogram stretch (infrarosso vicino sul verde)
+# immagine a colori naturali (3,2,1) - immagine a colori falsi (infrarosso vicino sul green) - immagine a colori falsi con histogram stretch (infrarosso vicino sul green)
 par(mfrow=c(3,1))
 plotRGB(p224r63_2011, r=3, g=2, b=1, stretch="Lin")
 plotRGB(p224r63_2011, r=3, g=4, b=2, stretch="Lin")
@@ -282,7 +294,7 @@ setwd("C:/lab/greenland")
 # importiamo la singola immagine del 2000
 # funzione raster: serve per IMPORTARE singoli dati/singoli strati, quindi crea un oggetto chiamato raster layer
 # raster layer: oggetto formato da diversi layer di dati raster
-# funzione diversa dalla funzione brick che importa un intero pacchetto di dati
+# funzione diversa dalla funzione brick che importa un intero pacchetto di dati (immagine e le sue bande associate)
 # importiamo un singolo dato/strato che si trova fuori dal software R quindi utilizziamo le ""
 # associamo il risultato della funzione all'oggetto che chiamiamo lst_2000 (nome dell'immagine)
 lst_2000 <- raster("lst_2000.tif")
@@ -319,18 +331,19 @@ plot(lst_2015)
 
 
 # funzione lapply
-# metodo veloce per importare tutte le 4 immagini insieme piuttosto che applicare la funzione raster ad ogni files
+# metodo veloce per importare tutte le 4 immagini insieme in un'unica immagine, piuttosto che applicare la funzione raster ad ogni files
 # facciamo una lista di tutti i files lst e applicchiamo a tutti questi la funzione raster grazie alla funzione lapply
-# si procede seguendo 2 step
+# si procede seguendo 2 step:
 
-# 1- funzione list.files: crea una lista di files che R utilizzerà per applicare la funzione lapply
+# 1- funzione list.files: crea una lista di files che R utilizzerà per applicare la funzione raster tramite la funzione lapply
 # dobbiamo cercare i files che ci interessano attraverso il loro nome
 # pattern: argomento della funzione list.files ed è la scritta che hanno in comune i nomi dei files
 # pattern="lst" perchè tutti i files hanno in comune lst nel nome, essendo la scritta un testo va posta tra ""
 # assocciamo l'oggetto rlist alla funzione list.files
 rlist <- list.files(pattern="lst")  
 rlist
-# scriviamo l'oggetto della funzione: vediamo che R ci propone la lista con tutti i files della cartella greenland che contengono "lst" nel nome 
+# [1] "lst_2000.tif" "lst_2005.tif" "lst_2010.tif" "lst_2015.tif"
+#      R ci propone la lista con tutti i files della cartella greenland che contengono "lst" nel nome 
 # a questa lista di files dobbiamo applicare la funzione raster tramite la funzione lapply
 
 # 2- funzione lapply: serve per applicare una funzione (funzione raster) su tutti i files della lista appena creata
@@ -343,10 +356,20 @@ import
 # scriviamo l'oggetto della funzione: vediamo tutte le informazioni relative ai 4 files 
 
 # 3- funzione stack: raggruppiamo la lista dei 4 files contenuti nella cartella greenland in un unico file (blocco unico di files raster separati)
-# argomento della funzione stack: import (oggeto della funzione lapply) -> tutti i 4 files della lista (rlist) a cui abbiamo applicato la funzione raster 
-# TGr: Tgreenland è il nome dell'oggetto che associamo alla funzione stack
+# argomento della funzione stack: import (oggetto della funzione lapply) -> tutti i 4 files della lista (rlist) a cui abbiamo applicato la funzione raster 
+# TGr: TGreenland è il nome dell'oggetto che associamo alla funzione stack
 TGr <- stack(import)
-# funzione plot: visualizziamo il file unico costituito dai 4 files raster separati
+TGr
+# class      : RasterStack     (vari strati/livelli) 
+# dimensions : 1913, 2315, 4428595, 4  (nrow, ncol, ncell, nlayers)   (4.428.595 sono i pixel per ogni livello) 
+# resolution : 1546.869, 1546.898  (x, y)
+# extent     : -267676.7, 3313324, -1483987, 1475229  (xmin, xmax, ymin, ymax)
+# crs        : +proj=stere +lat_0=90 +lon_0=-33 +k=0.994 +x_0=2000000 +y_0=2000000 +datum=WGS84 +units=m +no_defs 
+# names      : lst_2000, lst_2005, lst_2010, lst_2015   (nomi dei vari livelli/strati) 
+# min values :        0,        0,        0,        0 
+# max values :    65535,    65535,    65535,    65535 
+
+# funzione plot: visualizziamo il file unico (TGr) costituito dai 4 file raster separati
 plot(TGr)
 
 # ESERCITAZIONE: facciamo un plotRGB delle prime tre immagini
@@ -369,7 +392,7 @@ plotRGB(TGr, 2,3,4, stretch="Lin")
 library(raster)
 setwd("C:/lab/greenland")
 # installare il pacchetto rasterVis: metodi di visualizzazione dei dati raster
-install.packages("rasterVis")
+install.packages("rasterVis")  # per la funzione levelplot 
 library(rasterVis)
 
 # dobbiamo ricreare l'unico file che contiene tutti e 4 i files raster (singoli strati) nella cartella greenland 
@@ -378,19 +401,16 @@ rlist
 import <- lapply(rlist,raster)
 import
 TGr <- stack(import)
-# scriviamo l'oggetto della funzione stack per vedere le informazioni che contiene il file
-TGr
-# classe: Raster Stack
-# dimensioni: 4.428.595 pixel per ogni livello
-# nomi: sono i vari livelli quindi: lst_2000, lst_2005, lst_2010, lst_2015
 
 # funzione levelplot: crea un grafico utilizzando il blocco intero (costituito dai 4 file) e una singola legenda
 levelplot(TGr)
 # vediamo le 4 mappe di lst derivate da immagini satellitari
 
-# applicchiamo la stessa funzione levelplot al file TGr ma considerando solo lo strato interno del 2000
-# $: corda per legare ogni singolo pezzo ad un altro -> RasterStack$strato2000
+# applicchiamo la stessa funzione levelplot al file TGr ma considerando solo lo strato interno del 2000 (lst_2000) 
+# argomento funzione levelplot: (RasterStack$lst_2000): corda per legare ogni singolo pezzo ad un altro
 levelplot(TGr$lst_2000)
+# mappa formata da pixel, ogni pixel ha un valore, i valori sono registrati in BIT
+# mappa a 16 bit quindi 2^16 = 65.356 valori interi che corrispondono a T
 # grafico: si basa sui valori medi dei pixel per ogni colonna e per ogni riga 
 # i punti più caldi della mappa (valori medi dei pixel più alti) rimangono a ovest
 # i punti più freddi della mappa (valori medi dei pixel più bassi) sono al centro della mappa (in Groenlandia) 
@@ -400,8 +420,9 @@ levelplot(TGr$lst_2000)
 # light blue: T intermedie
 # red: > T
 cl <- colorRampPalette(c("blue","light blue","pink","red"))(100)
-# una volta cambiata la colorRampPalette plottiamo il file TGr con il levelplot
-# col.regions: argomento della funzione levelplot per cambiare la colorRampPalette
+# vogliamo vedere cos'è cambiato a livello multitemporale: 
+#            una volta cambiata la colorRampPalette plottiamo il file TGr con il levelplot
+#            col.regions: argomento della funzione levelplot per cambiare la colorRampPalette
 levelplot(TGr, col.regions=cl)
 # risultato: trend di cambiamento di T, dal 2000 al 2015 c'è un aumento graduale di T
 
