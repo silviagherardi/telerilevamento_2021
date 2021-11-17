@@ -22,47 +22,67 @@
 
 # Il mio primo codice in R per il telerilevamento!
 
-# funzione install.packages: serve per INSTALLARE il pacchetto raster e gestire i dati in formato raster
-# il pacchetto raster si scrive tra "" perchè si trova all'esterno del software R 
+# funzione install.packages: funzione che installa un pacchetto situato all'esterno del software R 
+# install.packages("raster"): serve per INSTALLARE il pacchetto raster che gestisce i dati in formato raster (immagini)
+# il pacchetto raster si scrive tra "" perchè si trova all'esterno del software R ed è l'argomento della funzione
 install.packages("raster") 
-# funzione library: serve per UTILIZZARE il pacchetto raster, non mettiamo le "" perchè il pacchetto è già dentro R
+
+# funzione library: serve per UTILIZZARE un pacchetto 
+# funzione library(raster): utilizziamo il pacchetto raster, non mettiamo le "" perchè il pacchetto è già dentro R
 library(raster) 
 
-# funzione setwd: settiamo la working directory: percorso Windows per GESTIRE i dati contenuti nella cartella lab
+# funzione setwd: serve per settare la working directory (cartella lab) 
+# percorso Windows per GESTIRE i dati contenuti nella cartella lab
+# usare "" perchè la cartella lab si trova fuori da R
 setwd("C:/lab/") 
 
-# funzione brick: serve per IMPORTARE dentro a R l'intera immagine satellitare costituita da tutte le sue singole bande (intero blocco)
+# funzione brick: serve per IMPORTARE dentro a R l'intera immagine satellitare costituita da tutte le sue singole bande (intero set di bande)
+# la funzione crea un oggetto che si chiama rasterbrick: serie di bande in formato raster in un'unica immagine satellitare 
 # l'immagine satellitare va scritta tra "" perchè si trova all'esterno di R
 # assegnare il risultato della funzione brick ad un oggetto chiamato con il nome dell'immagine
 p224r63_2011 <- brick("p224r63_2011_masked.grd")
 # scriviamo il nome dell'immagine per conoscere le INFORMAZIONI relative al file raster
 p224r63_2011
-# - Classe: RasterBrick (7 bande in formato raster) 
-# - Bande di Landsat:
-# B1: blu
-# B2: verde
-# B3: rosso 
-# B4: infrarosso vicino 
-# B5: infrarosso medio
-# B6: infrarosso termico 
-# B7: infrarosso medio 
+# class      : RasterBrick  -> sono 7 bande in formato raster
+# dimensions : 1499, 2967, 4447533, 7  (nrow, ncol, ncell, nlayers)  -> 4 milioni di pixel per ogni singola banda (sono 7 bande) 
+# resolution : 30, 30  (x, y)
+# extent     : 579765, 668775, -522705, -477735  (xmin, xmax, ymin, ymax)
+# crs        : +proj=utm +zone=22 +datum=WGS84 +units=m +no_defs 
+# source     : C:/lab/p224r63_2011_masked.grd 
+# names      :       B1_sre,       B2_sre,       B3_sre,       B4_sre,       B5_sre,        B6_bt,       B7_sre 
+# min values : 0.000000e+00, 0.000000e+00, 0.000000e+00, 1.196277e-02, 4.116526e-03, 2.951000e+02, 0.000000e+00 
+# max values :    0.1249041,    0.2563655,    0.2591587,    0.5592193,    0.4894984,  305.2000000,    0.3692634 
 
-# funzione plot: serve per VISUALIZZARE i dati: in questo caso visualizziamo tutte le 7 bande dell'intera immagine satellitare
+# Bande di Landsat:
+# B1_sre: blu
+# B2_sre: verde
+# B3_sre: rosso 
+# B4_sre: infrarosso vicino 
+# B5_sre: infrarosso medio
+# B6_sre: infrarosso termico 
+# B7_sre: infrarosso medio 
+
+# funzione plot: serve per VISUALIZZARE i dati, in questo caso visualizziamo tutte le 7 bande dell'intera immagine satellitare
 plot(p224r63_2011)
-
+# ci mostra tutte le 7 bande 
+# focus banda dell'infrarosso vicino: puntini verdi sono le piante perchè riflettono molto nell'infrarosso vicino dunque hanno valori di riflettanza alti (0,5 nella legenda) 
 
 
 # colorRampPalette
-# vogliamo cambiare la scala di colori di default 
+# vogliamo cambiare la scala di colori di default (di base) che viene applicata dal software
+# colore scuro -> pixel che assorbono molto (valori bassi di riflettanza); colore chiaro -> pixel che rilfettono molto (valori alti di riflettanza) 
 # funzione colorRampPalette per CAMBIARE il COLORE delle 7 bande, ogni colore è un etichetta scritta tra ""
-# le etichette dei colori sono caratteri di uno stesso argomento (colore) quindi vengono racchiusi all'interno di un VETTORE c 
-# funzione(c("carattere 1","carattere 2","carattere 3"...))
-# 100: livelli di ogni colore, sono fuori dalla funzione e sono un altro argomento 
+# colorRampPalette("black","grey","white") 
+# i colori sono diversi caratteri di uno stesso argomento (colore) quindi vengono racchiusi all'interno di un VETTORE chiamato c("","","",...)  
+# colorRampPalette(c("black","grey","white")) 
+# 100: sono i livelli per ciascun colore, sono fuori dalla funzione perchè sono un altro argomento 
 # assegnare l'oggetto (cl) al risultato della funzione 
 cl <- colorRampPalette(c("black","grey","light grey")) (100)
 # funzione plot: visualizziamo l'immagine con la nuova palette di colori
-# funzione(primo argomento:nome_immagine, secondo argomento:colore(col)=oggetto(cl))
+# primo argomento: immagine , secondo argomento: colore
+# argomento del colore è col e deve essere uguale all'oggetto della funzione (cl) 
 plot(p224r63_2011, col=cl)
+# di nuovo vediamo che nella banda dell'infrarosso vicino ci sono valori alti di riflettanza (è una mappa molto chiara) 
 
 # ESERCIZIO: creiamo una nuova palette di colori scelta da noi e visualizziamo 
 clb <- colorRampPalette(c("blue","pink","light pink","purple","green")) (100)
