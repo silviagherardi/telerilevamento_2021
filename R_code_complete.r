@@ -427,7 +427,7 @@ levelplot(TGr, col.regions=cl)
 # risultato: trend di cambiamento di T, dal 2000 al 2015 c'è un aumento graduale di T
 
 # differenze plot e levelplot con la nuova colorRampPalette
-plot(TGr, col=cl) # -> legenda, spazio minore, coordinate minori, gamma di colori meno ampia
+plot(TGr, col=cl) # -> legenda per ogni mappa, spazio minore per i grafici, coordinate minori, gamma di colori meno ampia
 levelplot(TGr, col.regions=cl)
 
 # matrix algebra
@@ -439,24 +439,24 @@ TGr_amount
 levelplot(TGr_amount, col.regions=cl, main="LST variation 2000-2015")
 
 # cambiamo i nomi dei 4 livelli con la funzione levelplot (lst_2000 - lst_2005 - lst_2010 - lst_2015)
-# i singoli strati di uno stack raster sono attributi
+# i singoli strati di un RasterStack sono attributi (come le colonne delle tabelle)
 # le T dei 4 livelli sono state misurate a Luglio
 # rinominiamo i livelli rispettivamente: "July 2000", "July 2005", "July 2010", "July 2015" e vanno tutti tra "" perchè sono dei testi 
 # names.attr: argomento della funzione levelplot per rinominare i singoli attributi
 # questi attributi sono caratteri di uno stesso argomento (nome) dunque vanno inseriti in un vettore c
-# names.attr=c("July 2000","July 2005", "July 2010", "July 2015"))
+#           names.attr=c("July 2000","July 2005", "July 2010", "July 2015")
 levelplot(TGr, col.regions=cl, names.attr=c("July 2000","July 2005", "July 2010", "July 2015"))
 
 # inseriamo il titolo totale della mappa finale 
 # titolo: "LST variazion in time" e va tra "" perchè è un testo
 # main: argomento della funzione levelplot per dare un titolo 
-# main="LST variation in time"
+#       main="LST variation in time"
 levelplot(TGr,col.regions=cl, main="LST variation in time", names.attr=c("July 2000","July 2005", "July 2010", "July 2015"))
 
 
 
 # Melt-data
-# vogliamo ottenere una stima relativa sulla quantità di ghiaccio che è stata persa dal 1978 ad oggi
+# vogliamo ottenere una stima relativa sulla quantità di ghiaccio che è stata persa dal 1978 al 2007
 
 # creiamo un unico file Raster Stack costituito da tutti i files melt (sono molto numerosi perchè vanno dal 1979 al 2007)
 # 1- funzione list.files
@@ -491,8 +491,15 @@ levelplot(melt)
 # alla funzione di sottrazione associamo un oggetto chiamato melt_amount (quantità nel tempo di scioglimento dei ghiacci)
 melt_amount <- melt$X2007annual_melt - melt$X1979annual_melt
 melt_amount
-# class: RasterLayer
-# values: -87, 92  (min, max)
+# class      : RasterLayer 
+# dimensions : 109, 60, 6540  (nrow, ncol, ncell)
+# resolution : 25000, 25000  (x, y)
+# extent     : -650000, 850000, -3375000, -650000  (xmin, xmax, ymin, ymax)
+# crs        : +proj=stere +lat_0=90 +lat_ts=70 +lon_0=-45 +x_0=0 +y_0=0 +a=6378273 +rf=298.279411123064 +units=m +no_defs 
+# source     : memory
+# names      : layer 
+# values     : -87, 92  (min, max)
+
 
 # cambiamo la colorRampPalette: 
 # blue = valori più bassi di scioglimento
@@ -507,6 +514,8 @@ plot(melt_amount, col=clb)
 levelplot(melt_amount, col.regions=clb)
 # titolo: "melt_1979-2007"
 levelplot(melt_amount, col.regions=clb, main="melt_1979-2007")
+# GRAFICO: abbiamo sempre i valori medi dei pixel per riga e per colonna
+ #         picchi: differenza 2007-1979 maggiore -> maggiore scioglimento 
 # conclusione: nella zona sud-ovest c'è il picco di scioglimento dei ghiacci in Groenlandia dal 1979 al 2007
 # --------------------------------------------------------------------------------------------------------------------------------------------------------- 
 
@@ -534,9 +543,9 @@ albedo
 # class: RasterLayer 
 # dimensions: 15680, 40320, 632.217.600  (nrow, ncol, ncell)
 # resolution: 0.008928571, 0.008928571  (x, y) -> la risoluzione è in coordinate geografiche (gradi)  
-# extent: -180.0045, 179.9955, -59.99554, 80.00446  (xmin, xmax, ymin, ymax)
-# -180° a + 180° -> estensione possibile dei gradi di longitudine /  - 60° a + 80° -> estesnione possibile dei gradi di latitudine
-# crs: +proj=longlat +ellps=WGS84 +no_defs -> sistema di riferimento WGS84 (world geodetic system) ellissoide che copre tutta superficie della terra  
+# extent: -180.0045, 179.9955, -59.99554, 80.00446  (xmin, xmax, ymin, ymax)   -> i decimali riguardano il sistema di riferimento 
+#         -180° a + 180° -> estensione possibile dei gradi di longitudine /  - 60° a + 80° -> estesnione possibile dei gradi di latitudine
+# crs: +proj=longlat +ellps=WGS84 +no_defs -> sistema di riferimento WGS84 (world geodetic system) ellissoide che copre tutta superficie della Terra  
 # names: Broadband.hemispherical.albedo.over.total.spectrum -> nome dello strato 
 # z-value: 2020-06-13 -> recente 
 # zvar: AL_BH_BB -> come viene nominata la variabile per essere utilizzata
