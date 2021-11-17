@@ -558,8 +558,10 @@ plot(albedo, col=cl)
 
 # ricampionamento bilineare
 # ricampioniamo il dato perchè vogliamo diminuire la sua risoluzione
-# funzione aggregate: aggrega i pixel dell'immagine 
 # > n.pixel -> > peso immagine
+# creiamo tanti pixel grandi che sono dati dalla media dei valori dei pixel (più piccoli) che contengono 
+#               in questo modo si passa ad una immagine con risoluzione più bassa e < n. di pixel 
+# funzione aggregate: aggrega i pixel dell'immagine 
 # fact: argomento della funzione aggregate, serve per diminuire il numero di pixel
 # fact=100: diminuisce linearmente i pixel di 100 volte, prende 100 pixel x 100 pixel e lo trasforma in un solo pixel come media di tutti i pixel all’interno
 albedores <- aggregate(albedo, fact=100)
