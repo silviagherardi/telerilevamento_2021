@@ -716,25 +716,29 @@ plotRGB(gc, r=1, g=2, b=3, stretch="Lin")
 plotRGB(gc, r=1, g=2, b=3, stretch="hist")
 
 # Grand Canyon classified 2
-# n. classi = 2
+# funzione unsuperClass: classifichiamo l'immagine e utilizziamo 2 classi
 gcc2 <- unsuperClass(gc, nClasses=2)
 gcc2
 # *************** Map ******************
 # class: RasterLayer
-# dimensions: 6222, 9334, 58.076.148 (nrow, ncol, ncell)
+# dimensions: 6222, 9334, 58.076.148 (nrow, ncol, ncell)    -> 58 milioni di pixel 
 # resolution : 1, 1 (x, y)
-# extent: 0, 9334, 0, 6222 (xmin, xmax, ymin, ymax)
+# extent: 0, 9334, 0, 6222 (xmin, xmax, ymin, ymax)         
 # crs: NA
 # source: 
 # names: layer
-# values: 1, 2 (min, max)
+# values: 1, 2 (min, max)                                   -> sono la classe 1 e la classe 2
 
 # plottiamo la mappa di gcc2
 # $: legare la mappa all’immagine intera
 plot(gcc2$map)
-# vediamo le due classi e possiamo fare un confronto con l'immagine originale
-# la discriminazione più alta è nella zona centrale
-# tipo di roccia e composizione mineralogico molto caratteristica
+# vediamo le due classi, classe 1(bianco) e classe 2(verde)
+# possiamo fare un confronto tra immagine classificata (sotto) e l'immagine originale (sopra) 
+par(mfrow=c(2,1))
+plotRGB(gc, r=1, g=2, b=3, stretch="hist")
+plot(gcc2$map)
+# la discriminazione più alta è nella zona centrale (zona scura)  -> tipo di roccia e composizione mineralogico molto caratteristica
+# il software per creare la classe 1 ha preso pixel con valori di riflettanza più scuri 
 
 # Grand Canyon classified 4
 # n.classi = 4
