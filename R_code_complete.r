@@ -766,6 +766,7 @@ plot(gcc4$map)
 
 # R_code_multivariate_analysis.r 
 # Analisi multivariata: PCA (dati Landsat, 30m)
+# Luogo di indagine: riserva del Paracana (foresta Amazzonica in Brasile) 
 # usiamo una PCA per compattare il sistema in un numero inferiore di bande ma conservando la stessa proporzione
 
 # librerie e working directory
@@ -807,12 +808,12 @@ plot(p224r63_2011$B1_sre,p224r63_2011$B2_sre, col="red", pch=19, cex=2)
 # i pixel da plottare sono oltre 4 milioni, dunque il sistema ci dice che plotta solo il 2.2% di questo totale
 # in statistica il sistema si chiama multicollinearità: le due bande sono molto correlate tra loro e sono correlate positivamente
 # le info del punto sulla X sono molto simili alle info del punto sulla Y
-# spesso questa forma di correlazione è usata in modo causale
+# però attenzione: spesso questa forma di correlazione è usata in modo causale (priva di spiegazione logica) 
 
 # plottiamo di nuovo la stessa immagine ma con B2_sre -> asse X e B1_sre -> asse Y 
 plot(p224r63_2011$B2_sre,p224r63_2011$B1_sre, col="red", pch=19, cex=2)
 
-# funzione pairs: serve per plottare tutte le correlazione possibili tra tutte le variabili di un dataset
+# funzione pairs: serve per plottare tutte le correlazioni possibili tra tutte le variabili di un dataset
 # mette in correlazione a due a due tutte le variabili di un certo dataset
 pairs(p224r63_2011)
 # sulla diagonale vediamo tutte le bande
