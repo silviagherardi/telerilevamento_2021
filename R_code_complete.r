@@ -733,7 +733,7 @@ gcc2
 # $: legare la mappa all’immagine intera
 plot(gcc2$map)
 # vediamo le due classi, classe 1(bianco) e classe 2(verde)
-# possiamo fare un confronto tra immagine classificata (sotto) e l'immagine originale (sopra) 
+# possiamo fare un confronto tra immagine originale (sopra) e immagine classificata (sotto)  
 par(mfrow=c(2,1))
 plotRGB(gc, r=1, g=2, b=3, stretch="hist")
 plot(gcc2$map)
@@ -741,7 +741,7 @@ plot(gcc2$map)
 # il software per creare la classe 1 ha preso pixel con valori di riflettanza più scuri 
 
 # Grand Canyon classified 4
-# n.classi = 4
+# Funzione unsuperClass: classifichiamo l'immagine e utilizziamo 4 classi
 gcc4 <- unsuperClass(gc, nClasses=4)
 gcc4
 # *************** Map ******************
