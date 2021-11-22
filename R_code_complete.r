@@ -1,7 +1,5 @@
 # R Code Complete - Telerilevamento Geo-Ecologico
 
-# ------------------------------------------------------------------------------------------------------------------------------------------------
-
 # Summary:
 # 1.  R code remote sensing first code 
 # 2.  R code time series Greenland
@@ -1202,17 +1200,15 @@ plot(d2c3$map)
 # probabilmente ci sono due agricolture diverse all’interno della zona che hanno una riflettanza diversa
 
 
-
-# frequencies d1c$map 
-# qual è la frequenza delle due classi? 
+# Frequencies d1c$map 
+# ci chiediamo quanta % di foresta è stata persa 
+# qual è la frequenza delle due classi (foresta - agricoltura) 
 # funzione freq: funzione generale che genera tavole di frequenza e va a calcolarla
 # argomento: d1c e la sua mappa
 freq(d1c$map)
 #         value  count
-# [1,]     1    307047
-# [2,]     2    34245
-# 1: foresta amazzonica: 307047 -> n pixel
-# 2: parte agricola: 34245 -> n pixel 
+# [1,]     1    307047       -> classe 1 - foresta amazzonica: 307.047 pixel
+# [2,]     2    34245        -> classe 2 - parte agricola: 34.245 pixel 
 
 # calcoliamo la proporzione dei pixel per l'immagine d1c (consiste nella %)
 # facciamo la somma dei valori di pixel e la chiamiamo s1
@@ -1222,18 +1218,15 @@ s1
 prop1 <- freq(d1c$map) / s1 
 prop1
 #            value        count
-# [1,] 2.930042e-06     0.8996607     -> foresta amazzonica
-# [2,] 5.860085e-06     0.1003393     -> parte agricola
+# [1,] 2.930042e-06     0.8996607        89,9% -> foresta amazzonica
+# [2,] 5.860085e-06     0.1003393        10%   -> parte agricola
 # consideriamo solo il count 
-# 89,96% di foresta amazzonica e il 10% di agricolo 
 
 # frequencies d2c$map
 freq(d2c$map)
 #         value  count
-# [1,]     1     178684 
-# [2,]     2     164042
-# 1: foresta amazzonica
-# 2: parte agricola
+# [1,]     1     178684      -> classe 1 - foresta amazzonica: 178.684 pixel 
+# [2,]     2     164042      -> classe 2 - parte agricola: 164.042 pixel 
 
 s2 <- 178684 + 164042
 s2
@@ -1241,13 +1234,12 @@ s2
 prop2 <- freq(d2c$map)/ s2
 prop2
 #      value          count
-# [1,] 2.917783e-06   0.5213611     -> foresta amazzonica
-# [2,] 5.835565e-06   0.4786389     -> parte agricola
-# 52% di foresta amazzonica e 47,86% di agricolo 
+# [1,] 2.917783e-06   0.5213611            52%   -> foresta amazzonica
+# [2,] 5.835565e-06   0.4786389            47,9% -> parte agricola
 
 
 
-# build a dataframe 
+# build a DataFrame 
 # creiamo una tabella con 3 colonne
 # prima colonna -> cover: forest - agriculture
 # seconda colonna -> % di classi dell'immagine defor1 ->  percent_1992
@@ -1272,29 +1264,33 @@ percentage
 
 # let's plot them with ggplot 
 # creiamo un grafico per l'immagine del 1992 (defor1)
-# funzione ggplot argomenti:
-# -> (nome del dataframe, aes(prima colonna, seconda colonna, color=cover))
+# funzione ggplot argomenti: 
+#         (nome del dataframe, aes(prima colonna, seconda colonna, color=cover))
+#          +
+#         geom_bar(stat="identity", fill="white")
+
 # color: si riferisce a quali oggetti vogliamo discriminare/distinguere nel grafico e nel nostro caso vogliamo discriminare le due classi
-# +
 # geom_bar: tipo di geometria del grafico perchè dobbiamo fare delle barre
 # stat: indica il tipo di dati che utilizziamo e sono dati grezzi quindi si chiamano "identity" 
 # fill: colore delle barre all'interno e mettiamo "white" 
-# -> geom_bar(stat="identity", fill="white")
-p1 <- ggplot(percentage, aes(x=cover, y=percent_1992, color=cover)) + geom_bar(stat="identity", fill="white")
+
+p1 <- ggplot(percentage, aes(x=cover, y=percent_1992, color=cover))  +  geom_bar(stat="identity", fill="white")
 p1
 # vediamo che sulla sinistra abbiamo la percentuale delle due classi nel 1992 e vediamo la parte agricola (molto bassa) e la foresta (molto alta)
 
 # facciamo il grafico per l'immagine del 2006 (defor2) 
 p2 <- ggplot(percentage, aes(x=cover, y=percent_2006, color=cover)) + geom_bar(stat="identity", fill="white")
 p2
-# vediamo che sulla sinistra abbiamo la percentuale delle due classi nel 2006 ma la parte agricola e la foresta ora sono molto simili 
+# vediamo che sulla sinistra abbiamo la percentuale delle due classi nel 2006 ma la parte agricola e la foresta ora hanno un'altezza molto simile
 
 # funzione grid.arrange: mette insieme dei vari plot di ggplot con le immagini
-# argomenti: p1, p2, numero di righe = 1 (nrow) 
+# library(gridExtra) for grid.arrange
+# argomenti: p1, p2, numero di righe = 1  
 grid.arrange(p1, p2, nrow=1)
 # nella prima data (1992) abbiamo la foresta che è molto elevata come valore, mentre l’agricoltura ha un valore basso
 # la situazione è molto diversa nel secondo grafico (2006) dove agricoltura e foresta hanno praticamente lo stesso valore
-# ---------------------------------------------------------------------------------------------------------------------------------------------------------
+# Conclusione: partendo da una immagine satellitare (presa dall'Earth observatory) si passa ad un grafico che mostra i cambiamenti multitemporali in istogrammi 
+# -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # 10. R code variability
 
@@ -1323,11 +1319,16 @@ sentinel
 # min values:          0,          0,          0,          0 
 # max values:        255,        255,        255,        255 
 
-# plottiamo i 3 livelli dell'immagine
-# NIR:1, RED:2, GREEN 3
-# di default: r=1 (infrarosso sulla componente red), g=2 (rosso sulla componente green), b=3 (verde sulla componente blue)
-plotRGB(sentinel, stretch="Lin") # -> plotRGB(sentinel, r=1, g=2, b=3, stretch="Lin") 
+# BANDE:
+#       banda 1 = NIR
+#       banda 2 = rosso
+#       banda 3 = verde 
+
+# plottiamo i 3 livelli dell'immagine (prime 3 bande) 
+# di default: r=1 (NIR sulla componente Red), g=2 (rosso sulla componente Green), b=3 (verde sulla componente Blue)
+plotRGB(sentinel, stretch="Lin") # uguale a: plotRGB(sentinel, r=1, g=2, b=3, stretch="Lin") 
 # parte vegetata: rosso
+# acqua: nera (assorbe tutto il NIR) 
 
 # cambiamo la posizione del NIR (banda 1) e lo montiamo sulla componente verde
 plotRGB(sentinel, r=2, g=1, b=3, stretch="Lin")
@@ -1336,18 +1337,22 @@ plotRGB(sentinel, r=2, g=1, b=3, stretch="Lin")
 # acqua: nera perchè assorbe tutto il NIR 
 
 
-
-# deviazione standard 
+ 
+# Deviazione Standard  (include il 68% di tutte le osservazioni)
 # metodo moving window che mappa su una sola banda
-# associamo i seguenti oggetti alle prime due bande (NIR e RED) 
+# dobbiamo dunque compattare in un solo strato tutto il set di dati e ci sono più metodi:
+
+# METODO 1- NDVI  
+# NDVI = (NIR - RED) / ( NIR + RED) -> questo porta ad una singola immagine dove si compattano la banda NIR e la banda RED 
+# associamo i seguenti oggetti alle prime due bande: 
 nir <- sentinel$sentinel.1
 red <- sentinel$sentinel.2
 # calcoliamo l'NDVI (va da -1 a 1) 
 ndvi <- (nir-red)/(nir+red)
-# in questo modo abbiamo creato un singolo strato sulla quale calcolare la deviazione standard 
+# in questo modo abbiamo creato un singolo strato sul quale calcolare la deviazione standard 
 
 # plottiamo l’ndvi
-plot(ndvi) 
+plot(ndvi)  
 # bianco: non c'è vegetazione (acqua, crepacci, suolo nudo)
 # marroncino: roccia nuda 
 # giallo/verde chiaro: parti di bosco 
@@ -1378,7 +1383,6 @@ plot(ndvisd3, col=clsd)
 # deviazione standard rossa -> la più alta e corrisponde alle zone dei crepacci e ombreggiature 
 
 
-
 # media ndvi
 # calcoliamo la media della biomassa all’interno della nostra immagine
 # funzione focal
@@ -1394,7 +1398,6 @@ plot(ndvimean3, col=clsd)
 # media verde/blu -> valori più bassi di roccia nuda 
 
 
-
 # cambiamo la grandezza della finestra e la aumentiamo
 # calcoliamo la deviazione standard basata su una finestra di 5x5 pixel
 ndvisd5 <- focal(ndvi, w=matrix(1/25, nrow=5, ncol=5), fun=sd)
@@ -1407,7 +1410,7 @@ plot(ndvisd5, col=clsd)
 
 
 
-# PCA
+# METODO 2 - PCA
 # altra tecnica per compattare dei dati
 # analisi multivariata su tutto il set di bande
 # dall'analisi multivariata ricaviamo la PC1 sulla quale facciamo il calcolo della deviazione standard
