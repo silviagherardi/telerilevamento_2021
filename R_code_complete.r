@@ -11,7 +11,7 @@
 # 6.  R code multivariate analysis
 # 7.  R code ggplot2
 # 8.  R code vegetation indices
-# 9.  R code land cover
+# 9.  R code land cover and ggplot
 # 10. R code variability 
 # 11. R code spectral signatures
 # 12. R code NO2
@@ -1110,21 +1110,24 @@ levelplot(copNDVI)
 # valori più bassi: deserti e grandi distese di neve
 # ---------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-# 9. R code land cover
+# 9. R code land cover and ggplot 
 
 # R_code_land_cover.r
 
 # impostiamo le library e la working directory
 setwd("C:/lab/")
 library(raster)
-library(RStoolbox) # for classification 
+library(RStoolbox)            # for classification 
 # install.packages("ggplot2")
-library(ggplot2) # for ggRGB
+library(ggplot2)              # for ggRGB
 # install.packages(gridExtra)
-library(gridExtra) # for grid.arrange
+library(gridExtra)            # for grid.arrange
 
 # utilizziamo le immagini defor1 e defor2, luogo: foresta amazzonica nel Rio Peixoto
-# BANDE -> NIR: banda 1; RED: banda 2; GREEN: banda 3
+# BANDE:
+#     banda 1: NIR
+#     banda 2: red 
+#     banda 3: green
 
 # funzione brick: importiamo dentro R le immagini defor1 e defor2 che sono un pacchetto di dati
 defor1 <- brick("defor1.jpg")
@@ -1161,8 +1164,8 @@ grid.arrange(p1, p2, nrow=2)
 
 
 # Unsupervised classification 
-
 # funzione unsuperClass
+# nSample = 10.000 -> di default prende 10.000 pixel a random (training set) e li classifica
 # argomenti: nome immagine, numero di classi 
 # 2 classi: foresta amazzonica - parte agricola+acqua
 # associamo l'oggetto d1c (defor1 classified) al risultato della funzione 
@@ -1179,7 +1182,7 @@ d1c
 # crs: NA 
 # source: memory
 # names: layer 
-# values: 1, 2  (min, max) -> solo due valori perchè abbiamo fatto 2 classi 
+# values: 1, 2  (min, max)                          -> solo due valori (1, 2) perchè abbiamo fatto 2 classi 
 
 # facciamo il plot totale, sia di d1c che della sua mappa all'interno
 plot(d1c$map)
