@@ -14,7 +14,7 @@
 # 11. R code spectral signatures
 # 12. R code NO2
 
-# ------------------------------------------------------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # 1. R code remote sensing first code 
 
@@ -1403,10 +1403,10 @@ plot(ndvimean3, col=clsd)
 ndvisd5 <- focal(ndvi, w=matrix(1/25, nrow=5, ncol=5), fun=sd)
 clsd <- colorRampPalette(c('blue','green','pink','magenta','orange','brown','red','yellow'))(100) 
 plot(ndvisd5, col=clsd)
-# bassa deviazione standard -> roccia nuda
-# aumenta -> per la differenziazione all’interno della roccia stessa e all’interno della vegetazione
-# poi diminuisce -> nella vegetazione delle praterie ad alta quota
-# alta deviazione standard -> crepacci e ombre 
+# blu -> bassa deviazione standard che corrisponde a roccia nuda
+# verde-viola -> aumenta per la differenziazione all’interno della roccia stessa e all’interno della vegetazione
+# blu -> poi diminuisce di nuovo nella vegetazione delle praterie ad alta quota
+# giallo-rosso -> alta deviazione standard che corrisponde a crepacci e ombre 
 
 
 
