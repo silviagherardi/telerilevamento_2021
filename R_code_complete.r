@@ -1380,21 +1380,21 @@ plot(ndvisd3, col=clsd)
 # deviazione standard blu -> molto bassa nelle parti più omogenee della roccia nuda (copertura omogenea di roccia) 
 # deviazione standard verde -> aumenta nelle zone dove si passa da roccia nuda alla parte vegetata
 # poi la deviazione standard ritorna molto omogenea (e diminuisce) su tutte le parti vegetate omogenee (come le praterie di alta quota)
-# deviazione standard rossa -> la più alta e corrisponde alle zone dei crepacci e ombreggiature 
+# deviazione standard rossa -> la più alta e corrisponde alle zone dei crepacci e ombre
 
 
 # media ndvi
 # calcoliamo la media della biomassa all’interno della nostra immagine
-# funzione focal
-# primo argomento: nome immagine
-# secondo argomento: window=matrice(1/n.pixeltot, n.righe, n.colonne) 
-# terzo argomento: vogliamo calcolare la media che viene definita mean
+# funzione focal:
+#               primo argomento: nome immagine
+#               secondo argomento: window=matrice(1/n.pixeltot, n.righe, n.colonne) 
+#               terzo argomento: vogliamo calcolare la media che viene definita mean
 # oggetto ndvimean3: media di ndvi con 3x3 pixel 
 ndvimean3 <- focal(ndvi, w=matrix(1/9, nrow=3, ncol=3), fun=mean)
 clsd <- colorRampPalette(c('blue','green','pink','magenta','orange','brown','red','yellow'))(100) 
 plot(ndvimean3, col=clsd)
 # media gialla -> valori molto alti nelle praterie ad alta quota
-# media rossa -> abbastanza alta parte seminaturale di boschi latifoglie insieme a boschi di conifere e arbusti 
+# media rossa -> abbastanza alta, parte seminaturale di boschi a latifoglie insieme a boschi di conifere e arbusti 
 # media verde/blu -> valori più bassi di roccia nuda 
 
 
