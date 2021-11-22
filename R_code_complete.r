@@ -768,6 +768,8 @@ plot(gcc4$map)
 # Analisi multivariata: PCA (dati Landsat, 30m)
 # Luogo di indagine: riserva del Paracana (foresta Amazzonica in Brasile) 
 # usiamo una PCA per compattare il sistema in un numero inferiore di bande ma conservando la stessa proporzione
+# obiettivo: generare nuove componenti che possano diminuire l'iniziale forte correlazione che c'è tra tutte le bande 
+#            questo per spiegare il sistema con un numero minore di componenti 
 
 # librerie e working directory
 library(raster)
@@ -900,7 +902,7 @@ p224r63_2011res_pca
 # [1] "rasterPCA" "RStoolbox"
 
 
-# plottiamo in RGB le prime 3 componenti principali (PC1 - PC2 - PC3) 
+# Plottiamo in RGB le prime 3 componenti principali (PC1 - PC2 - PC3) 
 # l'immagine è p224r63_2011res_pca
 # plottiamo questa immagine insieme alla sua mappa: $map
 # montiamo la PC1 sulla componente red, la PC2 sulla componente green, la PC3 sulla componente blue
@@ -908,6 +910,7 @@ p224r63_2011res_pca
 plotRGB(p224r63_2011res_pca$map, r=1, g=2, b=3, stretch="Lin")
 # i colori sono legati alle 3 componenti quindi a livello di colori non abbiamo modo di intuire nulla e non ci danno informazioni
 # questa è un'immagine risultante da una analisi delle componenti principali
+# non è l'immagine originale ma è la PCA dell'immagine originale -> si individua meglio tutto 
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # 7. R code ggplot2
@@ -917,15 +920,15 @@ library(RStoolbox)
 library(ggplot2)
 library(gridExtra)
 
-setwd("~/lab/")
+setwd("C:/lab/") 
 
 p224r63 <- brick("p224r63_2011_masked.grd")
 
-ggRGB(p224r63,3,2,1, stretch="lin")
-ggRGB(p224r63,4,3,2, stretch="lin")
+ggRGB(p224r63,3,2,1, stretch="Lin")
+ggRGB(p224r63,4,3,2, stretch="Lin")
 
-p1 <- ggRGB(p224r63,3,2,1, stretch="lin")
-p2 <- ggRGB(p224r63,4,3,2, stretch="lin")
+p1 <- ggRGB(p224r63,3,2,1, stretch="Lin")
+p2 <- ggRGB(p224r63,4,3,2, stretch="Lin")
 
 grid.arrange(p1, p2, nrow = 2) # this needs gridExtra
 # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -944,22 +947,27 @@ library(RStoolbox) # for vegetation indices calculation
 setwd("C:/lab/") 
 
 # le due immagini sono RGB e contengono ciascuna 3 bande
-# bande: b1 = NIR; b2 = red; b3 = green 
+# bande: 
+#     banda 1 = NIR
+#     banda 2 = red
+#     banda 3 = green 
 # funzione brick: importiamo dentro R le due immagini che sono blocchi di dati
 defor1 <- brick("defor1.jpg")
 defor2 <- brick("defor2.jpg")
 
 # facciamo un parmfrow per confrontare le due immagini scattate in tempi diversi
 # 2 righe - 1 colonna
-# le plottiamo con plotRGB / banda NIR (1) sulla componente red, banda del rosso (2) sulla componente green, banda del verde (3) sulla componente blue 
+# le plottiamo con plotRGB -> banda NIR (1) sulla componente Red, banda del rosso (2) sulla componente Green, banda del verde (3) sulla componente Blue 
 # stretch lineare
 par(mfrow=c(2,1))
 plotRGB(defor1, r=1, g=2, b=3, stretch="Lin")
 plotRGB(defor2, r=1, g=2, b=3, stretch="Lin")
-# la prima immagine riporta la foresta amazzonica ancora intatta, vediamo le zone rosse che sono vegetazione
-# nella seconda immagine tutte le zone chiare sono suolo nudo e terreno agricolo, le zone rosse sono terreni agricoli vegetati
+# prima immagine: riporta la foresta amazzonica ancora intatta, vediamo le zone rosse che sono vegetazione
+# seconda immagine: tutte le zone chiare sono suolo nudo e terreno agricolo, le zone rosse sono terreni agricoli vegetati
 
-# DVI: calcoliamo l'indice di vegetazione per l'immagine defor1
+
+# Vogliamo misurare quanto è sana la vegetazione presente nelle due immagini
+# calcoliamo l'indice di vegetazione DVI per l'immagine defor1
 defor1
 # class: RasterBrick 
 # dimensions: 478, 714, 341292, 3  (nrow, ncol, ncell, nlayers)
@@ -967,14 +975,16 @@ defor1
 # extent: 0, 714, 0, 478  (xmin, xmax, ymin, ymax)
 # crs: NA 
 # source: C:/lab/defor1.jpg 
-# names: defor1.1, defor1.2, defor1.3              -> banda NIR: defor1.1 ; banda red: defor1.2
+# names: defor1.1, defor1.2, defor1.3                 -> banda NIR: defor1.1 ; banda red: defor1.2
 # min values:        0,        0,        0 
 # max values:      255,      255,      255
 
-# DVI: banda NIR - banda red -> defor1.1 - defor1.2 
-# uniamo ogni banda alla propria immagine con il $ 
+# DVI: riflettanza NIR - riflettanza Red -> banda NIR - banda red
+# -255 < DVI < +255
+# calcoliamo il DVI per l'immagine defor1 = defor1.1 (NIR) - defor1.2 (red) 
+# uniamo ogni banda all'immagine con il $ 
 dvi1 <- defor1$defor1.1 - defor1$defor1.2
-# per ogni pixel stiamo prendendo il valore di riflettanza della banda dell’infrarosso e lo sottraiamo al valore di riflettanza della banda del rosso
+# per ogni pixel stiamo prendendo il valore di riflettanza della banda del NIR e lo sottraiamo al valore di riflettanza della banda del red
 # dvi1 è la mappa del DVI: in uscita abbiamo una mappa formata da tanti pixel che sono la differenza tra infrarosso e rosso
 
 # plottiamo la mappa dvi1
@@ -985,8 +995,9 @@ plot(dvi1)
 cl <- colorRampPalette(c('darkblue','yellow','red','black'))(100)
 plot(dvi1, col=cl, main="DVI at time 1") 
 # rosso scuro -> vegetazione; giallo -> campi agricoli 
+# il range va da -255 (condizione non sana) a +255 (condizione sana) 
 
-# DVI: calcoliamo l'indice di vegetazione per l'immagine defor2
+# Calcoliamo l'indice di vegetazione DVI per l'immagine defor2 
 defor2
 # class: RasterBrick 
 # dimensions: 478, 717, 342726, 3  (nrow, ncol, ncell, nlayers)
@@ -1008,13 +1019,14 @@ plot(dvi2, col=cl, main="DVI at time 2")
 # parmfrow delle due immagini (dvi1 e dvi2) a confronto con 2 righe e 1 colonna
 # com'è cambiata nel tempo la situazione della vegetazione in questo luogo
 par(mfrow=c(2,1))
-plot(dvi1, col=cl, main=”DVI at time 1”)
-plot(dvi2, col=cl, main=”DVI at time 2”) 
+plot(dvi1, col=cl, main="DVI at time 1")
+plot(dvi2, col=cl, main="DVI at time 2") 
 
 # ci chiediamo cos'è cambiato in questa stessa zona in tempi diversi
 # prima mappa: dvi1; seconda mappa: dvi2 
-# se il dvi è diminuito: prima mappa (foresta sana) avremo un valore di dvi1 più alto (255); seconda mappa (foresta distrutta) avremo un valore di dvi2 più basso (20)
-# facciamo la differenza tra i due dvi -> dvi1 - dvi2 -> 255 - 20 
+# difdvi = dvi1 - dvi2 
+# se il dvi diminuisce: prima mappa (foresta sana) avremo un valore di dvi1 più alto (255); seconda mappa (foresta distrutta) avremo un valore di dvi2 più basso (20)
+# significa difdvi = dvi1 - dvi2 = 255 - 20 = 235 (diminuito) 
 difdvi <- dvi1 - dvi2
 # Warning message: In dvi1 - dvi2 : Raster objects have different extents. Result for their intersection is returned
 # l'estensione delle due mappe non è la stessa, probabilmente una delle due mappe ha più pixel 
@@ -1025,13 +1037,13 @@ cld <- colorRampPalette(c('blue','white','red'))(100)
 plot(difdvi, col=cld)
 # zone rosse: valori di differenza (dvi1-dvi2) più marcati
 # zone chiare bianche/blu: valori di differenza (dvi1-dvi2) meno marcati
-# nella mappa le parti rosse ci indicano i punti dove c’è stata maggiore sofferenza da parte della vegetazione nel tempo (sofferenza per deforestazione)
+# Mappa: parti rosse ci indicano i punti dove c’è stata maggiore sofferenza da parte della vegetazione nel tempo (sofferenza per deforestazione)
 
 
 
 # NDVI
 # calcoliamo il NDVI per le due situazioni (defor1 e defor2)
-# il range del NDVI è sempre lo stesso indipendente dall’immagine -> -1 < NDVI < 1 
+# il range del NDVI è sempre lo stesso indipendentemente dai bit dell'immagine -> -1 < NDVI < 1 
 # l'indice serve per paragonare immagini che hanno risoluzione radiometrica diversa in entrata
 # NDVI = (NIR - RED) / (NIR + RED) 
 
@@ -1048,7 +1060,7 @@ plot(ndvi2, col=cl)
 difndvi <- ndvi1 - ndvi2
 cld <- colorRampPalette(c('blue','white','red'))(100) 
 plot(difndvi, col=cld)
-# difndvi: mappa dove in rosso abbiamo le aree con la maggiore perdita di vegetazione (differenza marcata tra i due ndvi)
+# Mappa: in rosso abbiamo le aree con la maggiore perdita di vegetazione (differenza marcata tra i due ndvi)
 
 
 
@@ -1059,8 +1071,8 @@ plot(difndvi, col=cld)
 # utilizziamo la funzione spectralIndices per l'immagine defor1 
 # primo argomento immagine: defor1 
 # secondo argomento bande: banda 3 (green)-> green=3, banda 2 (red)-> red=2, banda 1 (NIR)-> nir=1
-si <- spectralIndices(defor1, green = 3, red = 2, nir = 1)
-plot(si, col=cl)
+si1 <- spectralIndices(defor1, green = 3, red = 2, nir = 1)
+plot(si1, col=cl)
 # risultato: calcola tutti gli indici (a parte quelli che hanno bisogno della banda del blu) e li mette tutti insieme
 
 # facciamo lo spectralIndices anche per l'immagine defor2:
@@ -1069,12 +1081,12 @@ plot(si2, col=cl)
 
 
 
-# worldwide NDVI
-# andiamo a vedere come varia l’indice NDVI all’interno del pianeta tramite la funzione levelplot
+# worldwide NDVI: dati Copernicus di NDVI relazionate a banda NIR e banda red 
+#                 andiamo a vedere come varia l'NDVI all’interno del pianeta tramite la funzione levelplot
 # install.packages("rasterdiv")
 library(rasterdiv) # for the worldwide NDVI
-# all’interno del pacchetto troviamo un dataset gratuito chiamato copNDVI; l'input dataset è un indice NDVI ed è un Long-Term dataset
-
+# all’interno del pacchetto troviamo un dataset gratuito chiamato copNDVI (input dataset) 
+# è l'indice NDVI ed è un Long-Term dataset (media di valori di NDVI nel mondo dal 1999 al 2017 ogni 21.06)
 # carichiamo il dataset con la funzione plot
 plot(copNDVI)
 # mappa del NDVI nel mondo che racchiude anche l’acqua: viene individuata da codici all’interno del set che vanno dal valore 253 fino al 255
@@ -1090,14 +1102,13 @@ plot(copNDVI)
 # all'Equatore, nella parte del nord Europa e nord America l’NDVI è più alto 
 # nella fascia dei deserti l'NDVI è più basso
 
-# facciamo un levelplot per vedere i valori medi sulle righe e sulle colonne
-# la funzione levelplot si trova dentro il pacchetto rasterVis
-library(rasterVis) 
+# facciamo un levelplot per vedere i valori medi di NDVI sulle righe e sulle colonne
+# library(rasterVis) for levelplot
 levelplot(copNDVI)
-# vediamo come respira la terra dal 1999 al 2017
+# vediamo come respira la Terra dal 1999 al 2017
 # valori più alti: foresta dell’Amazzonia, foreste del centro Africa, foreste del Borneo, foresta continua del nord Europa-nord Asia-nord America
 # valori più bassi: deserti e grandi distese di neve
-# ----------------------------------------------------------------------------------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # 9. R code land cover
 
