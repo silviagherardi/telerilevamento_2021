@@ -821,9 +821,9 @@ pairs(p224r63_2011)
 # parte sopra alla diagonale: indice di correlazione che varia tra -1 e 1
 
 
-
 # la PCA è un’analisi piuttosto impattante
 # funzione aggregate: ricampioniamo il dato creando un dato più leggero 
+# risoluzione iniziale del dato: 30 m 
 # riduciamo la dimensione dell’immagine diminuendone la risoluzione e aumentando la dimensione dei pixel, lo facciamo per tutte e 7 le bande
 # fattore 10 lineare: aggreghiamo i pixel del dato iniziale di 10 volte per ottenere un dato con una risoluzione più bassa
 # associamo l'oggetto p224r63_2011res (resampled) al risultato della funzione
@@ -831,7 +831,8 @@ p224r63_2011res <- aggregate(p224r63_2011, fact=10)
 p224r63_2011res 
 # class: RasterBrick 
 # dimensions: 150, 297, 44550, 7  (nrow, ncol, ncell, nlayers)
-# resolution: 300, 300  (x, y)  -> la risoluzione iniziale è diminuita, ora è di 300 m (30x10)
+# resolution: 300, 300  (x, y)            
+#             -> la risoluzione iniziale è diminuita, ora è di 300 m (30x10) e abbiamo un dettaglio minore 
 
 # per vedere la diminuzione della risoluzione nel nuovo dato facciamo un parmfrow
 # 2 righe e 1 colonna
@@ -849,7 +850,6 @@ plotRGB(p224r63_2011res, r=4, g=3, b=2, stretch="Lin")
 p224r63_2011res_pca <- rasterPCA(p224r63_2011res)
 
 
-
 # la funzione rasterPCA ci restituisce in uscita un’immagine che contiene la mappa e il modello
 # vogliamo visualizzare le informazioni solo del modello: leghiamo l’immagine totale (p224r63_2011res_pca) con il suo modello (model)
 # vogliamo sapere qual è la variabilità spiegata dalle componenti principali del nostro sistema
@@ -863,6 +863,7 @@ summary(p224r63_2011res_pca$model)
 
 # Proportion of Variance: ci dice quanta variabilità spiegano le singole bande, es: PC1 spiega il 99,835% della varianza
 # Cumulative Proportion: ci dice quanta variabilità spiegano le componenti insieme, es: PC1+PC2+PC3 si spiega il 99,998% di variabilità quindi bastano le prime 3 componenti
+# per spiegare il 100% della variabilità servono tutte le 7 bande insieme (a noi però non interessa) 
 
 # facciamo il plot dell'immagine_res_pca legata alla sua mappa: $map
 plot(p224r63_2011res_pca$map)
@@ -871,21 +872,20 @@ plot(p224r63_2011res_pca$map)
 # PC7: non si distingue più niente perchè spiega la minore variabilità del sistema
 
 
-
 # scriviamo il nome dell'immagine_res_pca per vedere le informazioni che contiene
 p224r63_2011res_pca
-# $call -> ci dice qual è la funzione che abbiamo usato 
+# $call                                 -> ci dice qual è la funzione che abbiamo usato 
 # rasterPCA(img = p224r63_2011res)
 
-# $model -> ci da le informazioni sulle componenti principali e la variabilità che spiegano 
+# $model                                -> ci da le info sulle componenti principali e la variabilità che spiegano 
 # Call:
 # princomp(cor = spca, covmat = covMat[[1]])
 # Standard deviations:
 #       Comp.1       Comp.2       Comp.3       Comp.4       Comp.5       Comp.6       Comp.7 
-# 1.2050671158 0.0461548804 0.0151509526 0.0045752199 0.0018413569 0.0012333745 0.0007595368    
+# 1.2050671158  0.0461548804  0.0151509526  0.0045752199  0.0018413569  0.0012333745  0.0007595368    
 # 7  variables and  44550 observations.
 
-# $map -> ci da le informazioni relative alla mappa 
+# $map                                    -> ci da le info relative alla mappa 
 # class: RasterBrick 
 # dimensions: 150, 297, 44550, 7  (nrow, ncol, ncell, nlayers)
 # resolution: 300, 300  (x, y)
@@ -898,7 +898,6 @@ p224r63_2011res_pca
 
 # attr(,"class")
 # [1] "rasterPCA" "RStoolbox"
-
 
 
 # plottiamo in RGB le prime 3 componenti principali (PC1 - PC2 - PC3) 
