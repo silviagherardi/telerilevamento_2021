@@ -1299,11 +1299,11 @@ grid.arrange(p1, p2, nrow=1)
 # settiamo la working directory e le library necessarie
 setwd("C:/lab/") 
 library(raster)
-library(RStoolbox)
+library(RStoolbox)      # per la funzione rasterPCA
 library(ggplot2)
 library(gridExtra)
 # install.packages("viridis")
-library(viridis) # per la gestione dei colori, colora i plot con ggplot in modo automatico
+library(viridis)        # per la gestione dei colori, colora i plot con ggplot in modo automatico
 
 # importiamo l'immagine sentinel.png dentro a R
 # funzione brick: importa tutto l'intero blocco di dati
@@ -1410,8 +1410,8 @@ plot(ndvisd5, col=clsd)
 
 
 
-# METODO 2 - PCA
-# altra tecnica per compattare dei dati
+# METODO 2 - PCA -> altra tecnica per compattare dei dati
+#                   quando si hanno 2 bande e le informazioni so queste sono molto correlate 
 # analisi multivariata su tutto il set di bande
 # dall'analisi multivariata ricaviamo la PC1 sulla quale facciamo il calcolo della deviazione standard
 # funzione rasterPCA: fa l’analisi delle componenti principali per i raster e si trova nel pacchetto RStoolbox
@@ -1427,17 +1427,21 @@ plot(sentpca$map)
 
 sentpca
 # $call
-# rasterPCA(img = sentinel) -> funzione con la quale l'abbiamo chiamata
+# rasterPCA(img = sentinel) 
+#           -> funzione con la quale l'abbiamo chiamata
 
 # $model
 # Call:
-# princomp(cor = spca, covmat = covMat[[1]]) -> principal component (cor: matrice di correlazione che è basata sulla matrice di covarianza, come covariano i pixel originali tra loro) 
+# princomp(cor = spca, covmat = covMat[[1]]) 
+#           -> principal component 
+#           -> cor: matrice di correlazione che è basata sulla matrice di covarianza (come covariano i pixel originali tra loro) 
 # Standard deviations:
-#  Comp.1    Comp.2    Comp.3    Comp.4     -> quanto spiega ogni singola componente principale (PC)
+#  Comp.1    Comp.2    Comp.3    Comp.4     
+#                                         -> quanto spiega ogni singola componente principale (PC)
 #  77.33628  53.51455   5.76560   0.00000 
 # 4  variables and  633612 observations.
 
-# $map
+# $map                                    -> info sulla mappa in uscita
 # class: RasterBrick 
 # dimensions: 794, 798, 633612, 4  (nrow, ncol, ncell, nlayers)
 # resolution: 1, 1  (x, y)
@@ -1448,7 +1452,7 @@ sentpca
 # min values: -227.1124, -106.4863,  -74.6048,    0.0000 
 # max values: 133.48720, 155.87991,  51.56744,   0.00000 
 
-# attr(,"class")    -> class: tipo di file 
+# attr(,"class")                          -> class: tipo di file che è un RasterPCA del pacchetto RStoolbox 
 # [1] "rasterPCA" "RStoolbox"  
 
 # facciamo un summary della PCA del modello per vedere quanta variabilità iniziale spiegano le componenti
@@ -1459,21 +1463,22 @@ summary(sentpca$model)
 # Proportion of Variance  0.6736804   0.3225753   0.003744348      0
 # Cumulative Proportion   0.6736804   0.9962557   1.000000000      1
 
-# la prima componente principale (PC1) è quella che spiega lo 0,6736 quindi circa il 67% dell’informazione originale
+# la prima componente principale (PC1) è quella che spiega lo 0,6736 quindi circa il 67,36% dell’informazione originale
+
 # a partire da questa immagine della PCA facciamo il calcolo della variabilità
 # significa che calcoliamo la deviazione standard sulla PC1
 # definiamo la banda con la quale vogliamo lavorare -> banda PC1
 # leghiamo l'immagine sentpca alla sua mapppa e alla PC1
 pc1 <- sentpca$map$PC1
-# funzione focal: calcoliamo la deviazione standard sulla pc1
+# funzione focal: calcoliamo la deviazione standard sulla pc1 tramite la moving windows di 5x5 pixel 
 pc1sd5 <- focal(pc1, w=matrix(1/25, nrow=5, ncol=5), fun=sd)
 clsd <- colorRampPalette(c('blue','green','pink','magenta','orange','brown','red','yellow'))(100) 
 # plottiamo l'immagine pc1sd5
 plot(pc1sd5, col=clsd)
-# 
-# 
-# 
-# ------------------------------------------------------------------------------------------------------------------
+# siamo in un ghiacciaio: ambiente particolare con forte variabilità geomorfologica (picchi - creste - crepacci) 
+# blu -> bassa deviazione standard, è legata alle praterie di alta quota che sono omogenee
+# verde-rosa -> aumenta la deviazione standard dove c'è la roccia nuda (cambiamento più forte) 
+
 
 # source test 
 # scarichiamo un pezzo di codice da Virtuale: source_test_lezione.r
