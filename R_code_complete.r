@@ -1480,7 +1480,8 @@ plot(pc1sd5, col=clsd)
 # verde-rosa -> aumenta la deviazione standard dove c'è la roccia nuda (cambiamento più forte) 
 
 
-# source test 
+
+# Source Test 
 # scarichiamo un pezzo di codice da Virtuale: source_test_lezione.r
 # nel codice si calcola la deviazione standard sulla PC1 di 7x7 pixel (49 pixel possibili dentro la moving window)
 # funzione source: esce da R, prende un pezzo di codice e poi lo inserisce all’interno di R, dobbiamo usare le ""
@@ -1493,13 +1494,17 @@ source("source_test_lezione.r.txt")
 # scarichiamo un pezzo di codice da Virtuale: source_ggplot.r
 # funzione source: inseriamo in R il pezzo di codice scaricato
 source("source_ggplot.r.txt")
-# --------------------------------------------------------------------------------------------------------------------
 
-# plottiamo con ggplot 
-#
-#
-#
+# ggplot: permette di fare dei plot migliori 
+# vediamo uno di questi ggplot: 
+# ggplot()                                                            -> crea una finestra vuota 
+#         +
+#            geom_raster(                                             -> definiamo il tipo di geometria 
+#                         pc1sd5,                                     -> immagine della PCA
+#                                 mapping=aes(                        -> indica cosa vogliamo plottare, si usa mapping e vogliamo mappare le aesthetic
+#                                             x=x, y=y, fill=layer))  -> x e y sono le coordinate geografiche, il valore di riempimento che è fill è il layer, dunque la deviazione standard
 ggplot() + geom_raster(pc1sd5, mapping=aes(x=x, y=y, fill=layer)) 
+# plottare la deviazione standard con ggplot è il metodo migliore per individuare qualsiasi tipo di discontinuità
 
 #
 #
