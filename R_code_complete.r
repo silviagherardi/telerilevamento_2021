@@ -7,13 +7,11 @@
 # 4.  R code knitr 
 # 5.  R code classification
 # 6.  R code multivariate analysis
-# 7.  R code ggplot2
-# 8.  R code vegetation indices
-# 9.  R code land cover and ggplot
-# 10. R code variability 
-# 11. R code spectral signatures
-# 12. R code NO2
-
+# 7.  R code vegetation indices
+# 8.  R code land cover and ggplot
+# 9. R code variability 
+# 10. R code spectral signatures
+# 11. R code NO2
 # --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # 1. R code remote sensing first code 
@@ -911,27 +909,7 @@ plotRGB(p224r63_2011res_pca$map, r=1, g=2, b=3, stretch="Lin")
 # non è l'immagine originale ma è la PCA dell'immagine originale -> si individua meglio tutto 
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-# 7. R code ggplot2
-
-library(raster)
-library(RStoolbox)
-library(ggplot2)
-library(gridExtra)
-
-setwd("C:/lab/") 
-
-p224r63 <- brick("p224r63_2011_masked.grd")
-
-ggRGB(p224r63,3,2,1, stretch="Lin")
-ggRGB(p224r63,4,3,2, stretch="Lin")
-
-p1 <- ggRGB(p224r63,3,2,1, stretch="Lin")
-p2 <- ggRGB(p224r63,4,3,2, stretch="Lin")
-
-grid.arrange(p1, p2, nrow = 2) # this needs gridExtra
-# ----------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-# 8. R code vegetation indices
+# 7. R code vegetation indices
 
 # R_code_vegetation_indices.r
 # zone indagate: Rio Peixoto de Azevedo - centro Brasile (bordo foresta amazzonica) 
@@ -1108,7 +1086,7 @@ levelplot(copNDVI)
 # valori più bassi: deserti e grandi distese di neve
 # ---------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-# 9. R code land cover and ggplot 
+# 8. R code land cover and ggplot 
 
 # R_code_land_cover.r
 
@@ -1292,7 +1270,7 @@ grid.arrange(p1, p2, nrow=1)
 # Conclusione: partendo da una immagine satellitare (presa dall'Earth observatory) si passa ad un grafico che mostra i cambiamenti multitemporali in istogrammi 
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-# 10. R code variability
+# 9. R code variability
 
 # R_code_variability.r
 
@@ -1541,7 +1519,7 @@ grid.arrange(p1, p2, p3, nrow=1)
 # Turbo (Rainbow colour) = giallo (colpisce molto l'occhio umano) per valori medi di deviazione standard, non consigliata da un punto di vista comunicativo 
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-# 11. R code spectral signatures
+# 10. R code spectral signatures
 
 # R_code_spectral_signatures.r
 
@@ -1786,7 +1764,7 @@ ggplot(spectralsc, aes(x=band)) + geom_line(aes(y=strato1), color="purple")  + g
 # Conclusione: questo esercizio serve a identificare delle classi all'interno di una immagine attraverso le quali possiamo classificarla 
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-# 12. R code NO2
+# 11. R code NO2
 
 # R_code_no2.r
 
@@ -1883,5 +1861,4 @@ plotRGB(ENpca$map, r=1, g=2, b=3, stretch="Lin")
 PC1sd <- focal(ENpca$map$PC1, w=matrix(1/9, nrow=3, ncol=3), fun=sd)
 plot(PC1sd, col=cls)
 # il plot finale sono dei paesi perchè la standard deviation aumenta dove c'è la linea di separazione tra un paese e l'altro 
-
 # --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
