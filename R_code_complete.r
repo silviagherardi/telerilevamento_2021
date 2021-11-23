@@ -1299,11 +1299,11 @@ grid.arrange(p1, p2, nrow=1)
 # settiamo la working directory e le library necessarie
 setwd("C:/lab/") 
 library(raster)
-library(RStoolbox)      # per la funzione rasterPCA
-library(ggplot2)
-library(gridExtra)
+library(RStoolbox)            # per la funzione rasterPCA
+library(ggplot2)              # per la funzione ggplot 
+library(gridExtra)            # per la funzione grid.arrange
 # install.packages("viridis")
-library(viridis)        # per la gestione dei colori, colora i plot con ggplot in modo automatico
+library(viridis)              # per la funzione scale_fill_viridis: gestione dei colori, colora i plot con ggplot in modo automatico
 
 # importiamo l'immagine sentinel.png dentro a R
 # funzione brick: importa tutto l'intero blocco di dati
@@ -1496,7 +1496,7 @@ source("source_test_lezione.r.txt")
 source("source_ggplot.r.txt")
 
 # ggplot: permette di fare dei plot migliori 
-# vediamo uno di questi ggplot: 
+# plottiamo con ggplot la mappa della deviazione standard 
 # ggplot()                                                            -> crea una finestra vuota 
 #         +
 #            geom_raster(                                             -> definiamo il tipo di geometria 
@@ -1504,31 +1504,41 @@ source("source_ggplot.r.txt")
 #                                 mapping=aes(                        -> indica cosa vogliamo plottare, si usa mapping e vogliamo mappare le aesthetic
 #                                             x=x, y=y, fill=layer))  -> x e y sono le coordinate geografiche, il valore di riempimento che è fill è il layer, dunque la deviazione standard
 ggplot() + geom_raster(pc1sd5, mapping=aes(x=x, y=y, fill=layer)) 
-# plottare la deviazione standard con ggplot è il metodo migliore per individuare qualsiasi tipo di discontinuità
+# plottare la deviazione standard con ggplot è il metodo migliore per individuare:
+#                   -  a livello geografico: qualsiasi tipo di discontinuità 
+#                   -  a livello geologico: qualsiasi variabilità geomorfologica
+#                   -  a livello ecologico: gli ecotoni (passaggi da un ambiente all'altro)
+# nella mappa in alto a sx abbiamo il punto con maggiore variabilità e maggior geodiversità (geomorfologia molto complessa) 
 
-#
-#
-# aggiungiamo il titolo 
+# Aggiungiamo il titolo nella mappa
+# funzione ggtitle: per aggiungere il titolo che diventerà l'argomento della funzione tra ""  
+# library(viridis) -> per la funzione scale_fill_viridis
+# funzione scale_fill_viridis: coloriamo il plot con la legenda di default quindi non scriviamo niente tra () 
 ggplot() + geom_raster(pc1sd5, mapping=aes(x=x, y=y, fill=layer)) + scale_fill_viridis() + ggtitle("Standard deviation of PC1 by viridis color scale") 
 
-#
-#
+# Ora usiamo la legenda magma 
+# funzione scale_fill_viridis: coloriamo il plot con la legenda magma 
+#                              option="magma" -> opzione che vogliamo usare
 ggplot() + geom_raster(pc1sd5, mapping=aes(x=x, y=y, fill=layer)) + scale_fill_viridis(option="magma") + ggtitle("Standard deviation of PC1 by magma color scale")
+# si nota bene tutta la zona dove c'è un'alta deviazione standard 
 
-#
-#
+# Ora usiamo la legenda inferno
+# funzione scale_fill_viridis: coloriamo il plot con la legenda inferno 
+#                              option="inferno" -> opzione che vogliamo usare
 ggplot() + geom_raster(pc1sd5, mapping=aes(x=x, y=y, fill=layer)) + scale_fill_viridis(option="inferno") + ggtitle("Standard deviation of PC1 by inferno color scale")
 
-#
-#
-#
-#
+# Ora mettiamo in un unico grafico le 3 mappe appena create
+# associamo a 3 oggetti diversi le 3 mappe plottate precedentemente con ggplot
+# p1 mappa con viridis - p2 mappa con magma  - p3 mappa con inferno 
 p1 <- ggplot() + geom_raster(pc1sd5, mapping=aes(x=x, y=y, fill=layer)) + scale_fill_viridis() + ggtitle("Standard deviation of PC1 by viridis color scale")
 p2 <- ggplot() + geom_raster(pc1sd5, mapping=aes(x=x, y=y, fill=layer)) + scale_fill_viridis(option="magma") + ggtitle("Standard deviation of PC1 by magma color scale")
 p3 <- ggplot() + geom_raster(pc1sd5, mapping=aes(x=x, y=y, fill=layer)) + scale_fill_viridis(option="inferno") + ggtitle("Standard deviation of PC1 by inferno color scale")
+# library(gridExtra) per la funzione grid.arrange
+# funzione grid.arrange: mette insieme delle mappe o grafici plottate con ggplot 
+# vogliamo le 3 immagini vicine dunque su una riga
 grid.arrange(p1, p2, p3, nrow=1)
-#
-
+# Viridis - Magma = hanno colori più contrastati verso valori massimi di deviazione standard
+# Turbo (Rainbow colour) = giallo (colpisce molto l'occhio umano) per valori medi di deviazione standard, non consigliata da un punto di vista comunicativo 
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # 11. R code spectral signatures
