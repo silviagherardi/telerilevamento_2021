@@ -1487,9 +1487,9 @@ plot(pc1sd5, col=clsd)
 source("source_test_lezione.r.txt")
 # vediamo l’immagine della deviazione standard 7x7 pixel della PC1
 
-# library(ggplot2) per plottare con ggplot 
-# library(gridExtra) per mettere insieme tanti plot con ggplot
-# library(viridis) per i colori, colorare i plot con ggplot in modo automatico 
+# library(ggplot2)          -> per plottare con ggplot 
+# library(gridExtra)        -> per mettere insieme tanti plot con ggplot
+# library(viridis)          -> per i colori, colorare i plot con ggplot in modo automatico 
 # scarichiamo un pezzo di codice da Virtuale: source_ggplot.r
 # funzione source: inseriamo in R il pezzo di codice scaricato
 source("source_ggplot.r.txt")
