@@ -1882,6 +1882,35 @@ plot(EN$EN_0013, col=cls)
 # library(RStoolbox) 
 # funzione rasterPCA: Principal Component Analysis for Rasters: prende il pacchetto di dati e va a compattarli in un numero minore di bande
 ENpca <- rasterPCA(EN)
+ENpca
+# $call
+# rasterPCA(img = EN)
+
+# $model
+# Call:
+# princomp(cor = spca, covmat = covMat[[1]])
+# Standard deviations:
+#     Comp.1     Comp.2     Comp.3     Comp.4     Comp.5     Comp.6     Comp.7 
+# 163.571233  38.082951  31.803836  30.299889  25.162678  23.745400  21.339818 
+#     Comp.8     Comp.9    Comp.10    Comp.11    Comp.12    Comp.13 
+# 18.701243  17.213091  12.202733  10.813132   9.860887   7.867219 
+
+#  13  variables and  331776 observations.
+
+# $map
+# class      : RasterBrick 
+# dimensions : 432, 768, 331776, 13  (nrow, ncol, ncell, nlayers)
+# resolution : 1, 1  (x, y)
+# extent     : 0, 768, 0, 432  (xmin, xmax, ymin, ymax)
+# crs        : NA 
+# source     : memory
+# names      :       PC1,       PC2,       PC3,       PC4,       PC5,       PC6,       PC7,       PC8,       PC9,      PC10,      PC11,      PC12,      PC13 
+# min values : -298.6422, -259.2745, -264.3368, -226.3433, -201.2381, -185.6117, -187.7662, -120.9650, -130.8086, -139.8300, -134.7142,  -88.0153, -108.8496 
+# max values : 616.04675, 265.75811, 239.08957, 211.90665, 195.29096, 234.04411, 243.79194, 145.58541, 126.15218, 106.77404, 102.42662, 104.97758,  95.17622 
+
+# attr(,"class")
+# [1] "rasterPCA" "RStoolbox"
+
 summary(ENpca$model)
 # Importance of components: 
 #                             Comp.1      Comp.2      Comp.3      Comp.4    Comp.5     Comp.6      Comp.7      Comp.8     Comp.9        Comp.10        Comp.11       Comp.12         Comp.13
