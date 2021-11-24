@@ -9,7 +9,7 @@
 # 6.  R code multivariate analysis
 # 7.  R code vegetation indices
 # 8.  R code land cover and ggplot
-# 9. R code variability 
+# 9.  R code variability 
 # 10. R code spectral signatures
 # 11. R code NO2
 # --------------------------------------------------------------------------------------------------------------------------------------------------------------------
