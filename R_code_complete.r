@@ -1823,11 +1823,50 @@ plot(ENdiff, col=cls, main="Difference of NO2 between January - March")
 # 7. Importiamo tutto il set di bande insieme (13 immagini totali) 
 # funzione list.files: creiamo la lista di file dove il pattern che si ripete in tutti i file è la parola "EN"
 rlist <- list.files(pattern="EN")
+rlist
+# [1] "EN_0001.png" "EN_0002.png" "EN_0003.png" "EN_0004.png" "EN_0005.png"
+# [6] "EN_0006.png" "EN_0007.png" "EN_0008.png" "EN_0009.png" "EN_0010.png"
+# [11] "EN_0011.png" "EN_0012.png" "EN_0013.png"
+
 # funzione lapply: applichiamo sulla lista (rlist) che contiene tutti file la funzione raster
 import <- lapply(rlist, raster)
 import
+# [[1]]
+# class      : RasterLayer 
+# band       : 1  (of  3  bands)
+# dimensions : 432, 768, 331776  (nrow, ncol, ncell)
+# resolution : 1, 1  (x, y)
+# extent     : 0, 768, 0, 432  (xmin, xmax, ymin, ymax)
+# crs        : NA 
+# source     : C:/lab/EN/EN_0001.png 
+# names      : EN_0001 
+# values     : 0, 255  (min, max)
+
+# [[2]]
+# class      : RasterLayer 
+# band       : 1  (of  3  bands)
+# dimensions : 432, 768, 331776  (nrow, ncol, ncell)
+# resolution : 1, 1  (x, y)
+# extent     : 0, 768, 0, 432  (xmin, xmax, ymin, ymax)
+# crs        : NA 
+# source     : C:/lab/EN/EN_0002.png 
+# names      : EN_0002 
+# values     : 0, 255  (min, max)
+
+# ecc . . . 
+
 # funzione stack: compatta tutti i 13 file 
 EN <- stack(import)
+EN 
+# class      : RasterStack 
+# dimensions : 432, 768, 331776, 13  (nrow, ncol, ncell, nlayers)
+# resolution : 1, 1  (x, y)
+# extent     : 0, 768, 0, 432  (xmin, xmax, ymin, ymax)
+# crs        : NA 
+# names      : EN_0001, EN_0002, EN_0003, EN_0004, EN_0005, EN_0006, EN_0007, EN_0008, EN_0009, EN_0010, EN_0011, EN_0012, EN_0013 
+# min values :       0,       0,       0,       0,       0,       0,       0,       0,       0,       0,       0,       0,       0 
+# max values :     255,     255,     255,     255,     255,     255,     255,     255,     255,     255,     255,     255,     255 
+
 # plottiamo il risultato 
 plot(EN, col=cls)
 
@@ -1838,7 +1877,7 @@ par(mfrow=c(2,1))
 plot(EN$EN_0001, col=cls)
 plot(EN$EN_0013, col=cls)
 
-# 9. Facciamo una analisi multivariata di questo set (13 immagini a disposizione)
+# 9. Facciamo un' Analisi Multivariata di questo set (13 immagini a disposizione)
 # abbiamo un set con 13 file e diminuiamo il set con una PCA
 # library(RStoolbox) 
 # funzione rasterPCA: Principal Component Analysis for Rasters: prende il pacchetto di dati e va a compattarli in un numero minore di bande
@@ -1849,13 +1888,27 @@ summary(ENpca$model)
 # Standard deviation     163.5712335 38.08295072 31.80383638 30.29988935  25.16267825 23.7453996 21.33981833  18.70124275 17.213091323  12.202732705  10.813131729  9.86088656   7.867219452
 # Proportion of Variance   0.8142581  0.04413767  0.03078274  0.02794025 0.01926912   0.0171596   0.01385893   0.01064361  0.009017081   0.004531713   0.003558371    0.00295924      0.001883609
 # Cumulative Proportion    0.8142581  0.85839573  0.88917847  0.91711872 0.93638784   0.9535474   0.96740637   0.97804999  0.987067068    0.991598781    0.995157151    0.99811639       1.000000000                      
+
 plotRGB(ENpca$map, r=1, g=2, b=3, stretch="Lin")
-# gran parte dell’informazione è nella componente red (prima banda)
-# tutto quello che diventa rosso è quello che si è mantenuto stabile nel tempo
+# gran parte dell’informazione è nella componente red
+# tutto quello che diventa rosso è quello che si è mantenuto stabile nel tempo per quanto riguarda la NO2 
 
 # 10. Vediamo la variabilità nella prima componente principale: compute the local variability (local standard deviation) of the first PC
 # calcolo della variabilità sulla prima componente: 
-PC1sd <- focal(ENpca$map$PC1, w=matrix(1/9, nrow=3, ncol=3), fun=sd)
+PC1 <- ENpca$map$PC1
+plot(PC1, col=cls) 
+
+PC1sd <- focal(PC1, w=matrix(1/9, nrow=3, ncol=3), fun=sd)
+PC1sd 
+# class      : RasterLayer 
+# dimensions : 432, 768, 331776  (nrow, ncol, ncell)
+# resolution : 1, 1  (x, y)
+# extent     : 0, 768, 0, 432  (xmin, xmax, ymin, ymax)
+# crs        : NA 
+# source     : memory
+# names      : layer 
+# values     : 0, 49.17621  (min, max)
+
 plot(PC1sd, col=cls)
-# il plot finale sono dei paesi perchè la standard deviation aumenta dove c'è la linea di separazione tra un paese e l'altro 
+# il plot finale sono dei paesi e la standard deviation (variabilità) aumenta dove c'è la linea di separazione tra un paese e l'altro 
 # --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
