@@ -1531,7 +1531,7 @@ library(rgdal) # for click function
 # settiamo la working directory
 setwd("C:/lab/") 
 
-# carichiamo l'immagine defor2
+# funzione brick: carichiamo l'immagine defor2 e crea un oggetto chiamato Raster Brick 
 defor2 <- brick("defor2.jpg")
 defor2 
 # class      : RasterBrick 
@@ -1544,33 +1544,38 @@ defor2
 # min values :        0,        0,        0 
 # max values :      255,      255,      255
 
-# bande:
-# defor2.1, defor2.2, defor2.3
-# NIR, red, green 
+# Bande:
+#       defor2.1,   defor2.2,   defor2.3
+#       NIR,        red,        green 
 
 # plottiamo l'immagine defor2 con plotRGB
 # montiamo la banda 2.1 (NIR) sulla componente red, la banda 2.2 (red) sulla componente green e la banda 2.3 (green) sulla componente blu 
 plotRGB(defor2, r=1, g=2, b=3, stretch="Lin") 
 plotRGB(defor2, r=1, g=2, b=3, stretch="hist") 
 
-# firme spettrali 
+# Firme spettrali 
 # utilizziamo l'immagine defor 2 per creare delle firme spettrali
-# funzione click: serve per fare un click con il mouse dentro l’immagine scelta e si va a selezionare la firma spettrale
-# vogliamo cliccare sulla mappa defor2
-# id=T:  argomento che stabilisce se vogliamo creare un id per ogni punto (lo vogliamo fare dunque id=T significa true) 
-# xy=T: significa che vogliamo utilizzare l’informazione spaziale
-# cell=T: significa che stiamo andando a cliccare su un pixel
-# type="p": ci chiede che tipo di click facciamo ovvero un punto quindi "p"
-# pch=16: pallino chiuso 
-# cex=4: dimensione del carattere
-# col="yellow": scegliamo il colore del pixel 
+# library(rgidal) # per la funzione click
+# funzione click: serve per fare un click con il mouse dentro l’immagine scelta e si va a selezionare la firma spettrale per darci l'informazione
+# in questo caso sono informazioni relative alla riflettanza
+# Argomenti: 
+#           defor2: vogliamo cliccare su questa mappa
+#           id=T: significa che viene creato un id per ogni punto (lo vogliamo fare dunque id=T significa True) 
+#           xy=T: significa che vogliamo utilizzare l’informazione spaziale
+#           cell=T: significa che stiamo andando a cliccare su un pixel
+#           type="p": ci chiede che tipo di click facciamo ovvero un punto quindi "p"
+#           pch=16: pallino chiuso 
+#           cex=4: dimensione del carattere
+#           col="yellow": colore del pixel 
 click(defor2, id=T, xy=T, cell=T, type="p", pch=16, cex=4, col="yellow")
+# manteniamo aperto il plot della mappa:
 # clicchiamo su un pixel di vegetazione all’interno della mappa e vediamo che dentro a R ci sono delle informazioni:
 #       x     y   cell defor2.1 defor2.2 defor2.3
 # 1 155.5 274.5 145707      208       12       26
-# banda 2.1 (NIR): ha un valore molto alto di riflettanza (pari a  208) perchè riflette questa lunghezza d'onda 
-# banda 2.2 (red): ha una valore molto basso di riflettanza (pari a 12) perchè assorbe questa lunghezza d'onda
-# banda 2.3 (green): ha un valore molto basso di riflettanza (pari a 26) perchè assorbe questa lunghezza d'onda (ma la assorbe molto meno del rosso dunque nella luce viisibile noi le vediamo verdi)
+# banda 2.1 (NIR): valore molto alto di riflettanza (pari a  208) perchè riflette questa lunghezza d'onda 
+# banda 2.2 (red): valore molto basso di riflettanza (pari a 12) perchè assorbe questa lunghezza d'onda
+# banda 2.3 (green): valore molto basso di riflettanza (pari a 26) perchè assorbe questa lunghezza d'onda
+#                    però la assorbe molto meno del rosso dunque nella luce viisibile noi le vediamo verdi
 
 # clicchiamo su un pixel di acqua: 
 #       x     y   cell defor2.1 defor2.2 defor2.3
@@ -1610,33 +1615,25 @@ spectrals
 # 2    2     12    76
 # 3    3     26   139
 
-# plot the spectral signatures: 
-# per vedere il risultato facciamo un ggplot 
+# plot the spectral signatures: per vedere il risultato facciamo un ggplot
+#     - asse x = bande (1-2-3)
+#     - asse y = riflettanze 
+#     - linea foresta  
+#     - linea acqua 
 # funzione ggplot: apre solo il plot 
-# spectrals: primo argomento è il dataset 
-# aes(x=band)) : definiamo su cosa stiamo lavorando:
-#       - asse x mettiamo le bande (1-2-3) 
-#       - asse y mettiamo i valori di riflettanza 
-#       - poi facciamo una linea per la foresta e una linea per l'acqua 
-# chiudiamo la funzione ggplot 
-
-# + 
-
-# funzione geom_line: riguarda le geometrie inserisce quelle che ci interessano nel plot (aperto da ggplot) 
-# come geometrie ci interessano delle linee 
-# geom_line(aes(y=forest), color="green"): ci interessa sapere i valori sulla y e sono i valori di riflettanza che abbiamo nella foresta
-
-# + 
-
-# geom_line(aes(y=water), color="blue"): ci interessa sapere i valori sulla y e sono i valori di riflettanza che abbiamo nell'acqua
-
-# + 
-
+#       spectrals: dataset che vogliamo plottare 
+#       aes(x=band)): bande sull'asse x 
+#       +
+# funzione geom_line: riguarda le geometrie inserisce quelle che ci interessano nel plot (aperto da ggplot) e ci interessano delle linee 
+#       geom_line(aes(y=forest), color="green"): ci interessa sapere i valori di riflettanza della foresta sulla y 
+#       + 
+#       geom_line(aes(y=water), color="blue"): ci interessa sapere i valori di riflettanza dell'acqua sulla y 
+#       + 
 # funzione labs: definisce gli assi x e y 
-
+#       labs(x="band", y="reflectance") 
 ggplot(spectrals, aes(x=band)) + geom_line(aes(y=forest), color="green") + geom_line(aes(y=water), color="blue") + labs(x="band", y="reflectance")
 # se volessimo mettere in ordine le bande come sono nella luce visibile, verde-rosso-infrarosso, dovremmo invertire i valori all’interno del band overo band(3,2,1) 
-
+# l'acqua ha un comportamento diametralmente opposto rispetto alla vegetazione
 
 
 # Multitemporal 
@@ -1647,36 +1644,23 @@ plotRGB(defor1, r=1, g=2, b=3, stretch="Lin")
 
 # creiamo delle spectral signature dell'immagine defor1 
 click(defor1, id=T, xy=T, cell=T, type="p", pch=16, cex=4, col="yellow")
-# clicchiamo delle zone dove c'è alterazione (sopra l'ansa del fiume in alto a sinistra)
-
-#     x     y   cell defor1.1 defor1.2 defor1.3
-# 1 23.5 332.5 103554      195       18       34
-#      x     y  cell defor1.1 defor1.2 defor1.3
-# 1 42.5 347.5 92863      190       47       49
-#     x     y  cell defor1.1 defor1.2 defor1.3
-# 1 57.5 344.5 95020      232       99      102
-#     x     y  cell defor1.1 defor1.2 defor1.3
-# 1 85.5 339.5 98618      213       25       40
-#     x     y  cell defor1.1 defor1.2 defor1.3
-# 1 74.5 367.5 78615      199       11       26
+# clicchiamo nelle zone dove c'è stata alterazione (sopra l'ansa del fiume in alto a sinistra)
+#       x     y   cell defor1.1 defor1.2 defor1.3
+#   1 23.5 332.5 103554      195       18       34
+#       x     y  cell defor1.1 defor1.2 defor1.3
+#   1 42.5 347.5 92863      190       47       49
 
 # facciamo la stessa operazione per l'immagine defor2 e con il click riclicchiamo nella stessa zona dell'immagine defor1
 defor2 <- brick("defor2.jpg") 
 plotRGB(defor2, r=1, g=2, b=3, stretch="Lin") 
 click(defor2, id=T, xy=T, cell=T, type="p", pch=16, cex=4, col="yellow")
 
-#      x     y  cell defor2.1 defor2.2 defor2.3
-# 1 81.5 344.5 95443       81       37       28
-#      x     y  cell defor2.1 defor2.2 defor2.3
-# 1 100.5 340.5 98330      187      160      153
-#      x     y  cell defor2.1 defor2.2 defor2.3
-# 1 113.5 363.5 81852      180      136      125
-#     x     y   cell defor2.1 defor2.2 defor2.3
-# 1 81.5 324.5 109783      178      133      130
-#      x     y   cell defor2.1 defor2.2 defor2.3
-# 1 111.5 319.5 113398      182      168      155
+#       x     y  cell defor2.1 defor2.2 defor2.3
+#   1 81.5 344.5 95443       81       37       28
+#       x     y  cell defor2.1 defor2.2 defor2.3
+#   1 100.5 340.5 98330      187      160      153
 
-# creiamo il dataset
+# creiamo il Dataset
 # definire le colonne del dataset che sono sempre le stesse
 # band: prima colonna - numero di bande 
 band <- c(1, 2, 3)
@@ -1689,11 +1673,21 @@ time2.1 <- c(81, 37, 28)
 # time 2.2: quinta colonna - valore del secondo pixel del tempo 2
 time2.2 <- c(187, 160, 153)
 
-# spetracl signature temporal -> spectralst: 
+# Spetracl Signature Temporal -> spectralst: 
 # funzione data.frame: crea la tabella e definiamo le 3 colonne: 
 spectralst <- data.frame(band, time1.1, time2.1) 
+spectralst
+#   band  time1.1  time2.1
+# 1    1     195      81
+# 2    2      18      37
+# 3    3      34      28
+
 # ora plottiamo con ggplot solo il time1.1 e il time 2.1 
+# primo periodo: red
+# secondo periodo: grey
 ggplot(spectralst, aes(x=band)) + geom_line(aes(y=time1.1), color="red") + geom_line(aes(y=time2.1), color="gray") + labs(x="band", y="reflectance")
+# i pixel rossi (primo periodo) sono vegetazione (altissima riflettanza dell'infrarosso)
+# i pixel grigi (secondo periodo) sono stati cliccati nello stesso punto dell'immagine precedente ma non sono vegetazione, lo si nota dall'altissima riflettanza del rosso 
 
 # plottiamo con ggplot time1.1, time1.2, time2.1, time2.2
 # funzione data.frame per definire la tabella con le nuove colonne: 
@@ -1702,21 +1696,24 @@ spectralst
 #   band   time1.1   time1.2   time2.1   time2.2
 # 1    1     195     190       81        187
 # 2    2      18      47       37        160
-# 3    3      34      49       28         153
+# 3    3      34      49       28        153
 
-# funzione ggplot: 
-ggplot(spectralst, aes(x=band)) + geom_line(aes(y=time1.1), color="red") 
-+ geom_line(aes(y=time1.2), color="red") + geom_line(aes(y=time2.1), color="gray")
-+ geom_line(aes(y=time2.2), color="gray") + labs(x="band", y="reflectance")
+# primo periodo: red
+# secondo periodo: grey 
+ggplot(spectralst, aes(x=band)) + geom_line(aes(y=time1.1), color="red") +  geom_line(aes(y=time1.2), color="red") + geom_line(aes(y=time2.1), color="gray") +  geom_line(aes(y=time2.2), color="gray") +  labs(x="band", y="reflectance")
 
+# per fare linee più sottili:
+ggplot(spectralst, aes(x=band)) + geom_line(aes(y=time1.1), color="red", linetype="dotted") + geom_line(aes(y=time1.2), color="red", linetype="dotted") + geom_line(aes(y=time2.1), color="gray", inetype="dotted") + geom_line(aes(y=time2.2), color="gray", linetype="dotted") + labs(x="band", y="reflectance")
 
+# funzione extract: estrae direttamente i valori delle bande sui pixel che sono stati generati a random precedentemente
+#                   extract(defor2, c(1:2, 10, 100))
 
 # sito Earth Observatory:
 # immagine: Flooding in Central China
 # 3 bande:
-# chinaflooding_amo_2021207.1  
-# chinaflooding_amo_2021207.2  
-# chinaflooding_amo_2021207.3
+#   chinaflooding_amo_2021207.1  
+#   chinaflooding_amo_2021207.2  
+#   chinaflooding_amo_2021207.3
 
 # facciamo 3 spectral signature: 
 china <- brick("chinaflooding_amo_2021207.jpg")
