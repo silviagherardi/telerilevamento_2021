@@ -700,6 +700,16 @@ setwd("C:/lab/")
 # funzione brick: per IMPORTARE tutti e 3 i livelli e crea un oggetto Raster Brick 
 # oggetto gc associato al risultato della funzione
 gc <- brick("dolansprings_oli_2013088_canyon_lrg.jpg")
+gc
+# class      : RasterBrick 
+# dimensions : 6222, 9334, 58076148, 3  (nrow, ncol, ncell, nlayers)
+# resolution : 1, 1  (x, y)
+# extent     : 0, 9334, 0, 6222  (xmin, xmax, ymin, ymax)
+# crs        : NA 
+# source     : C:/lab/dolansprings_oli_2013088_canyon_lrg.jpg 
+# names      : dolansprings_oli_2013088_canyon_lrg.1, dolansprings_oli_2013088_canyon_lrg.2, dolansprings_oli_2013088_canyon_lrg.3 
+# min values :                                     0,                                     0,                                     0 
+# max values :                                   255,                                   255,                                   255 
 
 # visualizzare l'immagine RGB
 # funzione plotRGB: visualizziamo il Raster Brick  
