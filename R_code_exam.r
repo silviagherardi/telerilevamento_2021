@@ -4,16 +4,18 @@
 # Sito utilizzato per scaricare le immagini: https://eros.usgs.gov/image-gallery/earthshot/papua-indonesia
 # Luogo di studio: Papua pronvincia dell'Indonesia 
 
-# LIBRERIE E WORKING DIRECTORY
+# LIBRERIE 
 # Imposto le librerie necessarie per le indagini
 # install.packages("raster")
 library(raster) # per gestire i dati in formato raster e le funzioni associate 
 # install.packages("RStoolbox") 
-library(RStoolbox)            # per la classificazione non supervisionata
+library(RStoolbox)            # per la classificazione non supervisionata  - per l'analisi delle componenti principali 
 # install.packages("ggplot2")
 library(ggplot2)              # per la funzione ggRGB e per la funzione ggplot 
 # install.packages(gridExtra)
 library(gridExtra)            # per la funzione grid.arrange
+# install.packages(viris) 
+library(viridis)          # per la funzione scale_fill_viridis
 
 # Settare la working directory - percorso Windows
 setwd("C:/esame_telerilevamento_2021/")
@@ -402,7 +404,132 @@ plot(ndvi2mean3, col=clsd, main="MEAN-NDVI - 2020")
 
 
 # SECONDO METODO: PCA - ANALISI DELLE COMPONENTI PRINCIPALI
-# 
+
+# faccio l'analisi multivariata per ottenere la PC1 e su questa calcolo la deviazione standard
+# PCA immagine papua1990
+# library(RStoolbox)
+p1pca <- rasterPCA(papua1990) 
+
+# funzione summary: fornisce un sommario del modello, voglio sapere quanta variabilità spiegano le varie PC
+summary(p1pca$model)
+# Importance of components:
+#                           Comp.1     Comp.2     Comp.3 Comp.4
+# Standard deviation     40.7714908 33.6006175 14.7007470      0
+# Proportion of Variance  0.5527363  0.3754043  0.0718594      0
+# Cumulative Proportion   0.5527363  0.9281406  1.0000000      1
+
+# La prima componente principale (PC1) è quella che spiega il 55,2% dell’informazione originale
+
+p1pca
+# $call
+# rasterPCA(img = papua1990)
+
+# $model
+# Call:
+# princomp(cor = spca, covmat = covMat[[1]])
+
+# Standard deviations:
+#   Comp.1   Comp.2   Comp.3   Comp.4 
+# 40.77149 33.60062 14.70075  0.00000 
+
+# 4  variables and  869000 observations.
+
+# $map
+# class      : RasterBrick 
+# dimensions : 869, 1000, 869000, 4  (nrow, ncol, ncell, nlayers)
+# resolution : 1, 1  (x, y)
+# extent     : 0, 1000, 0, 869  (xmin, xmax, ymin, ymax)
+# crs        : NA 
+# source     : memory
+# names      :        PC1,        PC2,        PC3,        PC4 
+# min values : -306.93958, -192.22703,  -98.31689,    0.00000 
+# max values :   80.35738,  244.91039,  135.25631,    0.00000 
+
+# attr(,"class")
+# [1] "rasterPCA" "RStoolbox"
+
+# calcolo la deviazione standard sulla PC1
+# lego l'immagine p1pca alla sua mapppa e alla PC1 per definire la prima componenete principale: 
+pc1 <- p1pca$map$PC1
+
+# funzione focal: calcolo la deviazione standard sulla pc1 tramite la moving windows di 3x3 pixel 
+pc1sd3 <- focal(pc1, w=matrix(1/9, nrow=3, ncol=3), fun=sd)
+
+# library(ggplot2)          -> per plottare con ggplot 
+# library(gridExtra)        -> per mettere insieme tanti plot con ggplot
+# library(viridis)          -> per i colori, colorare i plot con ggplot in modo automatico, funzione scale_fill_viridis
+
+# plotto la sd della PC1 con ggplot: modo migliore perche individua ogni tipo di discontinuità ecologica e geografica:
+# legenda Inferno:
+p1 <- ggplot() + geom_raster(pc1sd3, mapping=aes(x=x, y=y, fill=layer)) + scale_fill_viridis(option="inferno") + ggtitle("Standard deviation of PC1-1990 by inferno color scale")
+p1
+# Legenda
+#       giallo: sd alta -> dove c'è il passaggio tra aree agricole e l'acqua del fiume
+#       violetto: sd media -> in prossimità del fiume dove ci sono le aree agricole 
+#       nero: sd bassa -> copertura omogenea di foresta tropicale 
 
 
+# PCA immgine papua2020
+p2pca <- rasterPCA(papua2020) 
+
+summary(p1pca$model)
+# Importance of components:
+#                            Comp.1     Comp.2     Comp.3 Comp.4
+# Standard deviation     40.7714908 33.6006175 14.7007470      0
+# Proportion of Variance  0.5527363  0.3754043  0.0718594      0
+# Cumulative Proportion   0.5527363  0.9281406  1.0000000      1
+
+# La prima componente principale (PC1) è quella che spiega il 55,2% dell’informazione originale
+
+p2pca
+# $call
+# rasterPCA(img = papua2020)
+
+# $model
+# Call:
+# princomp(cor = spca, covmat = covMat[[1]])
+
+# Standard deviations:
+#   Comp.1   Comp.2   Comp.3   Comp.4 
+# 59.61909 37.62946 11.95059  0.00000 
+
+# 4  variables and  869000 observations.
+
+# $map
+# class      : RasterBrick 
+# dimensions : 869, 1000, 869000, 4  (nrow, ncol, ncell, nlayers)
+# resolution : 1, 1  (x, y)
+# extent     : 0, 1000, 0, 869  (xmin, xmax, ymin, ymax)
+# crs        : NA 
+# source     : memory
+# names      :        PC1,        PC2,        PC3,        PC4 
+# min values : -207.00688,  -68.68516,  -96.19451,    0.00000 
+# max values :   194.2029,   254.2511,   140.5549,     0.0000 
+
+# attr(,"class")
+# [1] "rasterPCA" "RStoolbox"
+
+# calcolo la deviazione standard sulla PC1
+# lego l'immagine p2pca alla sua mapppa e alla PC1 per definire la prima componenete principale: 
+pc1 <- p2pca$map$PC1
+
+# funzione focal: calcolo la deviazione standard sulla pc1 tramite la moving windows di 3x3 pixel 
+pc2sd3 <- focal(pc1, w=matrix(1/9, nrow=3, ncol=3), fun=sd)
+
+# library(ggplot2)          -> per plottare con ggplot 
+# library(gridExtra)        -> per mettere insieme tanti plot con ggplot
+# library(viridis)          -> per i colori, colorare i plot con ggplot in modo automatico, funzione scale_fill_viridis
+
+# plotto la sd della PC1 con ggplot: modo migliore perche individua ogni tipo di discontinuità ecologica e geografica:
+# legenda Inferno:
+p2 <- ggplot() + geom_raster(pc2sd3, mapping=aes(x=x, y=y, fill=layer)) + scale_fill_viridis(option="inferno") + ggtitle("Standard deviation of PC1-2020 by inferno color scale")
+p2
+# Legenda:
+#       giallo: sd alta -> dove c'è il passaggio tra aree agricole e l'acqua del fiume
+#       violetto: sd media -> in prossimità del fiume dove ci sono le aree agricole e al passaggio tra foresta tropicale e coltivazioni di palma
+#       nero: sd bassa -> copertura omogenea di foresta tropicale 
+
+grid.arrange(p1, p2, nrow=1) 
+# con le due immagini a confronto si nota la differenza dell'uso del suolo nei due tempi:
+#       nel 2020: aumento delle coltivazioni di palma e dei campi agricoli in prossimità del fiume
 
