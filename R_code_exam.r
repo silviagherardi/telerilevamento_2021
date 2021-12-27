@@ -11,7 +11,7 @@ library(raster) # per gestire i dati in formato raster e le funzioni associate
 # install.packages("RStoolbox) 
 library(RStoolbox) # 
 
-# Settare la working directory
+# Settare la working directory - percorso Windows
 setwd("C:/esame_telerilevamento_2021/")
 
 # img 1990: Landsat 5
@@ -25,14 +25,15 @@ setwd("C:/esame_telerilevamento_2021/")
 
 # ------------------------------------------------------------------------------------------------------------------------
 
-# 1. INTRODUZIONE - Caricare le immagini - Visualizzare le immagini e le relative informazioni associate
+# 1. INTRODUZIONE - Caricare le immagini - Visualizzare le immagini e le relative Informazioni associate
 
 # Funzione brick: serve per importare dentro a R l'intera immagine satellitare costituita da tutte le sue singole bande (intero set di bande)
-# la funzione crea un oggetto che si chiama rasterbrick: serie di bande in formato raster in un'unica immagine satellitare
+# ogni immagine è composta da 3 bande
+# la funzione crea un oggetto che si chiama Rasterbrick: serie di bande in formato raster in un'unica immagine satellitare
 papua1990 <- brick("1_11-20-1990_Papua_Main(chs. 5,4,3).png")
 papua2020 <- brick("8-18-2020_Papua_Main(chs_6,5,4).png")
 
-# Controllo le informazioni dei due file: 
+# Controllo le informazioni dei due Rasterbrick: 
 papua1990
 # class      : RasterBrick 
 # dimensions : 869, 1000, 869000, 4  (nrow, ncol, ncell, nlayers)
@@ -60,10 +61,11 @@ papua2020
 # Le due immagini sono a 8 bit: 2^8 = 256 -> da 0 a 255 valori 
 
 
-# Con la funzione plot visualizzo le 3 bande di ciascuna immagine e i relativi valori di riflettanza nella legenda da 0 a 250 
+# Funzione plot: visualizzo le 3 bande di ciascuna immagine e i relativi valori di riflettanza nella legenda: 
 plot(papua1990)
 plot(papua2020)
-# valori interi di riflettanza approssimati in una scala da 0 a 255 in bit 
+# la legenda riporta i valori interi di riflettanza approssimati in una scala in bit da 0 a 255
+
 
 # SCHEMA RGB: attraverso lo schema RGB visualizzo le due immagini a colori falsi: 
 # Posso utilizzare solo 3 bande alla volta per visualizzare le immagini intere 
@@ -78,6 +80,10 @@ plotRGB(papua2020, r=2, g=1, b=3, stretch="Lin")
 # Rosso: foresta pluviale tropicale perchè riflette molto il Nir (r=2 -> alto valore di riflettanza) 
 # Blu: acqua perchè riflette molto il rosso (b=3 -> alto valore di riflettanza) 
 # Nell'immagine sotto (2020) si notano bene i blocchi grigliati che rappresentano le piantagioni di olio di palma che sostituiscono la foresta pluviale tropicale
+
+# ------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# 2. INDICI DI VEGETAZIONE
 
 
 
