@@ -329,14 +329,80 @@ grid.arrange(p1, p2, nrow=1)
 # nella prima data (1990) abbiamo la foresta che è molto elevata come valore, mentre l’agricoltura ha un valore basso e le coltivazioni di palma hanno valore 0 perchè non ci sono
 # la situazione risulta diversa nel secondo grafico (2020) dove il valore della foresta si abbassa leggermente, mentre si alza il valore % delle coltivazioni di palma e dell'agricoltura 
 
+# -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# 4. VARIABILITA' SPAZIALE - INDICE DI VEGETAZIONE - ANALISI DELLE COMPONENTI PRINCIPALI
+
+# La variabilità spaziale è un indice di biodiversità, vado a controllare quanto è eterogenea questa area
+# > eterogeneità -> > biodiversità attesa 
+# MOVING WINDOW: analizzo la variabilità spaziale tramite una tecnica chiamata moving window, ovvero sull'img originale si fa scorrere una moving window di nxn pixel 
+#                e calcola un'operazione (da noi richiesta) per poi riportare il risultato sul pixel centrale 
+#                poi la finestra mobile si muove nuovamente di un pixel verso destra e riesegue l'operazione per riportare il risultato sul nuovo pixel centrale
+#                in questo modo si crea una nuova mappa finale i cui pixel periferici NON contengono valori, i pixel centrali hanno il risultato da noi calcolato 
+
+
+# DEVIAZIONE STANDARD: calcolo la ds perchè è correlata con la variabilità siccome racchiude il 68% di tutte le osservazioni
+# per calcolarla ci serve solo una banda , dunque bisogna compattare tutte le informazioni relative alle diverse bande in un unico strato
+
+# PRIMO METODO: NDVI (calcolato in precedenza) 
+# per l'immagine papua1990 -> ndvi1 
+# funzione focal: funzione generica che calcola la statistica che vogliamo
+# primo argomento: nome dell’immagine
+# secondo argomento: w (window) uguale ad una matrice che è la nostra finestra spaziale e normalmente è quadrata (1/n.pixeltot, n.righe, n.colonne)
+# terzo argomento: stiamo calcolando la deviazione standard che viene definita sd
+# associamo il risultato della funzione all'oggetto ndvisd3 (deviazione standard di ndvi con una finestra mobile di 3x3 pixel) 
+ndvisd3 <- focal(ndvi1, w=matrix(1/9, nrow=3, ncol=3), fun=sd)
+clsd <- colorRampPalette(c('blue','green','pink','magenta','orange','brown','red','yellow'))(100) 
+plot(ndvisd3, col=clsd) 
+# Lengeda:
+#       rosso: sd alta -> dove si passa da campi coltivati all'acqua del fiume
+#       violetto: sd media -> dove ci sono i campi coltivati
+#       verde-blu: sd bassa -> parti omogenee di foresta pluviale 
+
+
+# per l'immagine papua2020 -> ndvi2 
+ndvi2sd3 <- focal(ndvi2, w=matrix(1/9, nrow=3, ncol=3), fun=sd)
+plot(ndvi2sd3, col=clsd) 
+# Legenda:
+#       rosso: sd alta -> dove si passa da campi coltivati all'acqua del fiume
+#       violetto: sd media -> dove si passa da campi coltivati e coltivazioni di palma 
+#       verde: sd bassa -> parti omogenee di coltivazioni di palma
+#       blu: sd bassa -> parti omogenee di foresta pluviale 
+
+par(mfrow=c(1,2))
+plot(ndvisd3, col=clsd, main="SD-NDVI - 1990")
+plot(ndvi2sd3, col=clsd, main="SD-NDVI - 2020") 
+# tramite il calcolo della sd si nota che nel 2020 aumenta la copertura di coltivazioni di palme a discapito della foresta pluviale 
+
+
+# Calcolo la media della biomassa per l'immagine del 1990 e del 2020
+# papua1990: 
+ndvimean3 <- focal(ndvi1, w=matrix(1/9, nrow=3, ncol=3), fun=mean)
+clsd <- colorRampPalette(c('blue','green','pink','magenta','orange','brown','red','yellow'))(100) 
+plot(ndvimean3, col=clsd)
+# Legenda: 
+#       gialla: media molto alta ed è la biomassa della foresta tropicale
+#       violetto: media bassa per i campi agricoli
+#       blu: media molto bassa per l'acqua 
+
+# papua2020:
+ndvi2mean3 <- focal(ndvi2, w=matrix(1/9, nrow=3, ncol=3), fun=mean)
+clsd <- colorRampPalette(c('blue','green','pink','magenta','orange','brown','red','yellow'))(100) 
+plot(ndvi2mean3, col=clsd)
+# Legenda:
+#      rossa-gialla: media alta ed è la biomassa della foresta tropicale più le coltivazioni di palma
+#      violetto: media bassa per i campi agricoli
+#      blu: media molto bassa per l'acqua 
+
+par(mfrow=c(1,2))
+plot(ndvimean3, col=clsd, main="MEAN-NDVI - 1990")
+plot(ndvi2mean3, col=clsd, main="MEAN-NDVI - 2020") 
+# tramite il calcolo della media si nota che nel 2020 la biomassa della foresta pluviale tropicale è diminuita a causa delle coltivazioni di palme 
 
 
 
-
-
-
-
-
+# SECONDO METODO: PCA - ANALISI DELLE COMPONENTI PRINCIPALI
+# 
 
 
 
