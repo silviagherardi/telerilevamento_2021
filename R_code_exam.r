@@ -189,10 +189,12 @@ grid.arrange(p1990, p2020, nrow=2)
 set.seed(42)
 
 # Classificazione NON supervisionata per l'immagine del 1990 
-# 2 classi: 
+# 4 classi: 
 #         - foresta pluviale tropicale
-#         - parte agricola + acqua
-p1c <- unsuperClass(papua1990, nClasses=2)
+#         - parte agricola
+#         - acqua
+#         - suolo nudo
+p1c <- unsuperClass(papua1990, nClasses=4)
 
 # controllo le informazioni
 p1c
@@ -206,21 +208,20 @@ p1c
 # crs        : NA 
 # source     : memory
 # names      : layer 
-# values     : 1, 2  (min, max)   -> solo due valori (1, 2) perchè abbiamo fatto 2 classi 
+# values     : 1, 4  (min, max)   
 
 # facciamo il plot totale, sia di d1c che della sua mappa all'interno
 plot(p1c$map)
-# verde: foresta tropicale pluviale (classe 2)
-# bianco: parte agricola più acqua (classe 1) 
+# classe 1: foresta tropicale (bianco)
+# classe 2: suolo nudo (arancione)
+# classe 3: acqua (verde chiaro) 
+# classe 4: campi agricoli (verde scuro) 
 
 
 # Classificazione NON supervisionata per l'immagine del 2020
-# 3 classi:
-#       - foresta pluviale tropicale
-#       - parte agricola più acqua
-#       - coltivazioni di palma (per olio di palma) 
+# 5 classi:
 set.seed(42)
-p2c <- unsuperClass(papua2020, nClasses=3)
+p2c <- unsuperClass(papua2020, nClasses=4)
 
 p2c
 # unsuperClass results
@@ -233,44 +234,52 @@ p2c
 # crs        : NA 
 # source     : memory
 # names      : layer 
-# values     : 1, 3  (min, max)
+# values     : 1, 4  (min, max)
 
 plot(p2c$map)
-# verde: campi agricoli + acqua (classe 3) 
-# bianco: foresta tropicale  (classe 1)
-# giallo: coltivazioni di palme per olio di palma (classe 2) 
+# Classe 1: strade - infrastrutture (bianco)
+# Classe 2: coltivazioni di palma (arancione) 
+# Classe 3: campi agricoli + acqua (verde chiaro) 
+# Classe 4: foresta tropicale (verde scuro) 
 
 
-
+# <<<<<<<<<---------------RIGUARDARE TUTTO DA QUI ------------- <<<<<<<<<
 # Frequencies p1c$map 
 # ci chiediamo quanta % di foresta è stata persa 
-# qual è la frequenza delle due classi (foresta - agricoltura) 
+# qual è la frequenza delle 4 classi  
 # funzione freq: funzione generale che genera tavole di frequenza e va a calcolarla
 freq(p1c$map)
-#       value  count
-# [1,]     1  32306    -> classe 1 (parte agricola + acqua) 32.306 pixel 
-# [2,]     2 836694    -> classe 2 (foresta tropicale) 836.694 pixel 
+#        value  count
+# [1,]     1    610675  -> 610.675 pixel di foresta tropicale
+# [2,]     2    20317   -> 20.317 pixel di suolo nudo 
+# [3,]     3    15548   -> 15.548 pixel di acqua
+# [4,]     4    222460  -> 222.460 pixel di campi coltivati 
 
 # calcoliamo la proporzione dei pixel per l'immagine p1c (consiste nella %)
 # facciamo la somma dei valori di pixel e la chiamiamo s1
-s1 <- 32306 + 836694
+s1 <- 610675 + 20317 + 15548 + 222460
 prop1 <- freq(p1c$map) / s1 
 prop1
-#           value      count
-# [1,] 1.150748e-06 0.03717606  -> 3,7% parte agricola più acqua
-# [2,] 2.301496e-06 0.96282394  -> 96,3% foresta tropicale 
+#         value      count
+# [1,] 1.150748e-06 0.70273303 -> 70% di foresta tropicale
+# [2,] 2.301496e-06 0.02337975 -> 2,3% di suolo nudo 
+# [3,] 3.452244e-06 0.01789183 -> 1,7% di acqua 
+# [4,] 4.602992e-06 0.25599540 -> 25,6% di campi coltivati 
 
 
 
 # Frequencies p2c$map 
 freq(p2c$map)
 #         value  count
-# [1,]     1     732145  -> classe 1  (foresta tropicale) 732.145 pixel
-# [2,]     2     59454   -> classe 2 (coltivazioni di palme per olio di palma) 59.454 pixel 
-# [3,]     3     77401   -> classe 3 (parte agricola + acqua) 77.401 pixel 
+# [1,]     1    596799  -> 596.799 pixel di foresta tropicale 
+# [2,]     2    140055  -> 140.055 pixel di coltivazioni di palma 
+# [3,]     3     32422  -> 32.422 pixel di strade o infrastrutture
+# [4,]     4     49625  -> 
+#                           49.625 + 50.099 pixel di campi coltivati più acqua 
+# [5,]     5     50099  -> 
 
 # facciamo la somma dei valori di pixel e la chiamiamo s2
-s2 <- 732145 + 59454 + 77401
+s2 <- 596799 + 140055 + 32422 + 49625 + 50099
 prop2 <- freq(p2c$map) / s2
 prop2 
 #       value           count
