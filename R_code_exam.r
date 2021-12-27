@@ -189,12 +189,8 @@ grid.arrange(p1990, p2020, nrow=2)
 set.seed(42)
 
 # Classificazione NON supervisionata per l'immagine del 1990 
-# 4 classi: 
-#         - foresta pluviale tropicale
-#         - parte agricola
-#         - acqua
-#         - suolo nudo
-p1c <- unsuperClass(papua1990, nClasses=4)
+# 3 classi: 
+p1c <- unsuperClass(papua1990, nClasses=3)
 
 # controllo le informazioni
 p1c
@@ -208,18 +204,17 @@ p1c
 # crs        : NA 
 # source     : memory
 # names      : layer 
-# values     : 1, 4  (min, max)   
+# values     : 1, 3  (min, max)   
 
 # facciamo il plot totale, sia di d1c che della sua mappa all'interno
 plot(p1c$map)
-# classe 1: foresta tropicale (bianco)
-# classe 2: suolo nudo (arancione)
-# classe 3: acqua (verde chiaro) 
-# classe 4: campi agricoli (verde scuro) 
+# classe 1: foresta pluviale (bianco)
+# classe 2: campi agricoli o suolo nudo (giallo)
+# classe 3: acqua del fiume (verde) 
 
 
 # Classificazione NON supervisionata per l'immagine del 2020
-# 5 classi:
+# 4 classi:
 set.seed(42)
 p2c <- unsuperClass(papua2020, nClasses=4)
 
@@ -234,7 +229,7 @@ p2c
 # crs        : NA 
 # source     : memory
 # names      : layer 
-# values     : 1, 4  (min, max)
+# values     : 1, 4 (min, max)
 
 plot(p2c$map)
 # Classe 1: strade - infrastrutture (bianco)
@@ -243,49 +238,47 @@ plot(p2c$map)
 # Classe 4: foresta tropicale (verde scuro) 
 
 
-# <<<<<<<<<---------------RIGUARDARE TUTTO DA QUI ------------- <<<<<<<<<
 # Frequencies p1c$map 
 # ci chiediamo quanta % di foresta è stata persa 
 # qual è la frequenza delle 4 classi  
 # funzione freq: funzione generale che genera tavole di frequenza e va a calcolarla
 freq(p1c$map)
-#        value  count
-# [1,]     1    610675  -> 610.675 pixel di foresta tropicale
-# [2,]     2    20317   -> 20.317 pixel di suolo nudo 
-# [3,]     3    15548   -> 15.548 pixel di acqua
-# [4,]     4    222460  -> 222.460 pixel di campi coltivati 
+#         value  count
+# [1,]     1      829104   -> pixel di foresta pluviale 
+# [2,]     2      24077    -> pixel di campi agricoli o suolo nudo 
+# [3,]     3      15819    -> pixel di acqua del fiume 
+
 
 # calcoliamo la proporzione dei pixel per l'immagine p1c (consiste nella %)
 # facciamo la somma dei valori di pixel e la chiamiamo s1
-s1 <- 610675 + 20317 + 15548 + 222460
+s1 <- 829104 + 24077 + 15819
 prop1 <- freq(p1c$map) / s1 
 prop1
-#         value      count
-# [1,] 1.150748e-06 0.70273303 -> 70% di foresta tropicale
-# [2,] 2.301496e-06 0.02337975 -> 2,3% di suolo nudo 
-# [3,] 3.452244e-06 0.01789183 -> 1,7% di acqua 
-# [4,] 4.602992e-06 0.25599540 -> 25,6% di campi coltivati 
+#     value             count
+# [1,] 1.150748e-06 0.95408976  -> 95.4% di foresta pluviale 
+# [2,] 2.301496e-06 0.02770656  -> 27.8% di campi agricoli o suolo nudo 
+# [3,] 3.452244e-06 0.01820368  -> 1,9% di acqua 
 
 
 
 # Frequencies p2c$map 
 freq(p2c$map)
-#         value  count
-# [1,]     1    596799  -> 596.799 pixel di foresta tropicale 
-# [2,]     2    140055  -> 140.055 pixel di coltivazioni di palma 
-# [3,]     3     32422  -> 32.422 pixel di strade o infrastrutture
-# [4,]     4     49625  -> 
-#                           49.625 + 50.099 pixel di campi coltivati più acqua 
-# [5,]     5     50099  -> 
+#       value  count
+# [1,]     1    33099   -> 33.099 pixel di strade e infrastrutture
+# [2,]     2    144149  -> 144.149 pixel di coltivazioni di palma
+# [3,]     3    73221   -> 73.221 pixel di campi agricoli + acqua
+# [4,]     4    618531  -> 618.531 pixel di foresta tropicale pluviale 
+ 
 
 # facciamo la somma dei valori di pixel e la chiamiamo s2
-s2 <- 596799 + 140055 + 32422 + 49625 + 50099
+s2 <- 33099 + 144149 + 73221 + 618531
 prop2 <- freq(p2c$map) / s2
 prop2 
-#       value           count
-# [1,] 1.150748e-06   0.84251438  -> 84,3% forestra tropicale 
-# [2,] 2.301496e-06   0.06841657  -> 6,8% coltivazione di palme per olio di palma 
-# [3,] 3.452244e-06   0.08906904  -> 9% di agricoltura più acqua 
+#         value       count
+# [1,] 1.150748e-06   0.03808861  -> 3,8% di strade e infrastrutture
+# [2,] 2.301496e-06   0.16587917  -> 16,5% di coltivazioni di palma 
+# [3,] 3.452244e-06   0.08425892  -> 8,4% di campi agricoli + acqua 
+# [4,] 4.602992e-06   0.71177330  -> 71% foresta tropicale 
 
 
 
@@ -296,18 +289,18 @@ prop2
 # terza colonna -> % di classi dell'immagine p2c -> percent_2020
 
 cover <- c("Foresta","Agricoltura", "Palma")
-percent_1990 <- c(96.3, 3.7, 0)
-percent_2020 <- c(84.3, 9, 6.8)
+percent_1990 <- c(95.4, 27.8, 0)
+percent_2020 <- c(71, 8.4, 16.5)
 
 # creiamo il dataframe
 # funzione data.frame: crea una tabella
 # argomenti della funzione: sono le 3 colonne che ho appena creato
 percentage <- data.frame(cover, percent_1990, percent_2020)
 percentage
-#      cover       percent_1990    percent_2020
-# 1    Foresta         96.3         84.3
-# 2    Agricoltura     3.7          9.0
-# 3    Palma           0.0          6.8
+#       cover       percent_1990    percent_2020
+# 1     Foresta         95.4         71.0
+# 2    Agricoltura      27.8          8.4
+# 3     Palma           0.0          16.5
 
 
 # plotto il Dataframe con ggplot
