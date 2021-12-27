@@ -4,9 +4,10 @@
 # Sito utilizzato per scaricare le immagini: https://eros.usgs.gov/image-gallery/earthshot/papua-indonesia
 # Luogo di studio: Papua (provincia dell'Indonesia) 
 
+# LIBRERIE E WORKING DIRECTORY
 # Imposto le librerie necessarie per le indagini
 # install.packages("raster")
-library(raster)
+library(raster) # per gestire i dati in formato raster 
 # install.packages("RStoolbox) 
 library(RStoolbox) 
 
@@ -14,10 +15,20 @@ library(RStoolbox)
 setwd("C:/esame_telerilevamento_2021/")
 
 # Satellite LANDSAT 5 -> immagini 1990 - 2007  
+# BANDE: 
+#   -5: Swir
+#   -4: Nir
+#   -3: Red
 
 # Satellite LANDSAT 8 -> immagini 2015 - 2020
+#   -6: Swir 
+#   -5: Nir
+#   -4: Red
+# ------------------------------------------------------------------------------------------------------------------------
 
-# importo tutte le immagini:
+# INTRODUZIONE - Caricare le immagini - Visualizzare le immagini e le relative informazioni
+
+# Importo tutte le immagini:
 # funzione brick: serve per importare dentro a R l'intera immagine satellitare costituita da tutte le sue singole bande (intero set di bande)
 papua1990 <- brick("1_11-20-1990_Papua_Main(chs. 5,4,3).png")
 papua2007 <- brick("3_1-19-2007_Papua_Main(chs. 5,4,3).png")
@@ -69,7 +80,14 @@ papua2020
 # min values :                                  0,                                  0,                                  0,                                  0 
 # max values :                                255,                                255,                                255,                                255 
 
+# le 4 immagini sono dei RasterBrick e ognuna di queste è composta da 4 bande
+# 869.000 pixel per ciascuna banda
+# immagini a 8 bit -> 2^8 = 256 -> 0-255 valori 
 
+
+# funzione plot: serve per visualizzare i dati, in questo caso visualizziamo tutte le 7 bande dell'intera immagine satellitare
+plot(papua1990)
+plot(papua2020) 
 
 
 
