@@ -60,23 +60,24 @@ papua2020
 # Le due immagini sono a 8 bit: 2^8 = 256 -> da 0 a 255 valori 
 
 
-# Con la funzione plot visualizzo le 3 bande di ciascuna immagine
+# Con la funzione plot visualizzo le 3 bande di ciascuna immagine e i relativi valori di riflettanza nella legenda da 0 a 250 
 plot(papua1990)
 plot(papua2020)
+# valori interi di riflettanza approssimati in una scala da 0 a 255 in bit 
 
-
-# SCHEMA RGB: attraverso lo schema RGB visualizzo l'immagine a colori falsi: 
-# posso utilizzare solo 3 bande per volta per visualizzare l'immagine intera 
-# Monto la banda 2(Nir) sulla componente Red; la banda 1 (Swir) sulla componente Green; la banda 3(Red) sulla componente Blue;
-# -> r=2, g=1, b=3
-# stretch lineare: prende i valori di riflettanza e li fa variare tra 0 e 1 
+# SCHEMA RGB: attraverso lo schema RGB visualizzo le due immagini a colori falsi: 
+# Posso utilizzare solo 3 bande alla volta per visualizzare le immagini intere 
+# Monto la banda 2 (Nir) sulla componente Red; la banda 1 (Swir) sulla componente Green; la banda 3(Red) sulla componente Blue;
+#     -> r=2, g=1, b=3
+# Stretch lineare: prende i valori di riflettanza e li fa variare tra 0 e 1 (estremi) in maniera lineare
 #                  serve per mostrare tutte le gradazioni di colore ed evitare uno schiacciamento verso una sola parte del colore
-# Funzione par: metto le due immagini del 1990-2020 a confronto in un grafico con una riga e due colonne: 
-par(mfrow=c(1,2)) 
+# Funzione par: metto le due immagini del 1990-2020 a confronto in un grafico con due righe e una colonna: 
+par(mfrow=c(2,1)) 
 plotRGB(papua1990, r=2, g=1, b=3, stretch="Lin")
 plotRGB(papua2020, r=2, g=1, b=3, stretch="Lin")
-
-
+# Rosso: foresta pluviale tropicale perchè riflette molto il Nir (r=2 -> alto valore di riflettanza) 
+# Blu: acqua perchè riflette molto il rosso (b=3 -> alto valore di riflettanza) 
+# Nell'immagine sotto (2020) si notano bene i blocchi grigliati che rappresentano le piantagioni di olio di palma che sostituiscono la foresta pluviale tropicale
 
 
 
