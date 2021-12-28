@@ -93,7 +93,7 @@ plotRGB(At2016, r=2, g=1, b=3, stretch="Lin")
 # Verde: suolo nudo (foresta bruciata nel 2016)
 
 
-# # library(ggplot2) 
+# library(ggplot2) 
 # funzione ggRGB: plottiamo le immagini raster con informazioni aggiuntive e con una grafica più accattivante rispetto a plotRGB
 # abbiamo 3 bande per ogni immagine e possiamo creare una immagine singola di queste 3 bande grazie allo schema RGB
 # monto la banda NIR(2) sulla componenete Red; la banda Swir(1) sulla componenete Green, la banda Red(3) sulla componenete Blue dello schema RGB
