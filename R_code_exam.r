@@ -36,6 +36,7 @@ setwd("C:/esame_telerilevamento_2021/")
 
 # ------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
 # 1. INTRODUZIONE - Caricare le immagini - Visualizzare le immagini e le relative Informazioni associate
 
 # Funzione brick: serve per importare dentro a R l'intera immagine satellitare costituita da tutte le sue singole bande (intero set di bande)
