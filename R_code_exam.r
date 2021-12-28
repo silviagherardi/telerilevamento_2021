@@ -10,6 +10,8 @@
 library(raster)                # per gestire i dati in formato raster e le funzioni associate 
 # install.packages("RStoolbox") 
 library(RStoolbox)             # per la classificazione non supervisionata  - per l'analisi delle componenti principali 
+# install.packages("rasterVis")
+library(rasterVis)             # per la time series analysis 
 # install.packages("ggplot2")
 library(ggplot2)               # per la funzione ggRGB e per la funzione ggplot 
 # install.packages(gridExtra)
@@ -99,7 +101,37 @@ grid.arrange(A1989, A2016, nrow=2)
 
 # ------------------------------------------------------------------------------------------------------------------------------------------------------
 
-# 2. INDICI DI VEGETAZIONE - DVI - NDVI 
+
+# 2. TIME SERIES ANALYSIS 
+# La Time Series Analysis è utile per confrontare due o più immagini nel corso degli anni e capire dove sono avvenuti i cambiamenti principali 
+
+# funzione list.files: creo una lista di file riconosciuta grazie al pattern "McMurrayMain" che si ripete nel nome
+lista <- list.files(pattern="McMurrayMain")
+# funzione lappy: applica la funzione (in questo caso raster) a tutta la lista di file appena creata
+# funzione raster: importa i file
+importa <- lapply(lista, raster)
+# funzione stack: raggruppa i file appena importati in un unico blocco di file 
+athabasca <- stack(importa) 
+
+# funzione colorRampPalette: metto una gradazione di colori che possa marcare le differenze nei due periodi
+cs <- colorRampPalette(c("dark blue","light blue","pink","red"))(100)
+
+# library(rasterVis) 
+# funzione levelplot: crea un grafico dove mette a confronto le due immagini in tempi diversi utilizzando un'unica legenda 
+levelplot(athabasca, col.regions=cs, main="Sviluppo delle riserve di petrolio nella provincia di Alberta", names.attr=c("2016" , "1989"))
+# Si nota in rosa e rosso l'aumento delle riserve di petrolio e la diminuzione della foresta boreale 
+
+
+# Matrix Algebra: guardo la differenza tra il 1989 e il 2016 
+# Sottraggo img 2016 - img 1989
+athabasca_amount <- athabasca$X12_7.15.2016_McMurrayMain_labeled - athabasca$X4_8.6.1989_McMurrayMain
+levelplot(athabasca_amount, col.regions=cs, main="variation 1989-2016")
+# in questo modo vengono individuate le nuove riserve di petrolio che cono state costruite dal 1989 al 2016 
+
+# ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+# 3. INDICI DI VEGETAZIONE - DVI - NDVI 
 
 # DVI
 # Calcolo il DVI per l'immagine del 1989:
@@ -179,17 +211,10 @@ plot(diffdvi, col=cld, main="Differenza DVI / 1989 - 2016")
 plot(diffndvi, col=cld, main="Differenza NDVI / 1989 - 2016")
 # con entrambi gli indici viene confermato l'aumento delle riserve di petrolio e la conseguente diminuzione di foresta boreale per deforestazione 
 
-
-
-# library(RStoolbox)
-# Funzione spectralIndices: funzione che calcola gli indici in maniera rapida 
-si1 <- spectralIndices(At1989, nir=2, red=3)
-si2 <- spctralIndices(At2016, nir=2, red=3) 
-
-
 # ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-# 3. GENERAZIONE DI MAPPE DI LAND COVER E CAMBIAMENTO DEL PAESAGGIO 
+
+# 4. GENERAZIONE DI MAPPE DI LAND COVER E CAMBIAMENTO DEL PAESAGGIO 
 
 
 # Unsupervised classification  -> processo che accorpa pixel con valori simili, una volta che questi pixel sono stati accorpati rappresentano una classe
@@ -355,7 +380,8 @@ grid.arrange(p1, p2, nrow=1)
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-# 4. VARIABILITA' SPAZIALE - INDICE DI VEGETAZIONE - ANALISI DELLE COMPONENTI PRINCIPALI
+
+# 5. VARIABILITA' SPAZIALE - INDICE DI VEGETAZIONE - ANALISI DELLE COMPONENTI PRINCIPALI
 
 # La variabilità spaziale è un indice di biodiversità, vado a controllare quanto è eterogenea questa area
 # > eterogeneità -> > biodiversità attesa 
@@ -400,7 +426,7 @@ plot(ndvi2sd3, col=clsd, main="SD-NDVI in 2016")
 
 
 
-# Calcolo la media della biomassa per l'immagine del 1989 e del 2016
+# Calcolo la media della BIOMASSA per l'immagine del 1989 e del 2016
 # At1989: 
 ndvimean3 <- focal(ndvi1, w=matrix(1/9, nrow=3, ncol=3), fun=mean)
 clsd <- colorRampPalette(c('blue','green','pink','magenta','orange','brown','red','yellow'))(100) 
@@ -422,6 +448,7 @@ plot(ndvimean3, col=clsd, main="MEAN-NDVI - 1989")
 plot(ndvi2mean3, col=clsd, main="MEAN-NDVI - 2016") 
 # Tramite il calcolo della biomassa si nota che dal 1989 al 2016 c'è una riduzione della biomassa a causa della realizzazione di nuove riserve di petrolio 
 # e della relizzazione di nuove strade, inoltre si nota a sud una perdita di biodiversità a causa dell'incendio del 2016 
+
 
 
 
@@ -558,4 +585,3 @@ a2
 grid.arrange(a1, a2, nrow=1) 
 # con le due immagini a confronto si nota la differenza nell'uso del suolo nei due periodi:
 #       nel 2016: aumento della superficie delle riserve di petrolio e aumento delle strade rispetto al 1989 con perdita di foresta boreale 
-
