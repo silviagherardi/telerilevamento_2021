@@ -1,8 +1,11 @@
-# R_code_exam.r
+# R_code_exam.r 
 # Athabasca Oil Sand - Alberta - Canada 
-
 # Sito utilizzato per scaricare le immagini: https://eros.usgs.gov/image-gallery/earthshot/athabasca-oil-sands-alberta-canada
-# Luogo di studio: Alberta (Canada) nella città di Fort McMurray
+
+# Una delle più grandi riserve di petrolio si trova nella foresta boreale in Canada, precisamente nell'Alberta nord-ovest
+# Luogo di studio: a nord della città di Fort McMurray, sulle sponde del fiume Athabasca
+# Le tecniche di estrazione del petrolio comprendono la deforestazione di parte della foresta boreale e questo crea delle miniere a cielo aperto
+# In questo progetto si vuole osservare lo sviluppo delle miniere dal 1989 al 2016: anno dell'incendio vicino alla città di Fort McMurray che ha distrutto parte della foresta
 
 # LIBRERIE 
 # Imposto le librerie necessarie per le indagini
@@ -85,7 +88,7 @@ par(mfrow=c(2,1))
 plotRGB(At1989, r=2, g=1, b=3, stretch="Lin")
 plotRGB(At2016, r=2, g=1, b=3, stretch="Lin")
 # Rosso: foresta boreale -> riflette molto il Nir (r=2 -> alto valore di riflettanza)
-# Blu: riserve di petrolio, molto aumentate come superficie nel 2016 
+# Blu: miniere, molto aumentate come superficie nel 2016 
 # Verde: suolo nudo (foresta bruciata nel 2016)
 
 
@@ -119,14 +122,14 @@ cs <- colorRampPalette(c("dark blue","light blue","pink","red"))(100)
 # library(rasterVis) 
 # funzione levelplot: crea un grafico dove mette a confronto le due immagini in tempi diversi utilizzando un'unica legenda 
 levelplot(athabasca, col.regions=cs, main="Sviluppo delle riserve di petrolio nella provincia di Alberta", names.attr=c("2016" , "1989"))
-# Si nota in rosa e rosso l'aumento delle riserve di petrolio e la diminuzione della foresta boreale 
+# Si nota in rosa e rosso l'aumento delle miniere a cielo aperto e la diminuzione della foresta boreale 
 
 
 # Matrix Algebra: guardo la differenza tra il 1989 e il 2016 
 # Sottraggo img 2016 - img 1989
 athabasca_amount <- athabasca$X12_7.15.2016_McMurrayMain_labeled - athabasca$X4_8.6.1989_McMurrayMain
 levelplot(athabasca_amount, col.regions=cs, main="variation 1989-2016")
-# in questo modo vengono individuate le nuove riserve di petrolio che cono state costruite dal 1989 al 2016 
+# in questo modo vengono individuate le nuove riserve di petrolio e le rispettive miniere realizzate dal 1989 al 2016 
 
 # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -185,7 +188,7 @@ ndvi1 <- (nir - red) / (nir + red)
 plot(ndvi1, col=cl)
 # legenda:
 #     rosso: NDVI alto, foresta borale sana e intatta
-#     giallo: NDVI basso, aree di deforestazione per le riserve di petrolio 
+#     giallo: NDVI basso, aree di deforestazione per le miniere
 
 
 # Calcolo il NDVI per l'immagine del 2016:
@@ -193,7 +196,7 @@ ndvi2 <- (nir2 - red2) / (nir2 + red2)
 plot(ndvi2, col=cl) 
 # Legenda:
 #    rosso scuro: NDVI alto, foresta borale sana e intatta
-#    giallo: NDVI basso, aree di deforestazione per le riserve di petrolio, si nota un forte aumento di quest'area 
+#    giallo: NDVI basso, aree di deforestazione per le miniere, si nota un forte aumento di quest'area 
 
 
 # Cambiamento della vegetazione dal 1989 al 2016
@@ -201,7 +204,7 @@ plot(ndvi2, col=cl)
 diffndvi <- ndvi1 - ndvi2
 plot(diffndvi, col=cld)
 # legenda:
-#       rosso: > diff -> aree con la maggior perdita di vegetazione per l'aumento delle riserve di petrolio e a sud per l'incendio del 2016
+#       rosso: > diff -> aree con la maggior perdita di vegetazione per l'aumento delle miniere e a sud per l'incendio del 2016
 #       bianco: < diff -> aree con foresta boreale sana e intatta
 
 
@@ -209,7 +212,7 @@ plot(diffndvi, col=cld)
 par(mfrow=c(1,2))
 plot(diffdvi, col=cld, main="Differenza DVI / 1989 - 2016")
 plot(diffndvi, col=cld, main="Differenza NDVI / 1989 - 2016")
-# con entrambi gli indici viene confermato l'aumento delle riserve di petrolio e la conseguente diminuzione di foresta boreale per deforestazione 
+# con entrambi gli indici viene confermato l'aumento delle miniere e la conseguente diminuzione di foresta boreale per deforestazione 
 
 # ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -231,7 +234,7 @@ set.seed(42)
 rnorm(1)
 
 # Classificazione NON supervisionata per l'immagine del 1989 
-# 3 classi: mi interessa solo: classe foresta - classe riserve di petrolio
+# 3 classi: mi interessa solo: classe foresta - classe miniere
 p1c <- unsuperClass(At1989, nClasses=3)
 
 # controllo le informazioni
@@ -250,7 +253,7 @@ p1c
 
 # facciamo il plot totale, sia di d1c che della sua mappa all'interno
 plot(p1c$map)
-# Classe 1: Riserve di petrolio 
+# Classe 1: Miniere 
 # Classe 2:
 #           Foresta boreale
 # Classe 3: 
@@ -280,7 +283,7 @@ plot(p2c$map)
 # Classe 1
 #          Foresta boreale 
 # Classe 3
-# Classe 2: Riserve di petrolio 
+# Classe 2: Miniere
 
 
 
@@ -290,7 +293,7 @@ plot(p2c$map)
 # funzione freq: funzione generale che genera tavole di frequenza e va a calcolarla
 freq(p1c$map)
 #        value  count
-# [1,]     1   18468   -> 18.468 pixel di riserve di petrolio 
+# [1,]     1   18468   -> 18.468 pixel di miniere 
 # [2,]     2  496207   
 #                      -> 496.207 + 475.325 pixel di foresta boreale 
 # [3,]     3  475325
@@ -301,7 +304,7 @@ s1 <- 18468 + 496207 + 475325
 prop1 <- freq(p1c$map) / s1 
 prop1
 #       value         count
-# [1,] 1.010101e-06  0.01865455   -> 2% riserve di petrolio 
+# [1,] 1.010101e-06  0.01865455   -> 2% miniere 
 # [2,] 2.020202e-06  0.50121919
 #                                 -> 98% foresta boreale 
 # [3,] 3.030303e-06  0.48012626
@@ -311,7 +314,7 @@ prop1
 freq(p2c$map)
 #        value  count
 # [1,]     1   397648  ->  397.648 pixel di foresta boreale 
-# [2,]     2   92936   ->  92.936 pixel di riserve di petrolio 
+# [2,]     2   92936   ->  92.936 pixel di miniere
 # [3,]     3   499416  ->  499.416 pixel di foresta boreale 
 
 
@@ -322,18 +325,18 @@ prop2
 
 #       value        count
 # [1,] 1.010101e-06  0.40166465   -> 40% foresta boreale 
-# [2,] 2.020202e-06  0.09387475   -> 9,3% riserve di petrolio 
+# [2,] 2.020202e-06  0.09387475   -> 9,3% miniere
 # [3,] 3.030303e-06  0.50446061   -> 50% foresta boreale 
 
 
 
 # DataFrame 
 # creo una tabella con 3 colonne
-# prima colonna -> cover: foresta boreale - riserve petrolio 
+# prima colonna -> cover: foresta boreale - miniere 
 # seconda colonna -> % di classi dell'immagine p1c ->  percent_1989
 # terza colonna -> % di classi dell'immagine p2c -> percent_2016
 
-cover <- c("Foresta boreale" , "Riserve di petrolio")
+cover <- c("Foresta boreale" , "Miniere")
 percent_1989 <- c(98, 2)
 percent_2016 <- c(90.5, 9.5)
 
@@ -344,7 +347,7 @@ percentage <- data.frame(cover, percent_1989, percent_2016)
 percentage
 #       cover                 percent_1989    percent_2016
 # 1     Foresta boreale           98             90.5
-# 2     Riserve di petrolio       2              9.5
+# 2     Miniere                   2              9.5
 
 
 
@@ -374,8 +377,8 @@ p2
 # library(gridExtra) for grid.arrange
 # argomenti: p1, p2, numero di righe = 1  
 grid.arrange(p1, p2, nrow=1)
-# prima immagine: vediamo la foresta con un valore alto e le riserve di petrolio con un valore basso
-# seconda immagine: vediamo la foresta con un valore leggermente più alto a discapito delle riserve di petrolio che sono aumentate 
+# prima immagine: vediamo la foresta con un valore alto e le miniere con un valore abbastanza basso
+# seconda immagine: vediamo le miniere che nel frattempo sono state costruite a discapto di un piccolo abbassamento del valore delle foreste disboscate
 
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -407,7 +410,7 @@ clsd <- colorRampPalette(c('blue','green','pink','magenta','orange','brown','red
 plot(ndvisd3, col=clsd)
 # Legenda:
 #       rosso: sd alta -> passaggio da suolo ad acqua del fiume
-#       violetto: sd media -> individua strade, riserve di petrolio 
+#       violetto: sd media -> individua strade, miniere
 #       verde e blu: sd bassa  -> copertura omogenea di foresta boreale 
 
 
@@ -416,13 +419,13 @@ ndvi2sd3 <- focal(ndvi2, w=matrix(1/9, nrow=3, ncol=3), fun=sd)
 plot(ndvi2sd3, col=clsd)  
 # Legenda:
 #      rosso: sd alta -> passaggio da suolo ad acqua del fiume 
-#      violeto: sd media -> individua le strade e le riserve di petrolio 
+#      violeto: sd media -> individua le strade e le miniere 
 #      verde e blu: sd bassa -> copertura omogenea di foresta boreale 
 
 par(mfrow=c(1,2))
 plot(ndvisd3, col=clsd, main="SD-NDVI in 1989")
 plot(ndvi2sd3, col=clsd, main="SD-NDVI in 2016")
-# tramite il calcolo della sd si nota che nel 2016 è aumentato l'impatto antropico rappresentato da strade e riserve di petrolio 
+# tramite il calcolo della sd si nota che nel 2016 è aumentato l'impatto antropico rappresentato da strade e miniere
 
 
 
@@ -433,7 +436,7 @@ clsd <- colorRampPalette(c('blue','green','pink','magenta','orange','brown','red
 plot(ndvimean3, col=clsd)
 # Legenda:
 #        rosso-giallo: media alta per la foresta boreale
-#        verde-blu: media bassa che individua le riserve di petrolio 
+#        verde-blu: media bassa che individua le miniere
 
 # At2016:
 ndvi2mean3 <- focal(ndvi2, w=matrix(1/9, nrow=3, ncol=3), fun=mean)
@@ -441,12 +444,12 @@ clsd <- colorRampPalette(c('blue','green','pink','magenta','orange','brown','red
 plot(ndvi2mean3, col=clsd)
 # Legenda:
 #      rosso-giallo: media alta per la parte di foresta borale rimasta
-#      verde-blu: media bassa che individua le riserve di petrolio e le strade 
+#      verde-blu: media bassa che individua le miniere e le strade 
 
 par(mfrow=c(1,2))
 plot(ndvimean3, col=clsd, main="MEAN-NDVI - 1989")
 plot(ndvi2mean3, col=clsd, main="MEAN-NDVI - 2016") 
-# Tramite il calcolo della biomassa si nota che dal 1989 al 2016 c'è una riduzione della biomassa a causa della realizzazione di nuove riserve di petrolio 
+# Tramite il calcolo della biomassa si nota che dal 1989 al 2016 c'è una riduzione della biomassa a causa della realizzazione di nuove miniere a cielo aperto 
 # e della relizzazione di nuove strade, inoltre si nota a sud una perdita di biodiversità a causa dell'incendio del 2016 
 
 
@@ -516,7 +519,7 @@ a1 <- ggplot() + geom_raster(pc1sd3, mapping=aes(x=x, y=y, fill=layer)) + scale_
 a1
 # Legenda:
 #    giallo: aumento della sd al passaggio tra suolo e fiume 
-#    violetto: bassa sd che individua la città, le riserve di petrolio e le strade
+#    violetto: bassa sd che individua la città, le miniere e le strade
 #    nero: bassa sd che indica una copertura omogenea di foresta boreale
 
 
@@ -578,10 +581,10 @@ pc2sd3 <- focal(pc1, w=matrix(1/9, nrow=3, ncol=3), fun=sd)
 a2 <- ggplot() + geom_raster(pc2sd3, mapping=aes(x=x, y=y, fill=layer)) + scale_fill_viridis(option="inferno") + ggtitle("Standard deviation of PC1 in 2016 by inferno color scale")
 a2
 # Legenda
-#     violetto: sd media -> individua strade, riserve di petrolio e la parte urbana a sud
+#     violetto: sd media -> individua strade, miniere e la parte urbana a sud
 #     nero: sd molto bassa -> copertura omogenea di foresta boreale
 
 
 grid.arrange(a1, a2, nrow=1) 
 # con le due immagini a confronto si nota la differenza nell'uso del suolo nei due periodi:
-#       nel 2016: aumento della superficie delle riserve di petrolio e aumento delle strade rispetto al 1989 con perdita di foresta boreale 
+#       nel 2016: c'è l'aumento della superficie delle miniere e l'aumento delle strade rispetto al 1989 con perdita di copertura forestale 
