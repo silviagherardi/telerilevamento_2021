@@ -83,17 +83,18 @@ plot(At2016)
 
 # SCHEMA RGB: attraverso lo schema RGB visualizzo le due immagini a colori falsi: 
 # Posso utilizzare solo 3 bande alla volta per visualizzare le immagini intere 
-# Monto la banda 2 (Nir) sulla componente Red; la banda 1 (Swir) sulla componente Green; la banda 3(Red) sulla componente Blue;
+# Monto la banda 1 (Swir) sulla componente Red; la banda 2 (Nir) sulla componente Green; la banda 3(Red) sulla componente Blue;
 #     -> r=2, g=1, b=3
 # Stretch lineare: prende i valori di riflettanza e li fa variare tra 0 e 1 (estremi) in maniera lineare
 #                  serve per mostrare tutte le gradazioni di colore ed evitare uno schiacciamento verso una sola parte del colore
 # Funzione par: metto le due immagini del 1990-2020 a confronto in un grafico con due righe e una colonna: 
 par(mfrow=c(2,1)) 
-plotRGB(At1989, r=2, g=1, b=3, stretch="Lin")
-plotRGB(At2016, r=2, g=1, b=3, stretch="Lin")
-# Rosso: foresta boreale -> riflette molto il Nir (r=2 -> alto valore di riflettanza)
-# Blu: miniere, molto aumentate come superficie nel 2016 
-# Verde: suolo nudo (foresta bruciata nel 2016)
+plotRGB(At1989, r=1, g=2, b=3, stretch="Lin")
+plotRGB(At2016, r=1, g=2, b=3, stretch="Lin")
+# Verde: foresta boreale -> riflette molto il Nir (r=2 -> alto valore di riflettanza)
+# Viola: miniere, molto aumentate come superficie nel 2016 
+# Blu: fiume, stagni sterili
+# Rossiccio: suolo nudo (foresta bruciata nel 2016)
 
 
 # library(ggplot2) 
