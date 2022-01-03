@@ -120,7 +120,9 @@ importa <- lapply(lista, raster)
 # funzione stack: raggruppa i file appena importati in un unico blocco di file 
 athabasca <- stack(importa) 
 
-# funzione colorRampPalette: metto una gradazione di colori che possa marcare le differenze nei due periodi
+# funzione colorRampPalette: cambio la scala di colori di default proposta dal software con una gradazione di colori che possa marcare le differenze nei due periodi
+# ogni colore è un etichetta scritta tra "" e sono diversi caratteri di uno stesso argomento dunque vanno messi in un vettore c 
+# (100): argomento che indica i livelli per ciascun colore
 cs <- colorRampPalette(c("dark blue","light blue","pink","red"))(100)
 
 # library(rasterVis) 
