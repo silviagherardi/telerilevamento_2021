@@ -9,12 +9,15 @@
 
 # LIBRERIE 
 # Imposto le librerie necessarie per le indagini
+# funzione install.packages: funzione che installa un pacchetto situato all'esterno del software R 
+# funzione library: serve per UTILIZZARE un pacchetto
+
 # install.packages("raster")
 library(raster)                # per gestire i dati in formato raster e le funzioni associate 
 # install.packages("RStoolbox") 
-library(RStoolbox)             # per la classificazione non supervisionata  - per l'analisi delle componenti principali 
+library(RStoolbox)             # per la classificazione non supervisionata (funzione unsuperClass) - per l'analisi delle componenti principali (funzione rasterPCA) 
 # install.packages("rasterVis")
-library(rasterVis)             # per la time series analysis 
+library(rasterVis)             # per la time series analysis (funzione levelplot) 
 # install.packages("ggplot2")
 library(ggplot2)               # per la funzione ggRGB e per la funzione ggplot 
 # install.packages(gridExtra)
