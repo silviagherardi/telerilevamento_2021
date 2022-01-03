@@ -10,7 +10,7 @@
 # LIBRERIE 
 # Imposto le librerie necessarie per le indagini
 # funzione install.packages: funzione che installa un pacchetto situato all'esterno del software R 
-# funzione library: serve per UTILIZZARE un pacchetto
+# funzione library: serve per utilizzare un pacchetto
 
 # install.packages("raster")
 library(raster)                # per gestire i dati in formato raster e le funzioni associate 
