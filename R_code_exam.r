@@ -36,7 +36,6 @@ setwd("C:/esame_telerilevamento_2021/")
 # Bande: 
 #       1: Swir - 2: Nir - 3: Red 
 
-
 # ------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -120,7 +119,6 @@ cs <- colorRampPalette(c("dark blue","light blue","pink","red"))(100)
 # funzione levelplot: crea un grafico dove mette a confronto le due immagini in tempi diversi utilizzando un'unica legenda 
 levelplot(athabasca, col.regions=cs, main="Sviluppo delle miniere a cielo aperto nella provincia di Alberta", names.attr=c("2016" , "1989"))
 # Si nota in rosa e rosso l'aumento delle miniere a cielo aperto e la diminuzione della foresta boreale 
-
 
 # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -326,7 +324,6 @@ p2
 grid.arrange(p1, p2, nrow=1)
 # prima immagine: vediamo la foresta con un valore alto e le miniere con un valore abbastanza basso
 # seconda immagine: vediamo le miniere che nel frattempo sono state costruite a discapto di un piccolo abbassamento del valore delle foreste disboscate
-
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------------------------
 
