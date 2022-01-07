@@ -124,7 +124,7 @@ levelplot(athabasca, col.regions=cs, main="Sviluppo delle miniere a cielo aperto
 
 # Matrix Algebra: guardo la differenza tra il 1989 e il 2016 
 # Sottraggo img 2016 - img 1989
-athabasca_amount <- athabasca$X12_7.15.2016_McMurrayMain_labeled - athabasca$X4_8.6.1989_McMurrayMain
+athabasca_amount <- athabasca$X12_7.15.2016_McMurrayMain - athabasca$X4_8.6.1989_McMurrayMain
 levelplot(athabasca_amount, col.regions=cs, main="variation 1989-2016")
 # in questo modo vengono individuate le nuove riserve di petrolio e le rispettive miniere realizzate dal 1989 al 2016 
 
