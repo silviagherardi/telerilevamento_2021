@@ -46,7 +46,7 @@ setwd("C:/esame_telerilevamento_2021/")
 # ogni immagine è composta da 3 bande
 # la funzione crea un oggetto che si chiama Rasterbrick: serie di bande in formato raster in un'unica immagine satellitare
 At1989 <- brick("4_8-6-1989_McMurrayMain.png")
-At2016 <- brick("12_7-15-2016_McMurrayMain_labeled.png")
+At2016 <- brick("12_7-15-2016_McMurrayMain.png")
 
 # Controllo le informazioni dei due Rasterbrick: 
 At1989
