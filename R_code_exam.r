@@ -105,7 +105,7 @@ plotRGB(At2016, r=1, g=2, b=3, stretch="Lin")
 
 # funzione list.files: creo una lista di file riconosciuta grazie al pattern "McMurrayMain" che si ripete nel nome
 lista <- list.files(pattern="McMurrayMain")
-# funzione lappy: applica la funzione (in questo caso raster) a tutta la lista di file appena creata
+# funzione lapply: applica la funzione (in questo caso raster) a tutta la lista di file appena creata
 # funzione raster: importa i file
 importa <- lapply(lista, raster)
 # funzione stack: raggruppa i file appena importati in un unico blocco di file 
