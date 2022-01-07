@@ -118,7 +118,7 @@ cs <- colorRampPalette(c("dark blue","light blue","pink","red"))(100)
 
 # library(rasterVis) 
 # funzione levelplot: crea un grafico dove mette a confronto le due immagini in tempi diversi utilizzando un'unica legenda 
-levelplot(athabasca, col.regions=cs, main="Sviluppo delle riserve di petrolio nella provincia di Alberta", names.attr=c("2016" , "1989"))
+levelplot(athabasca, col.regions=cs, main="Sviluppo delle miniere a cielo aperto nella provincia di Alberta", names.attr=c("2016" , "1989"))
 # Si nota in rosa e rosso l'aumento delle miniere a cielo aperto e la diminuzione della foresta boreale 
 
 
