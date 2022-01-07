@@ -128,8 +128,15 @@ levelplot(athabasca, col.regions=cs, main="Sviluppo delle miniere a cielo aperto
 # NDVI = NIR - red / NIR + red 
 # - 1 < NDVI < 1 
 
+# associo dei nomi immediati alle bande:
+nir1 <- At1989$X4_8.6.1989_McMurrayMain.2
+red1 <- At1989$X4_8.6.1989_McMurrayMain.3
+nir2 <- At2016$X12_7.15.2016_McMurrayMain.2
+red2 <- At2016$X12_7.15.2016_McMurrayMain.3
+
+
 # Calcolo il NDVI per l'immagine del 1989:
-ndvi1 <- (nir - red) / (nir + red)
+ndvi1 <- (nir1 - red1) / (nir1 + red1)
 plot(ndvi1, col=cl)
 # legenda:
 #     rosso: NDVI alto, foresta borale sana e intatta
