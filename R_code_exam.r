@@ -125,49 +125,7 @@ levelplot(athabasca, col.regions=cs, main="Sviluppo delle miniere a cielo aperto
 # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-# 3. INDICI DI VEGETAZIONE - DVI - NDVI 
-
-# DVI
-# Calcolo il DVI per l'immagine del 1989:
-# DVI = riflettanza NIR (1989) - riflettanza RED (1989) 
-# -255 < DVI < +255
-# associo dei nomi immediati alle bande:
-nir <- At1989$X4_8.6.1989_McMurrayMain.2
-red <- At1989$X4_8.6.1989_McMurrayMain.3
-dvi1 <- nir - red 
-
-# per ogni pixel si prende il valore di riflettanza della banda del NIR e questo viene sottratto al valore di riflettanza della banda del red
-# dvi1 è la mappa del DVI: in uscita abbiamo una mappa formata da tanti pixel che sono la differenza tra infrarosso e rosso
-
-# creo una ColorRamppalette che metta in risalto le zone con alto e basso valore di dvi:
-cl <- colorRampPalette(c('darkblue','yellow','red','black'))(100)
-plot(dvi1, col=cl, main="DVI 1989") 
-# rosso: DVI alto, per cui una vegetazione sana rappresentata dalla foresta boreale
-# giallo: DVI basso, individua le riserve di petrolio per cui aree in cui la foretsa è stata disboscata 
-
-# Calcolo il DVI per l'immagine del 2016:
-# DVI = riflettanza NIR (2016) - riflettanza RED (2016) 
-# -255 < DVI < +255
-# associo dei nomi immediati alle bande:
-nir2 <- At2016$X12_7.15.2016_McMurrayMain_labeled.2
-red2 <- At2016$X12_7.15.2016_McMurrayMain_labeled.3
-dvi2 <- nir2 - red2 
-
-cl <- colorRampPalette(c('darkblue','yellow','red','black'))(100)
-plot(dvi2, col=cl, main="DVI 2016") 
-# rosso: DVI alto, per cui una vegetazione sana rappresentata dalla foresta boreale
-# giallo: DVI basso, individua un forte aumento delle riserve di petrolio (aree in cui la foresta è stata disboscata) e a sud aree di suolo nudo a causa di un incendio nel 2016
-
-
-# Com'è cambiata la vegetazione in questo settore dal 1989 al 2016?
-# Si può capire facendo la differenza tra i due DVI nei diversi tempi 
-diffdvi <- dvi1 - dvi2 
-cld <- colorRampPalette(c('blue','white','red'))(100) 
-plot(diffdvi, col=cld)
-# legenda:
-#       rosso: > diff: aree con la maggior perdita di vegetazione e maggiore sofferenza 
-#       bianco: < diff: aree con la minor perdita di vegetazione e minore sofferenza
-
+# 3. INDICI DI VEGETAZIONE - NDVI 
 
 
 # NDVI
