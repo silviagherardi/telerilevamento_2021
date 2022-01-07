@@ -127,8 +127,6 @@ levelplot(athabasca, col.regions=cs, main="Sviluppo delle miniere a cielo aperto
 
 # 3. INDICI DI VEGETAZIONE - NDVI 
 
-
-# NDVI
 # NDVI = NIR - red / NIR + red 
 # - 1 < NDVI < 1 
 
