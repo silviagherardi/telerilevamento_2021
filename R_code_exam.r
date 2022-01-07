@@ -151,7 +151,7 @@ plot(ndvi2, col=clr, main="NDVI 2016")
 #    rosso scuro: NDVI alto, foresta borale sana e intatta
 #    giallo: NDVI basso, aree di deforestazione per le miniere, si nota un forte aumento di quest'area 
 
-# metto le due immagini risultanti a confronto in un grafico con 1 riga e due colonne
+# metto le due immagini risultanti a confronto in un grafico con una riga e due colonne
 par(mfrow=c(1,2))
 plot(ndvi1, col=clr, main="NDVI 1989")
 plot(ndvi2, col=clr, main="NDVI 2016")
