@@ -85,7 +85,7 @@ plot(At2016)
 # Posso utilizzare solo 3 bande alla volta per visualizzare le immagini intere 
 # Funzione plotRGB: funzione che permette di visualizzare un oggetto raster multi-layered attraverso lo schema RGB 
 # Monto la banda 1 (Swir) sulla componente Red; la banda 2 (Nir) sulla componente Green; la banda 3(Red) sulla componente Blue;
-#     -> r=2, g=1, b=3
+#     -> r=1, g=2, b=3
 # Stretch lineare: prende i valori di riflettanza e li fa variare tra 0 e 1 (estremi) in maniera lineare
 #                  serve per mostrare tutte le gradazioni di colore ed evitare uno schiacciamento verso una sola parte del colore
 # Funzione par: metto le due immagini del 1990-2020 a confronto in un grafico con due righe e una colonna: 
