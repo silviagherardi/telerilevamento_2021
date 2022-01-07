@@ -88,7 +88,7 @@ plot(At2016)
 #     -> r=1, g=2, b=3
 # Stretch lineare: prende i valori di riflettanza e li fa variare tra 0 e 1 (estremi) in maniera lineare
 #                  serve per mostrare tutte le gradazioni di colore ed evitare uno schiacciamento verso una sola parte del colore
-# Funzione par: metto le due immagini del 1990-2020 a confronto in un grafico con due righe e una colonna: 
+# Funzione par: metto le due immagini del 1989-2016 a confronto in un grafico con due righe e una colonna: 
 par(mfrow=c(2,1)) 
 plotRGB(At1989, r=1, g=2, b=3, stretch="Lin")
 plotRGB(At2016, r=1, g=2, b=3, stretch="Lin")
