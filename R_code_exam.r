@@ -134,10 +134,11 @@ red1 <- At1989$X4_8.6.1989_McMurrayMain.3
 nir2 <- At2016$X12_7.15.2016_McMurrayMain.2
 red2 <- At2016$X12_7.15.2016_McMurrayMain.3
 
+clr <- colorRampPalette(c('dark blue', 'yellow', 'red', 'black'))(100)
 
 # Calcolo il NDVI per l'immagine del 1989:
 ndvi1 <- (nir1 - red1) / (nir1 + red1)
-plot(ndvi1, col=cl)
+plot(ndvi1, col=clr, main="NDVI 1989")
 # legenda:
 #     rosso: NDVI alto, foresta borale sana e intatta
 #     giallo: NDVI basso, aree di deforestazione per le miniere
@@ -145,26 +146,25 @@ plot(ndvi1, col=cl)
 
 # Calcolo il NDVI per l'immagine del 2016:
 ndvi2 <- (nir2 - red2) / (nir2 + red2)
-plot(ndvi2, col=cl) 
+plot(ndvi2, col=clr, main="NDVI 2016") 
 # Legenda:
 #    rosso scuro: NDVI alto, foresta borale sana e intatta
 #    giallo: NDVI basso, aree di deforestazione per le miniere, si nota un forte aumento di quest'area 
 
+par(mfrow=c(1,2))
+plot(ndvi1, col=clr, main="NDVI 1989")
+plot(ndvi2, col=clr, main="NDVI 2016")
+
 
 # Cambiamento della vegetazione dal 1989 al 2016
 # Differenza tra i due NDVI nei due tempi:
+cld <- colorRampPalette(c('dark blue', 'white', 'red'))(100)
 diffndvi <- ndvi1 - ndvi2
-plot(diffndvi, col=cld)
+levelplot(diffndvi, col.regions=cld, main="NDVI 1989 - NDVI 2016")
 # legenda:
 #       rosso: > diff -> aree con la maggior perdita di vegetazione per l'aumento delle miniere e a sud per l'incendio del 2016
 #       bianco: < diff -> aree con foresta boreale sana e intatta
 
-
-# Metto a confronto le due differenze degli indici in un grafico con 1 riga e due colonne: 
-par(mfrow=c(1,2))
-plot(diffdvi, col=cld, main="Differenza DVI / 1989 - 2016")
-plot(diffndvi, col=cld, main="Differenza NDVI / 1989 - 2016")
-# con entrambi gli indici viene confermato l'aumento delle miniere e la conseguente diminuzione di foresta boreale per deforestazione 
 
 # ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
