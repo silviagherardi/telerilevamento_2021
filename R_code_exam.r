@@ -15,8 +15,7 @@
 # install.packages("raster")
 library(raster)                # per gestire i dati in formato raster e le funzioni associate 
 # install.packages("RStoolbox") 
-library(RStoolbox)             # per la classificazione non supervisionata (funzione unsuperClass) - per l'analisi delle componenti principali (funzione rasterPCA) 
-#                                per la funzione ggRGB
+library(RStoolbox)             # per la classificazione non supervisionata (funzione unsuperClass) - per l'analisi delle componenti principali (funzione rasterPCA)                            
 # install.packages("rasterVis")
 library(rasterVis)             # per la time series analysis (funzione levelplot) 
 # install.packages("ggplot2")
@@ -97,18 +96,6 @@ plotRGB(At2016, r=1, g=2, b=3, stretch="Lin")
 # Viola: miniere, molto aumentate come superficie nel 2016 
 # Blu: fiume, stagni sterili
 # Rossiccio: suolo nudo (foresta bruciata nel 2016)
-
-
-# library(ggplot2) 
-# library(RStoolbox) 
-# funzione ggRGB: plottiamo le immagini raster con informazioni aggiuntive e con una grafica più accattivante rispetto a plotRGB
-# abbiamo 3 bande per ogni immagine e possiamo creare una immagine singola di queste 3 bande grazie allo schema RGB
-# monto la banda NIR(2) sulla componenete Red; la banda Swir(1) sulla componenete Green, la banda Red(3) sulla componenete Blue dello schema RGB
-# library(gridExtra) 
-# funzione grid.arrange: compone il multiframe e va a mettere insieme vari pezzi di un grafico plottati con ggRGB 
-A1989 <- ggRGB(At1989, r=2, g=1, b=3, stretch="Lin")
-A2016 <- ggRGB(At2016, r=2, g=1, b=3, stretch="Lin")
-grid.arrange(A1989, A2016, nrow=2)
 
 # ------------------------------------------------------------------------------------------------------------------------------------------------------
 
