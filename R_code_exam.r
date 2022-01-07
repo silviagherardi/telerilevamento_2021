@@ -92,7 +92,7 @@ plot(At2016)
 par(mfrow=c(2,1)) 
 plotRGB(At1989, r=1, g=2, b=3, stretch="Lin")
 plotRGB(At2016, r=1, g=2, b=3, stretch="Lin")
-# Verde: foresta boreale -> riflette molto il Nir (r=2 -> alto valore di riflettanza)
+# Verde: foresta boreale -> riflette molto il Nir (g=2 -> alto valore di riflettanza)
 # Viola: miniere, molto aumentate come superficie nel 2016 
 # Blu: fiume, stagni sterili
 # Rossiccio: suolo nudo (foresta bruciata nel 2016)
