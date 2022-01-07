@@ -83,6 +83,7 @@ plot(At2016)
 
 # SCHEMA RGB: attraverso lo schema RGB visualizzo le due immagini a colori falsi: 
 # Posso utilizzare solo 3 bande alla volta per visualizzare le immagini intere 
+# Funzione plotRGB: funzione che permette di visualizzare un oggetto raster multi-layered attraverso lo schema RGB 
 # Monto la banda 1 (Swir) sulla componente Red; la banda 2 (Nir) sulla componente Green; la banda 3(Red) sulla componente Blue;
 #     -> r=2, g=1, b=3
 # Stretch lineare: prende i valori di riflettanza e li fa variare tra 0 e 1 (estremi) in maniera lineare
