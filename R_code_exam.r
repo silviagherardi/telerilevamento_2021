@@ -283,16 +283,16 @@ plot(p2c$map)
 # seconda colonna -> % di classi dell'immagine p1c ->  percent_1989
 # terza colonna -> % di classi dell'immagine p2c -> percent_2016
 
-cover <- c("Praterie coltivate","Foresta boreale","Miniere")
+copertura <- c("Praterie coltivate","Foresta boreale","Miniere")
 percent_1989 <- c(45.9, 49.4, 4.7)
 percent_2016 <- c(50.4, 40.1, 9.3)
 
 # creiamo il dataframe
 # funzione data.frame: crea una tabella
 # argomenti della funzione: sono le 3 colonne che ho appena creato
-percentage <- data.frame(cover, percent_1989, percent_2016)
+percentage <- data.frame(copertura, percent_1989, percent_2016)
 percentage
-#                cover    percent_1989    percent_2016
+#                copertura   percent_1989    percent_2016
 # 1 Praterie coltivate         45.9         50.4
 # 2    Foresta boreale         49.4         40.1
 # 3            Miniere          4.7          9.3
@@ -312,13 +312,13 @@ percentage
 # stat: indica il tipo di dati che utilizziamo e sono dati grezzi quindi si chiamano "identity" 
 # fill: colore delle barre all'interno e mettiamo "white" 
 
-p1 <- ggplot(percentage, aes(x=cover, y=percent_1989, color=cover))  +  geom_bar(stat="identity", fill="white")
+p1 <- ggplot(percentage, aes(x=cover, y=percent_1989, color=copertura))  +  geom_bar(stat="identity", fill="white")
 p1
 
 
 # p2c -> creo il grafico per l'immagine del 2016 (At2016)  
 # funzione ggplot 
-p2 <- ggplot(percentage, aes(x=cover, y=percent_2016, color=cover))  +  geom_bar(stat="identity", fill="white")
+p2 <- ggplot(percentage, aes(x=cover, y=percent_2016, color=copertura))  +  geom_bar(stat="identity", fill="white")
 p2
 
 # funzione grid.arrange: mette insieme dei vari plot di ggplot con le immagini
