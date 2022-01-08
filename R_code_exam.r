@@ -271,6 +271,11 @@ prop2
 # [2,] 2.020202e-06   0.09387374  -> 9.3% di miniere
 # [3,] 3.030303e-06   0.50445051  -> 50.4% di praterie coltivate 
 
+# Metto a confronto le due immagini classificate in un grafico con una riga e due colonne: 
+par(mfrow=c(1,2))
+plot(p1c$map)
+plot(p2c$map)
+
 
 # DataFrame 
 # creo una tabella con 3 colonne
@@ -336,7 +341,7 @@ grid.arrange(p1, p2, nrow=1)
 
 
 # DEVIAZIONE STANDARD: calcolo la ds perchè è correlata con la variabilità siccome racchiude il 68% di tutte le osservazioni
-# per calcolarla ci serve solo una banda , dunque bisogna compattare tutte le informazioni relative alle diverse bande in un unico strato
+# per calcolarla ci serve solo una banda, dunque bisogna compattare tutte le informazioni relative alle diverse bande in un unico strato
 
 # PRIMO METODO: NDVI (calcolato in precedenza) 
 # per l'immagine At1989 -> ndvi1 
