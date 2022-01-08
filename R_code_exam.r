@@ -183,8 +183,6 @@ levelplot(diffndvi, col.regions=cld, main="NDVI 1989 - NDVI 2016")
 # funzione unsuperClass: opera la classificazione non supervisionata
 # funzione set.seed: serve per fare una classificazione che sia sempre la stessa (usa sempre le stesse repliche per fare il modello) 
 set.seed(42)
-# funzione rnorm: normalizza i valori dei pixel fissando la classe scelta
-rnorm(1)
 
 # Classificazione NON supervisionata per l'immagine del 1989 
 # 3 classi: mi interessa solo: classe foresta - classe miniere
@@ -206,16 +204,34 @@ p1c
 
 # facciamo il plot totale, sia di d1c che della sua mappa all'interno
 plot(p1c$map)
-# Classe 1: Miniere 
-# Classe 2:
-#           Foresta boreale
-# Classe 3: 
+# Classe 1: Foresta 
+# Classe 2: Prateria coltivata
+# Classe 3: Miniere
+
+# Frequencies p1c$map 
+# ci chiediamo quanta % di foresta è stata persa 
+# qual è la frequenza delle 4 classi  
+# funzione freq: funzione generale che genera tavole di frequenza e va a calcolarla
+freq(p1c$map)
+#         value  count
+# [1,]     1      489157 -> n. pixel di foresta
+# [2,]     2      454368 -> n. pixel di prateria 
+# [3,]     3      46475  -> n. pixel di miniere 
+
+# calcoliamo la proporzione dei pixel per l'immagine p1c (consiste nella %)
+# facciamo la somma dei valori di pixel e la chiamiamo s1
+s1 <- 489157 + 454368 + 46475 
+prop1 <- freq(p1c$map) / s1 
+prop1
+#           value      count
+# [1,] 1.010101e-06   0.49409798 -> 49.4% di foresta boreale
+# [2,] 2.020202e-06   0.45895758 -> 45.9% di prateria
+# [3,] 3.030303e-06   0.04694444 -> 4.7% di miniere 
 
 
 # Classificazione NON supervisionata per l'immagine del 2016
 # 4 classi:
 set.seed(42)
-rnorm(1)
 p2c <- unsuperClass(At2016, nClasses=3)
 
 p2c
@@ -233,74 +249,48 @@ p2c
 
 
 plot(p2c$map)
-# Classe 1
-#          Foresta boreale 
-# Classe 3
-# Classe 2: Miniere
-
-
-
-# Frequencies p1c$map 
-# ci chiediamo quanta % di foresta è stata persa 
-# qual è la frequenza delle 4 classi  
-# funzione freq: funzione generale che genera tavole di frequenza e va a calcolarla
-freq(p1c$map)
-#        value  count
-# [1,]     1   18468   -> 18.468 pixel di miniere 
-# [2,]     2  496207   
-#                      -> 496.207 + 475.325 pixel di foresta boreale 
-# [3,]     3  475325
-
-# calcoliamo la proporzione dei pixel per l'immagine p1c (consiste nella %)
-# facciamo la somma dei valori di pixel e la chiamiamo s1
-s1 <- 18468 + 496207 + 475325
-prop1 <- freq(p1c$map) / s1 
-prop1
-#       value         count
-# [1,] 1.010101e-06  0.01865455   -> 2% miniere 
-# [2,] 2.020202e-06  0.50121919
-#                                 -> 98% foresta boreale 
-# [3,] 3.030303e-06  0.48012626
+# Classe 1: Foresta boreale
+# Classe 2: Miniere          
+# Classe 3: Praterie coltivate
 
 
 # Frequencies p2c$map 
 freq(p2c$map)
-#        value  count
-# [1,]     1   397648  ->  397.648 pixel di foresta boreale 
-# [2,]     2   92936   ->  92.936 pixel di miniere
-# [3,]     3   499416  ->  499.416 pixel di foresta boreale 
+#         value  count
+# [1,]     1    397659  -> 397.659 pixel di foresta boreale
+# [2,]     2     92935  -> 92.935 pixel di miniere 
+# [3,]     3    499406  -> 499.406 pixel di praterie coltivate 
 
 
 # facciamo la somma dei valori di pixel e la chiamiamo s2
-s2 <- 397648 + 92936 + 499416
+s2 <- 397659 + 92935 + 499406
 prop2 <- freq(p2c$map) / s2
 prop2 
-
-#       value        count
-# [1,] 1.010101e-06  0.40166465   -> 40% foresta boreale 
-# [2,] 2.020202e-06  0.09387475   -> 9,3% miniere
-# [3,] 3.030303e-06  0.50446061   -> 50% foresta boreale 
-
+#         value       count
+# [1,] 1.010101e-06   0.40167576  -> 40.1% di foresta boreale
+# [2,] 2.020202e-06   0.09387374  -> 9.3% di miniere
+# [3,] 3.030303e-06   0.50445051  -> 50.4% di praterie coltivate 
 
 
 # DataFrame 
 # creo una tabella con 3 colonne
-# prima colonna -> cover: foresta boreale - miniere 
+# prima colonna -> cover: suolo nudo - foresta boreale - miniere 
 # seconda colonna -> % di classi dell'immagine p1c ->  percent_1989
 # terza colonna -> % di classi dell'immagine p2c -> percent_2016
 
-cover <- c("Foresta boreale" , "Miniere")
-percent_1989 <- c(98, 2)
-percent_2016 <- c(90.5, 9.5)
+cover <- c("Praterie coltivate","Foresta boreale","Miniere")
+percent_1989 <- c(45.9, 49.4, 4.7)
+percent_2016 <- c(50.4, 40.1, 9.3)
 
 # creiamo il dataframe
 # funzione data.frame: crea una tabella
 # argomenti della funzione: sono le 3 colonne che ho appena creato
 percentage <- data.frame(cover, percent_1989, percent_2016)
 percentage
-#       cover                 percent_1989    percent_2016
-# 1     Foresta boreale           98             90.5
-# 2     Miniere                   2              9.5
+#                cover    percent_1989    percent_2016
+# 1 Praterie coltivate         45.9         50.4
+# 2    Foresta boreale         49.4         40.1
+# 3            Miniere          4.7          9.3
 
 
 
@@ -330,8 +320,7 @@ p2
 # library(gridExtra) for grid.arrange
 # argomenti: p1, p2, numero di righe = 1  
 grid.arrange(p1, p2, nrow=1)
-# prima immagine: vediamo la foresta con un valore alto e le miniere con un valore abbastanza basso
-# seconda immagine: vediamo le miniere che nel frattempo sono state costruite a discapto di un piccolo abbassamento del valore delle foreste disboscate
+# Le miniere e le praterie coltivate sono aumentate nel tempo come percentuale, mentre è diminuita la % di foresta boreale
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------------------------
 
