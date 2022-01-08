@@ -185,7 +185,7 @@ levelplot(diffndvi, col.regions=cld, main="NDVI 1989 - NDVI 2016")
 set.seed(42)
 
 # Classificazione NON supervisionata per l'immagine del 1989 
-# 3 classi: mi interessa solo: classe foresta - classe miniere
+# 3 classi: mi interessa solo: classe foresta - classe miniere - classe praterie coltivate
 p1c <- unsuperClass(At1989, nClasses=3)
 
 # controllo le informazioni
@@ -279,11 +279,11 @@ plot(p2c$map)
 
 # DataFrame 
 # creo una tabella con 3 colonne
-# prima colonna -> cover: suolo nudo - foresta boreale - miniere 
+# prima colonna -> copertura: prateria coltivata - foresta boreale - miniere 
 # seconda colonna -> % di classi dell'immagine p1c ->  percent_1989
 # terza colonna -> % di classi dell'immagine p2c -> percent_2016
 
-copertura <- c("Praterie coltivate","Foresta boreale","Miniere")
+copertura <- c("Prateria coltivata","Foresta boreale","Miniere")
 percent_1989 <- c(45.9, 49.4, 4.7)
 percent_2016 <- c(50.4, 40.1, 9.3)
 
@@ -293,7 +293,7 @@ percent_2016 <- c(50.4, 40.1, 9.3)
 percentage <- data.frame(copertura, percent_1989, percent_2016)
 percentage
 #                copertura   percent_1989    percent_2016
-# 1 Praterie coltivate         45.9         50.4
+# 1 Prateria coltivata         45.9         50.4
 # 2    Foresta boreale         49.4         40.1
 # 3            Miniere          4.7          9.3
 
@@ -307,7 +307,7 @@ percentage
 #          +
 #         geom_bar(stat="identity", fill="white")
 
-# color: si riferisce a quali oggetti vogliamo discriminare/distinguere nel grafico e nel nostro caso vogliamo discriminare le due classi
+# color: si riferisce a quali oggetti vogliamo discriminare/distinguere nel grafico e nel nostro caso vogliamo discriminare le tre classi (copertura) 
 # geom_bar: tipo di geometria del grafico perchè dobbiamo fare delle barre
 # stat: indica il tipo di dati che utilizziamo e sono dati grezzi quindi si chiamano "identity" 
 # fill: colore delle barre all'interno e mettiamo "white" 
