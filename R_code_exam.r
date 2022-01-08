@@ -348,11 +348,11 @@ grid.arrange(p1, p2, nrow=1)
 # faccio l'analisi multivariata per ottenere la PC1 e su questa calcolo la deviazione standard
 # PCA immagine papua1990
 # library(RStoolbox)
-p1pca <- rasterPCA(At1989) 
+a1pca <- rasterPCA(At1989) 
 
 
 # funzione summary: fornisce un sommario del modello, voglio sapere quanta variabilità spiegano le varie PC
-summary(p1pca$model)
+summary(a1pca$model)
 # Importance of components:
 #                            Comp.1     Comp.2      Comp.3 Comp.4
 # Standard deviation     51.0017266 39.9525617 15.45703283      0
@@ -361,7 +361,7 @@ summary(p1pca$model)
 
 # La  prima componente principale (PC1) è quella che spiega il 58,6% dell’informazione originale
 
-p1pca
+a1pca
 # $call
 # rasterPCA(img = At1989)
 
@@ -391,10 +391,10 @@ p1pca
 
 # calcolo la deviazione standard sulla PC1
 # lego l'immagine p1pca alla sua mapppa e alla PC1 per definire la prima componenete principale: 
-pc1 <- p1pca$map$PC1
+pc1a1 <- a1pca$map$PC1
 
 # funzione focal: calcolo la deviazione standard sulla pc1 tramite la moving windows di 3x3 pixel 
-pc1sd3 <- focal(pc1, w=matrix(1/9, nrow=3, ncol=3), fun=sd)
+pc1sd3a1 <- focal(pc1a1, w=matrix(1/9, nrow=3, ncol=3), fun=sd)
 
 
 # library(ggplot2)          -> per plottare con ggplot 
@@ -403,7 +403,7 @@ pc1sd3 <- focal(pc1, w=matrix(1/9, nrow=3, ncol=3), fun=sd)
 
 # plotto la sd della PC1 con ggplot: modo migliore perche individua ogni tipo di discontinuità ecologica e geografica:
 # legenda Inferno:
-a1 <- ggplot() + geom_raster(pc1sd3, mapping=aes(x=x, y=y, fill=layer)) + scale_fill_viridis(option="inferno") + ggtitle("Standard deviation of PC1 in 1989 by inferno color scale")
+a1 <- ggplot() + geom_raster(pc1sd3a1, mapping=aes(x=x, y=y, fill=layer)) + scale_fill_viridis(option="inferno") + ggtitle("Standard deviation of PC1 in 1989 by inferno color scale")
 a1
 # Legenda:
 #    giallo: aumento della sd al passaggio tra suolo e fiume 
@@ -412,10 +412,10 @@ a1
 
 
 # PCA immgine At2016
-p2pca <- rasterPCA(At2016) 
+a2pca <- rasterPCA(At2016) 
 
 
-summary(p2pca$model)
+summary(a2pca$model)
 # Importance of components:
 #                            Comp.1     Comp.2      Comp.3
 # Standard deviation     78.9600727 49.8364718 23.23955135
@@ -424,7 +424,7 @@ summary(p2pca$model)
 
 # La prima componente principale (PC1) è quella che spiega il 67,3% dell’informazione originale
 
-p2pca
+a2pca
 # $call
 # rasterPCA(img = At2016)
 
@@ -454,10 +454,10 @@ p2pca
 
 # calcolo la deviazione standard sulla PC1
 # lego l'immagine p2pca alla sua mapppa e alla PC1 per definire la prima componenete principale: 
-pc1 <- p2pca$map$PC1
+pc1a2 <- a2pca$map$PC1
 
 # funzione focal: calcolo la deviazione standard sulla pc1 tramite la moving windows di 3x3 pixel 
-pc2sd3 <- focal(pc1, w=matrix(1/9, nrow=3, ncol=3), fun=sd)
+pc1sd3a2 <- focal(pc1a2, w=matrix(1/9, nrow=3, ncol=3), fun=sd)
 
 
 # library(ggplot2)          -> per plottare con ggplot 
@@ -466,7 +466,7 @@ pc2sd3 <- focal(pc1, w=matrix(1/9, nrow=3, ncol=3), fun=sd)
 
 # plotto la sd della PC1 con ggplot: modo migliore perche individua ogni tipo di discontinuità ecologica e geografica:
 # legenda Inferno:
-a2 <- ggplot() + geom_raster(pc2sd3, mapping=aes(x=x, y=y, fill=layer)) + scale_fill_viridis(option="inferno") + ggtitle("Standard deviation of PC1 in 2016 by inferno color scale")
+a2 <- ggplot() + geom_raster(pc1sd3a2, mapping=aes(x=x, y=y, fill=layer)) + scale_fill_viridis(option="inferno") + ggtitle("Standard deviation of PC1 in 2016 by inferno color scale")
 a2
 # Legenda
 #     violetto: sd media -> individua strade, miniere e la parte urbana a sud
