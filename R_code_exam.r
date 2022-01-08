@@ -303,7 +303,7 @@ percentage
 # p1c -> creo il grafico per l'immagine del 1989 (At1989)
 # library(ggplot2) 
 # funzione ggplot
-#         (nome del dataframe, aes(prima colonna, seconda colonna, color=cover))
+#         (nome del dataframe, aes(x=prima colonna, y=seconda colonna, color=copertura))
 #          +
 #         geom_bar(stat="identity", fill="white")
 
@@ -312,13 +312,13 @@ percentage
 # stat: indica il tipo di dati che utilizziamo e sono dati grezzi quindi si chiamano "identity" 
 # fill: colore delle barre all'interno e mettiamo "white" 
 
-p1 <- ggplot(percentage, aes(x=cover, y=percent_1989, color=copertura))  +  geom_bar(stat="identity", fill="white")
+p1 <- ggplot(percentage, aes(x=copertura, y=percent_1989, color=copertura))  +  geom_bar(stat="identity", fill="white")
 p1
 
 
 # p2c -> creo il grafico per l'immagine del 2016 (At2016)  
 # funzione ggplot 
-p2 <- ggplot(percentage, aes(x=cover, y=percent_2016, color=copertura))  +  geom_bar(stat="identity", fill="white")
+p2 <- ggplot(percentage, aes(x=copertura, y=percent_2016, color=copertura))  +  geom_bar(stat="identity", fill="white")
 p2
 
 # funzione grid.arrange: mette insieme dei vari plot di ggplot con le immagini
