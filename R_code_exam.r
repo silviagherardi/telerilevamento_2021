@@ -406,9 +406,9 @@ pc1sd3a1 <- focal(pc1a1, w=matrix(1/9, nrow=3, ncol=3), fun=sd)
 a1 <- ggplot() + geom_raster(pc1sd3a1, mapping=aes(x=x, y=y, fill=layer)) + scale_fill_viridis(option="inferno") + ggtitle("Standard deviation of PC1 in 1989 by inferno color scale")
 a1
 # Legenda:
-#    giallo: aumento della sd al passaggio tra suolo e fiume 
+#    giallo: aumento della sd al passaggio tra suolo e fiume e anche al passaggio tra foresta e prateria 
 #    violetto: bassa sd che individua la città, le miniere e le strade
-#    nero: bassa sd che indica una copertura omogenea di foresta boreale
+#    nero: bassa sd che indica una copertura omogenea di foresta boreale e una copertura omogenea di prateria coltivata 
 
 
 # PCA immgine At2016
@@ -469,8 +469,9 @@ pc1sd3a2 <- focal(pc1a2, w=matrix(1/9, nrow=3, ncol=3), fun=sd)
 a2 <- ggplot() + geom_raster(pc1sd3a2, mapping=aes(x=x, y=y, fill=layer)) + scale_fill_viridis(option="inferno") + ggtitle("Standard deviation of PC1 in 2016 by inferno color scale")
 a2
 # Legenda
+#     giallo: sd alta -> individua il passaggio da foresta a prateria 
 #     violetto: sd media -> individua strade, miniere e la parte urbana a sud
-#     nero: sd molto bassa -> copertura omogenea di foresta boreale
+#     nero: sd molto bassa -> copertura omogenea di foresta boreale e di prateria coltivata 
 
 
 grid.arrange(a1, a2, nrow=1) 
