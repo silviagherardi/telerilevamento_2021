@@ -346,10 +346,11 @@ grid.arrange(p1, p2, nrow=1)
 
 # ANALISI DELLE COMPONENTI PRINCIPALI
 # faccio l'analisi multivariata per ottenere la PC1 e su questa calcolo la deviazione standard
-# PCA immagine papua1990
-# library(RStoolbox)
-a1pca <- rasterPCA(At1989) 
 
+# PCA immagine At1989
+# library(RStoolbox)
+# funzione rasterPCA: fa l'analisi delle componeneti principali di un det di dati
+a1pca <- rasterPCA(At1989) 
 
 # funzione summary: fornisce un sommario del modello, voglio sapere quanta variabilità spiegano le varie PC
 summary(a1pca$model)
@@ -390,10 +391,16 @@ a1pca
 # [1] "rasterPCA" "RStoolbox"
 
 # calcolo la deviazione standard sulla PC1
-# lego l'immagine p1pca alla sua mapppa e alla PC1 per definire la prima componenete principale: 
+# lego l'immagine a1pca alla sua mapppa e alla PC1 per definire la prima componenete principale che chiamo pc1a1: 
 pc1a1 <- a1pca$map$PC1
 
-# funzione focal: calcolo la deviazione standard sulla pc1 tramite la moving windows di 3x3 pixel 
+# library(raster) 
+# funzione focal: funzione generica che calcola la statistica che vogliamo
+#                 calcolo la deviazione standard sulla pc1 
+# primo argomento: nome dell’immagine
+# secondo argomento: w (window) uguale ad una matrice che è la nostra finestra spaziale e normalmente è quadrata (1/n.pixeltot, n.righe, n.colonne)
+# terzo argomento: stiamo calcolando la deviazione standard che viene definita sd
+# associamo il risultato della funzione all'oggetto pc1sd3a1 (deviazione standard sulla pc1 con una finestra mobile di 3x3 pixel)  
 pc1sd3a1 <- focal(pc1a1, w=matrix(1/9, nrow=3, ncol=3), fun=sd)
 
 
@@ -411,9 +418,8 @@ a1
 #    nero: bassa sd che indica una copertura omogenea di foresta boreale e una copertura omogenea di prateria coltivata 
 
 
-# PCA immgine At2016
+# PCA per l'immgine At2016
 a2pca <- rasterPCA(At2016) 
-
 
 summary(a2pca$model)
 # Importance of components:
@@ -453,7 +459,7 @@ a2pca
 # [1] "rasterPCA" "RStoolbox"
 
 # calcolo la deviazione standard sulla PC1
-# lego l'immagine p2pca alla sua mapppa e alla PC1 per definire la prima componenete principale: 
+# lego l'immagine a2pca alla sua mapppa e alla PC1 per definire la prima componenete principale che nomino pc1a2: 
 pc1a2 <- a2pca$map$PC1
 
 # funzione focal: calcolo la deviazione standard sulla pc1 tramite la moving windows di 3x3 pixel 
