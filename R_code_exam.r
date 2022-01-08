@@ -330,7 +330,7 @@ grid.arrange(p1, p2, nrow=1)
 # ---------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-# 5. VARIABILITA' SPAZIALE - INDICE DI VEGETAZIONE - ANALISI DELLE COMPONENTI PRINCIPALI
+# 5. VARIABILITA' SPAZIALE - ANALISI DELLE COMPONENTI PRINCIPALI
 
 # La variabilità spaziale è un indice di biodiversità, vado a controllare quanto è eterogenea questa area
 # > eterogeneità -> > biodiversità attesa 
@@ -343,66 +343,8 @@ grid.arrange(p1, p2, nrow=1)
 # DEVIAZIONE STANDARD: calcolo la ds perchè è correlata con la variabilità siccome racchiude il 68% di tutte le osservazioni
 # per calcolarla ci serve solo una banda, dunque bisogna compattare tutte le informazioni relative alle diverse bande in un unico strato
 
-# PRIMO METODO: NDVI (calcolato in precedenza) 
-# per l'immagine At1989 -> ndvi1 
-# library(raster) 
-# funzione focal: funzione generica che calcola la statistica che vogliamo
-# primo argomento: nome dell’immagine
-# secondo argomento: w (window) uguale ad una matrice che è la nostra finestra spaziale e normalmente è quadrata (1/n.pixeltot, n.righe, n.colonne)
-# terzo argomento: stiamo calcolando la deviazione standard che viene definita sd
-# associamo il risultato della funzione all'oggetto ndvisd3 (deviazione standard di ndvi con una finestra mobile di 3x3 pixel) 
-ndvisd3 <- focal(ndvi1, w=matrix(1/9, nrow=3, ncol=3), fun=sd)
-clsd <- colorRampPalette(c('blue','green','pink','magenta','orange','brown','red','yellow'))(100) 
-plot(ndvisd3, col=clsd)
-# Legenda:
-#       rosso: sd alta -> passaggio da suolo ad acqua del fiume
-#       violetto: sd media -> individua strade, miniere
-#       verde e blu: sd bassa  -> copertura omogenea di foresta boreale 
 
-
-# per l'immagine At2019 -> ndvi2 
-ndvi2sd3 <- focal(ndvi2, w=matrix(1/9, nrow=3, ncol=3), fun=sd)
-plot(ndvi2sd3, col=clsd)  
-# Legenda:
-#      rosso: sd alta -> passaggio da suolo ad acqua del fiume 
-#      violeto: sd media -> individua le strade e le miniere 
-#      verde e blu: sd bassa -> copertura omogenea di foresta boreale 
-
-par(mfrow=c(1,2))
-plot(ndvisd3, col=clsd, main="SD-NDVI in 1989")
-plot(ndvi2sd3, col=clsd, main="SD-NDVI in 2016")
-# tramite il calcolo della sd si nota che nel 2016 è aumentato l'impatto antropico rappresentato da strade e miniere
-
-
-
-# Calcolo la media della BIOMASSA per l'immagine del 1989 e del 2016
-# At1989: 
-ndvimean3 <- focal(ndvi1, w=matrix(1/9, nrow=3, ncol=3), fun=mean)
-clsd <- colorRampPalette(c('blue','green','pink','magenta','orange','brown','red','yellow'))(100) 
-plot(ndvimean3, col=clsd)
-# Legenda:
-#        rosso-giallo: media alta per la foresta boreale
-#        verde-blu: media bassa che individua le miniere
-
-# At2016:
-ndvi2mean3 <- focal(ndvi2, w=matrix(1/9, nrow=3, ncol=3), fun=mean)
-clsd <- colorRampPalette(c('blue','green','pink','magenta','orange','brown','red','yellow'))(100) 
-plot(ndvi2mean3, col=clsd)
-# Legenda:
-#      rosso-giallo: media alta per la parte di foresta borale rimasta
-#      verde-blu: media bassa che individua le miniere e le strade 
-
-par(mfrow=c(1,2))
-plot(ndvimean3, col=clsd, main="MEAN-NDVI - 1989")
-plot(ndvi2mean3, col=clsd, main="MEAN-NDVI - 2016") 
-# Tramite il calcolo della biomassa si nota che dal 1989 al 2016 c'è una riduzione della biomassa a causa della realizzazione di nuove miniere a cielo aperto 
-# e della relizzazione di nuove strade, inoltre si nota a sud una perdita di biodiversità a causa dell'incendio del 2016 
-
-
-
-
-# SECONDO METODO: PCA - ANALISI DELLE COMPONENTI PRINCIPALI
-
+# ANALISI DELLE COMPONENTI PRINCIPALI
 # faccio l'analisi multivariata per ottenere la PC1 e su questa calcolo la deviazione standard
 # PCA immagine papua1990
 # library(RStoolbox)
