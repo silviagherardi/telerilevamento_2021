@@ -1,4 +1,4 @@
-# R_code_exam.r 
+# R_code_exam.r  
 # Athabasca Oil Sand - Alberta - Canada 
 # Sito utilizzato per scaricare le immagini: https://eros.usgs.gov/image-gallery/earthshot/athabasca-oil-sands-alberta-canada
 
