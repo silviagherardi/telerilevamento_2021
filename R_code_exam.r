@@ -89,8 +89,8 @@ plot(At2016)
 #                  serve per mostrare tutte le gradazioni di colore ed evitare uno schiacciamento verso una sola parte del colore
 # Funzione par: metto le due immagini del 1989-2016 a confronto in un grafico con una riga e due colonne: 
 par(mfrow=c(1,2)) 
-plotRGB(At1989, r=1, g=2, b=3, stretch="Lin")
-plotRGB(At2016, r=1, g=2, b=3, stretch="Lin")
+plotRGB(At1989, r=1, g=2, b=3, stretch="Lin", main="Miniere nel 1989")
+plotRGB(At2016, r=1, g=2, b=3, stretch="Lin", main="Miniere nel 2016")
 # Verde: foresta boreale -> riflette molto il Nir (g=2 -> alto valore di riflettanza)
 # Viola: miniere, molto aumentate come superficie nel 2016 
 # Blu: fiume, stagni sterili
