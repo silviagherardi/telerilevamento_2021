@@ -44,8 +44,8 @@ setwd("C:/esame_telerilevamento_2021/")
 # Funzione brick: serve per importare dentro a R l'intera immagine satellitare costituita da tutte le sue singole bande (intero set di bande)
 # ogni immagine è composta da 3 bande
 # la funzione crea un oggetto che si chiama Rasterbrick: serie di bande in formato raster in un'unica immagine satellitare
-At1989 <- brick("4_8-6-1989_McMurrayMain.png")
-At2016 <- brick("12_7-15-2016_McMurrayMain.png")
+At1989 <- brick("McMurrayMain_4_8-6-1989.png")
+At2016 <- brick("McMurrayMain_12_7-15-2016.png")
 
 # Controllo le informazioni dei due Rasterbrick: 
 At1989
