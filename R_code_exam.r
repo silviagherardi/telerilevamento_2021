@@ -483,20 +483,3 @@ a2
 grid.arrange(a1, a2, nrow=1) 
 # con le due immagini a confronto si nota la differenza nell'uso del suolo nei due periodi:
 #       nel 2016: c'è l'aumento della superficie delle miniere e l'aumento delle strade rispetto al 1989 con perdita di copertura forestale
-
-
-
-# Calcolo la Biomassa per l'immagine del 1989 e del 2016
-# la procedura rimane la stessa usata per il calcolo della deviazione standard
-# con la funzione focal calcolo la media
-# At1989: 
-pc1m3a1 <- focal(pc1a1, w=matrix(1/9, nrow=3, ncol=3), fun=mean) 
-# At2016:
-pc1m3a2 <- focal(pc1a2, w=matrix(1/9, nrow=3, ncol=3), fun=mean)
-
-# con la funzione ggplot mostro le due mappe che rappresentano la media calcolata sulla PC1: 
-biomassa1 <- ggplot() + geom_raster(pc1m3a1, mapping=aes(x=x, y=y, fill=layer)) + scale_fill_viridis(option="inferno") + ggtitle("Media of PC1 in 1989 by inferno color scale")
-biomassa2 <- ggplot() + geom_raster(pc1m3a2, mapping=aes(x=x, y=y, fill=layer)) + scale_fill_viridis(option="inferno") + ggtitle("Media of PC1 in 2016 by inferno color scale")
-grid.arrange(biomassa1, biomassa2, nrow=1)
-# CONCLUSIONE: Tramite il calcolo della biomassa si nota che dal 1989 al 2016 c'è una riduzione consistente della biomassa vegetale  
-#     a causa della realizzazione di nuove miniere a cielo aperto e di nuove strade
