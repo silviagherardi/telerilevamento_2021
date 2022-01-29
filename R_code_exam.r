@@ -87,7 +87,7 @@ plot(At2014)
 #     -> r=1, g=2, b=3
 # Stretch lineare: prende i valori di riflettanza e li fa variare tra 0 e 1 (estremi) in maniera lineare
 #                  serve per mostrare tutte le gradazioni di colore ed evitare uno schiacciamento verso una sola parte del colore
-# Funzione par: metto le due immagini del 1989-2016 a confronto in un grafico con una riga e due colonne: 
+# Funzione par: metto le due immagini del 1989-2014 a confronto in un grafico con una riga e due colonne: 
 par(mfrow=c(1,2)) 
 plotRGB(At1989, r=1, g=2, b=3, stretch="Lin", main="Miniere nel 1989")
 plotRGB(At2014, r=1, g=2, b=3, stretch="Lin", main="Miniere nel 2014")
@@ -143,9 +143,9 @@ plot(ndvi1, col=clr, main="NDVI 1989")
 #     giallo: NDVI basso, aree di deforestazione per le miniere
 
 
-# Calcolo il NDVI per l'immagine del 2016:
+# Calcolo il NDVI per l'immagine del 2014:
 ndvi2 <- (nir2 - red2) / (nir2 + red2)
-plot(ndvi2, col=clr, main="NDVI 2016") 
+plot(ndvi2, col=clr, main="NDVI 2014") 
 # Legenda:
 #    rosso scuro: NDVI alto, foresta borale sana e intatta
 #    giallo: NDVI basso, aree di deforestazione per le miniere, si nota un forte aumento di quest'area 
