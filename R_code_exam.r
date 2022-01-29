@@ -165,171 +165,10 @@ levelplot(diffndvi, col.regions=cld, main="NDVI 1989 - NDVI 2014")
 #       rosso: > diff -> aree con la maggior perdita di vegetazione per l'aumento delle miniere
 #       bianco: < diff -> aree con foresta boreale sana e intatta
 
-
-# ----------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-# 4. GENERAZIONE DI MAPPE DI LAND COVER E CAMBIAMENTO DEL PAESAGGIO 
-
-
-# Unsupervised classification  -> processo che accorpa pixel con valori simili, una volta che questi pixel sono stati accorpati rappresentano una classe
-# Come si comportano i pixel nello spazio multispettrale definito dalle bande come assi
-# Il Software crea un Training Set: prende un certo n. di pixel come campione e misura le riflettanze nelle varie bande
-# Dopodichè classifica tutti gli altri pixel dell'immagine in funzione del training set (precedentemente creato) e forma le classi
-# Maximum Likelihood: si prende pixel per pixel e il software misura la distanza che ogni pixel ha (nello spazio multispettrale) dai pixel del training set 
-#                     in base alla distanza più breve li inserisce nelle varie classi e infine associa ogni classe ad una label 
-# library(RStoolbox) 
-# funzione unsuperClass: opera la classificazione non supervisionata
-# funzione set.seed: serve per fare una classificazione che sia sempre la stessa (usa sempre le stesse repliche per fare il modello) 
-set.seed(42)
-
-# Classificazione NON supervisionata per l'immagine del 1989 
-# 3 classi: mi interessa solo: classe foresta - classe miniere - classe praterie coltivate
-p1c <- unsuperClass(At1989, nClasses=3)
-
-# controllo le informazioni
-p1c
-# unsuperClass results
-# *************** Map ******************
-# $map
-# class      : RasterLayer 
-# dimensions : 990, 1000, 990000  (nrow, ncol, ncell)
-# resolution : 1, 1  (x, y)
-# extent     : 0, 1000, 0, 990  (xmin, xmax, ymin, ymax)
-# crs        : NA 
-# source     : memory
-# names      : layer 
-# values     : 1, 3  (min, max)
-
-# facciamo il plot totale, sia di d1c che della sua mappa all'interno
-plot(p1c$map)
-# Classe 1 (bianco) : Prateria + Acqua 
-# Classe 2 (giallo) : Miniere  
-# Classe 3 (verde) : Foresta boreale 
-
-# Frequencies p1c$map 
-# ci chiediamo quanta % di foresta è stata persa 
-# qual è la frequenza delle 4 classi  
-# funzione freq: funzione generale che genera tavole di frequenza e va a calcolarla
-freq(p1c$map)
-#         value  count
-# [1,]     1    489157  -> pixel di prateria + acqua 
-# [2,]     2     46475  -> pixel di miniera
-# [3,]     3    454368  -> pixel di foresta boreale 
-
-# calcoliamo la proporzione dei pixel per l'immagine p1c (consiste nella %)
-# facciamo la somma dei valori di pixel e la chiamiamo s1
-s1 <-  489157 + 46475 + 454368
-prop1 <- freq(p1c$map) / s1 
-prop1
-#         value      count
-# [1,] 1.010101e-06  0.49409798 -> 49.4 % prateria + acqua 
-# [2,] 2.020202e-06  0.45895758 -> 45.9 % di foresta 
-# [3,] 3.030303e-06  0.04694444 -> 4.7 % di miniera 
-
-
-# Classificazione NON supervisionata per l'immagine del 2014
-# 3 classi:
-set.seed(42)
-p2c <- unsuperClass(At2014, nClasses=3)
-
-p2c
-# unsuperClass results
-# *************** Map ******************
-# $map
-# class      : RasterLayer 
-# dimensions : 990, 1000, 990000  (nrow, ncol, ncell)
-# resolution : 1, 1  (x, y)
-# extent     : 0, 1000, 0, 990  (xmin, xmax, ymin, ymax)
-# crs        : NA 
-# source     : memory
-# names      : layer 
-# values     : 1, 3  (min, max)
-
-
-plot(p2c$map)
-# Classe 1 (bianco) : Prateria + Acqua 
-# Classe 2 (giallo) : Miniere          
-# Classe 3 (verde) : Foresta boreale 
-
-
-# Frequencies p2c$map 
-freq(p2c$map)
-#        value  count
-# [1,]     1    558016  558.106 pixel di prateria + acqua 
-# [2,]     2    55961   55.961 pixel di miniere 
-# [3,]     3    376023  76.023 pixel di foresta 
-
-
-# facciamo la somma dei valori di pixel e la chiamiamo s2
-s2 <- 558016 + 55961 + 376023
-prop2 <- freq(p2c$map) / s2
-prop2 
-#            value      count
-# [1,] 1.010101e-06   0.56365253 -> 56,4 % di prateria + acqua 
-# [2,] 2.020202e-06   0.05652626 -> 5,7 % di miniera 
-# [3,] 3.030303e-06   0.37982121 -> 37,9 % di foresta 
-
-# Metto a confronto le due immagini classificate in un grafico con una riga e due colonne: 
-par(mfrow=c(1,2))
-plot(p1c$map)
-plot(p2c$map)
-
-
-# DataFrame 
-# creo una tabella con 3 colonne
-# prima colonna -> copertura: prateria coltivata - foresta boreale - miniere 
-# seconda colonna -> % di classi dell'immagine p1c ->  percent_1989
-# terza colonna -> % di classi dell'immagine p2c -> percent_2014
-
-copertura <- c("Foresta boreale","Miniere","Praterie/Acqua")
-percent_1989 <- c(45.9, 4.7, 49.4)
-percent_2014 <- c(37.9, 5.7, 56.4) 
-
-# creiamo il dataframe
-# funzione data.frame: crea una tabella
-# argomenti della funzione: sono le 3 colonne che ho appena creato
-percentage <- data.frame(copertura, percent_1989, percent_2014)
-percentage
-#      copertura        percent_1989     percent_2014
-# 1    Foresta boreale         45.9         37.9
-# 2    Miniere                 4.7          5.7
-# 3    Praterie/Acqua          49.4         56.4
-
-
-
-# plotto il Dataframe con ggplot
-# p1c -> creo il grafico per l'immagine del 1989 (At1989)
-# library(ggplot2) 
-# funzione ggplot
-#         (nome del dataframe, aes(x=prima colonna, y=seconda colonna, color=copertura))
-#          +
-#         geom_bar(stat="identity", fill="white")
-
-# color: si riferisce a quali oggetti vogliamo discriminare/distinguere nel grafico e nel nostro caso vogliamo discriminare le tre classi (copertura) 
-# geom_bar: tipo di geometria del grafico perchè dobbiamo fare delle barre
-# stat: indica il tipo di dati che utilizziamo e sono dati grezzi quindi si chiamano "identity" 
-# fill: colore delle barre all'interno e mettiamo "white" 
-
-p1 <- ggplot(percentage, aes(x=copertura, y=percent_1989, color=copertura))  +  geom_bar(stat="identity", fill="white")
-p1
-
-
-# p2c -> creo il grafico per l'immagine del 2014 (At2014)  
-# funzione ggplot 
-p2 <- ggplot(percentage, aes(x=copertura, y=percent_2014, color=copertura))  +  geom_bar(stat="identity", fill="white")
-p2
-
-# funzione grid.arrange: mette insieme dei vari plot di ggplot con le immagini
-# library(gridExtra) for grid.arrange
-# argomenti: p1, p2, numero di righe = 1  
-grid.arrange(p1, p2, nrow=1)
-# Le miniere e le praterie coltivate sono aumentate nel tempo come percentuale, mentre è diminuita la % di foresta boreale
-
 # ---------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-# 5. VARIABILITA' SPAZIALE - ANALISI DELLE COMPONENTI PRINCIPALI
+# 4. VARIABILITA' SPAZIALE - ANALISI DELLE COMPONENTI PRINCIPALI
 
 # La variabilità spaziale è un indice di biodiversità, vado a controllare quanto è eterogenea questa area
 # > eterogeneità -> > biodiversità attesa 
@@ -483,3 +322,166 @@ a2
 grid.arrange(a1, a2, nrow=1) 
 # con le due immagini a confronto si nota la differenza nell'uso del suolo nei due periodi:
 #       nel 2014: c'è l'aumento della superficie delle miniere e l'aumento delle strade rispetto al 1989 con perdita di copertura forestale
+
+# --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+# 5. GENERAZIONE DI MAPPE DI LAND COVER E CAMBIAMENTO DEL PAESAGGIO 
+
+
+# Unsupervised classification  -> processo che accorpa pixel con valori simili, una volta che questi pixel sono stati accorpati rappresentano una classe
+# Come si comportano i pixel nello spazio multispettrale definito dalle bande come assi
+# Il Software crea un Training Set: prende un certo n. di pixel come campione e misura le riflettanze nelle varie bande
+# Dopodichè classifica tutti gli altri pixel dell'immagine in funzione del training set (precedentemente creato) e forma le classi
+# Maximum Likelihood: si prende pixel per pixel e il software misura la distanza che ogni pixel ha (nello spazio multispettrale) dai pixel del training set 
+#                     in base alla distanza più breve li inserisce nelle varie classi e infine associa ogni classe ad una label 
+# library(RStoolbox) 
+# funzione unsuperClass: opera la classificazione non supervisionata
+# funzione set.seed: serve per fare una classificazione che sia sempre la stessa (usa sempre le stesse repliche per fare il modello) 
+set.seed(42)
+
+# Classificazione NON supervisionata per l'immagine del 1989 
+# 3 classi: mi interessa solo: classe foresta - classe miniere - classe praterie coltivate
+p1c <- unsuperClass(At1989, nClasses=3)
+
+# controllo le informazioni
+p1c
+# unsuperClass results
+# *************** Map ******************
+# $map
+# class      : RasterLayer 
+# dimensions : 990, 1000, 990000  (nrow, ncol, ncell)
+# resolution : 1, 1  (x, y)
+# extent     : 0, 1000, 0, 990  (xmin, xmax, ymin, ymax)
+# crs        : NA 
+# source     : memory
+# names      : layer 
+# values     : 1, 3  (min, max)
+
+# facciamo il plot totale, sia di d1c che della sua mappa all'interno
+plot(p1c$map)
+# Classe 1: Foresta 
+# Classe 2: Prateria coltivata
+# Classe 3: Miniere
+
+# Frequencies p1c$map 
+# ci chiediamo quanta % di foresta è stata persa 
+# qual è la frequenza delle 4 classi  
+# funzione freq: funzione generale che genera tavole di frequenza e va a calcolarla
+freq(p1c$map)
+#         value  count
+# [1,]     1      489157 -> n. pixel di foresta
+# [2,]     2      454368 -> n. pixel di prateria 
+# [3,]     3      46475  -> n. pixel di miniere 
+
+# calcoliamo la proporzione dei pixel per l'immagine p1c (consiste nella %)
+# facciamo la somma dei valori di pixel e la chiamiamo s1
+s1 <- 489157 + 454368 + 46475 
+prop1 <- freq(p1c$map) / s1 
+prop1
+#           value      count
+# [1,] 1.010101e-06   0.49409798 -> 49.4% di foresta boreale
+# [2,] 2.020202e-06   0.45895758 -> 45.9% di prateria
+# [3,] 3.030303e-06   0.04694444 -> 4.7% di miniere 
+
+
+# Classificazione NON supervisionata per l'immagine del 2016
+# 4 classi:
+set.seed(42)
+# importo l'immagine del 2016 
+At2016 <- brick("12_7-15-2016_McMurrayMain.png")
+p2c <- unsuperClass(At2016, nClasses=3)
+
+p2c
+# unsuperClass results
+# *************** Map ******************
+# $map
+# class      : RasterLayer 
+# dimensions : 990, 1000, 990000  (nrow, ncol, ncell)
+# resolution : 1, 1  (x, y)
+# extent     : 0, 1000, 0, 990  (xmin, xmax, ymin, ymax)
+# crs        : NA 
+# source     : memory
+# names      : layer 
+# values     : 1, 3  (min, max)
+
+
+plot(p2c$map)
+# Classe 1: Foresta boreale
+# Classe 2: Miniere          
+# Classe 3: Praterie coltivate
+
+
+# Frequencies p2c$map 
+freq(p2c$map)
+#         value  count
+# [1,]     1    397659  -> 397.659 pixel di foresta boreale
+# [2,]     2     92935  -> 92.935 pixel di miniere 
+# [3,]     3    499406  -> 499.406 pixel di praterie coltivate 
+
+
+# facciamo la somma dei valori di pixel e la chiamiamo s2
+s2 <- 397659 + 92935 + 499406
+prop2 <- freq(p2c$map) / s2
+prop2 
+#         value       count
+# [1,] 1.010101e-06   0.40167576  -> 40.1% di foresta boreale
+# [2,] 2.020202e-06   0.09387374  -> 9.3% di miniere
+# [3,] 3.030303e-06   0.50445051  -> 50.4% di praterie coltivate 
+
+# Metto a confronto le due immagini classificate in un grafico con una riga e due colonne: 
+par(mfrow=c(1,2))
+plot(p1c$map)
+plot(p2c$map)
+
+
+# DataFrame 
+# creo una tabella con 3 colonne
+# prima colonna -> copertura: prateria coltivata - foresta boreale - miniere 
+# seconda colonna -> % di classi dell'immagine p1c ->  percent_1989
+# terza colonna -> % di classi dell'immagine p2c -> percent_2016
+
+copertura <- c("Prateria coltivata","Foresta boreale","Miniere")
+percent_1989 <- c(45.9, 49.4, 4.7)
+percent_2016 <- c(50.4, 40.1, 9.3)
+
+# creiamo il dataframe
+# funzione data.frame: crea una tabella
+# argomenti della funzione: sono le 3 colonne che ho appena creato
+percentage <- data.frame(copertura, percent_1989, percent_2016)
+percentage
+#                copertura   percent_1989    percent_2016
+# 1 Prateria coltivata         45.9         50.4
+# 2    Foresta boreale         49.4         40.1
+# 3            Miniere          4.7          9.3
+
+
+
+# plotto il Dataframe con ggplot
+# p1c -> creo il grafico per l'immagine del 1989 (At1989)
+# library(ggplot2) 
+# funzione ggplot
+#         (nome del dataframe, aes(x=prima colonna, y=seconda colonna, color=copertura))
+#          +
+#         geom_bar(stat="identity", fill="white")
+
+# color: si riferisce a quali oggetti vogliamo discriminare/distinguere nel grafico e nel nostro caso vogliamo discriminare le tre classi (copertura) 
+# geom_bar: tipo di geometria del grafico perchè dobbiamo fare delle barre
+# stat: indica il tipo di dati che utilizziamo e sono dati grezzi quindi si chiamano "identity" 
+# fill: colore delle barre all'interno e mettiamo "white" 
+
+p1 <- ggplot(percentage, aes(x=copertura, y=percent_1989, color=copertura))  +  geom_bar(stat="identity", fill="white")
+p1
+
+
+# p2c -> creo il grafico per l'immagine del 2016 (At2016)  
+# funzione ggplot 
+p2 <- ggplot(percentage, aes(x=copertura, y=percent_2016, color=copertura))  +  geom_bar(stat="identity", fill="white")
+p2
+
+# funzione grid.arrange: mette insieme dei vari plot di ggplot con le immagini
+# library(gridExtra) for grid.arrange
+# argomenti: p1, p2, numero di righe = 1  
+grid.arrange(p1, p2, nrow=1)
+# Le miniere e le praterie coltivate sono aumentate nel tempo come percentuale, mentre è diminuita la % di foresta boreale
+
