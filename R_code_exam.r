@@ -213,19 +213,19 @@ plot(p1c$map)
 # funzione freq: funzione generale che genera tavole di frequenza e va a calcolarla
 freq(p1c$map)
 #         value  count
-# [1,]     1    474031  -> 474.031 pixel di prateria + acqua 
-# [2,]     2     53898  -> 53.898 pixel di miniera 
-# [3,]     3    462071  -> 462.071 pixel di foresta boreale 
+# [1,]     1    489157  -> pixel di prateria + acqua 
+# [2,]     2     46475  -> pixel di miniera
+# [3,]     3    454368  -> pixel di foresta boreale 
 
 # calcoliamo la proporzione dei pixel per l'immagine p1c (consiste nella %)
 # facciamo la somma dei valori di pixel e la chiamiamo s1
-s1 <-  474031 + 53898 + 462071
+s1 <-  489157 + 46475 + 454368
 prop1 <- freq(p1c$map) / s1 
 prop1
-#          value      count
-# [1,] 1.010101e-06   0.47881919  -> 47,9 % di prateria + acqua 
-# [2,] 2.020202e-06   0.05444242  -> 5,4 % di miniera 
-# [3,] 3.030303e-06   0.46673838  -> 46,7 % di foresta boreale 
+#         value      count
+# [1,] 1.010101e-06  0.49409798 -> 49.4 % prateria + acqua 
+# [2,] 2.020202e-06  0.45895758 -> 45.9 % di foresta 
+# [3,] 3.030303e-06  0.04694444 -> 4.7 % di miniera 
 
 
 # Classificazione NON supervisionata per l'immagine del 2014
@@ -256,9 +256,9 @@ plot(p2c$map)
 # Frequencies p2c$map 
 freq(p2c$map)
 #        value  count
-# [1,]     1    558016  -> 558.106 pixel di prateria + acqua 
-# [2,]     2    55961   -> 55.961 pixel di miniere 
-# [3,]     3    376023  -> 376.023 pixel di foresta 
+# [1,]     1    558016  558.106 pixel di prateria + acqua 
+# [2,]     2    55961   55.961 pixel di miniere 
+# [3,]     3    376023  76.023 pixel di foresta 
 
 
 # facciamo la somma dei valori di pixel e la chiamiamo s2
@@ -283,7 +283,7 @@ plot(p2c$map)
 # terza colonna -> % di classi dell'immagine p2c -> percent_2014
 
 copertura <- c("Foresta boreale","Miniere","Praterie/Acqua")
-percent_1989 <- c(46.7, 5.4, 47.8) 
+percent_1989 <- c(45.9, 4.7, 49.4)
 percent_2014 <- c(37.9, 5.7, 56.4) 
 
 # creiamo il dataframe
@@ -292,9 +292,9 @@ percent_2014 <- c(37.9, 5.7, 56.4)
 percentage <- data.frame(copertura, percent_1989, percent_2014)
 percentage
 #      copertura        percent_1989     percent_2014
-# 1    Foresta boreale         46.7         37.9
-# 2    Miniere                 5.4          5.7
-# 3    Praterie/Acqua          47.8         56.4
+# 1    Foresta boreale         45.9         37.9
+# 2    Miniere                 4.7          5.7
+# 3    Praterie/Acqua          49.4         56.4
 
 
 
@@ -417,42 +417,43 @@ a1
 #    nero: bassa sd che indica una copertura omogenea di foresta boreale e una copertura omogenea di prateria coltivata 
 
 
-# PCA per l'immgine At2016
-a2pca <- rasterPCA(At2016) 
+# PCA per l'immgine At2014
+a2pca <- rasterPCA(At2014) 
 
 summary(a2pca$model)
 # Importance of components:
-#                            Comp.1     Comp.2      Comp.3
-# Standard deviation     78.9600727 49.8364718 23.23955135
-# Proportion of Variance  0.6734062  0.2682604  0.05833343
-# Cumulative Proportion   0.6734062  0.9416666  1.00000000
+#                            Comp.1     Comp.2      Comp.3 Comp.4
+# Standard deviation     64.6197861 29.3892007 16.09073585      0
+# Proportion of Variance  0.7881159  0.1630176  0.04886646      0
+# Cumulative Proportion   0.7881159  0.9511335  1.00000000      1
 
-# La prima componente principale (PC1) è quella che spiega il 67,3% dell’informazione originale
+
+# La prima componente principale (PC1) è quella che spiega il 78.8% dell’informazione originale
 
 a2pca
-# $call
-# rasterPCA(img = At2016)
+$call
+rasterPCA(img = At2014)
 
-# $model
+$model
 # Call:
 # princomp(cor = spca, covmat = covMat[[1]])
 
 # Standard deviations:
-#   Comp.1   Comp.2   Comp.3 
-# 78.96007 49.83647 23.23955 
+#   Comp.1   Comp.2   Comp.3   Comp.4 
+# 64.61979 29.38920 16.09074  0.00000 
 
-#  3  variables and  990000 observations.
+#  4  variables and  990000 observations.
 
-#$map
+# $map
 # class      : RasterBrick 
-# dimensions : 990, 1000, 990000, 3  (nrow, ncol, ncell, nlayers)
+#dimensions : 990, 1000, 990000, 4  (nrow, ncol, ncell, nlayers)
 # resolution : 1, 1  (x, y)
 # extent     : 0, 1000, 0, 990  (xmin, xmax, ymin, ymax)
 # crs        : NA 
 # source     : memory
-# names      :       PC1,       PC2,       PC3 
-# min values : -115.7182, -149.0113, -168.5545 
-# max values :  315.0527,  125.7507,  109.7049 
+# names      :       PC1,       PC2,       PC3,       PC4 
+# min values : -126.8333, -140.3601, -195.6748,    0.0000 
+# max values :  311.3536,  138.6307,  119.3797,    0.0000 
 
 # attr(,"class")
 # [1] "rasterPCA" "RStoolbox"
@@ -471,7 +472,7 @@ pc1sd3a2 <- focal(pc1a2, w=matrix(1/9, nrow=3, ncol=3), fun=sd)
 
 # plotto la sd della PC1 con ggplot: modo migliore perche individua ogni tipo di discontinuità ecologica e geografica:
 # legenda Inferno:
-a2 <- ggplot() + geom_raster(pc1sd3a2, mapping=aes(x=x, y=y, fill=layer)) + scale_fill_viridis(option="inferno") + ggtitle("Standard deviation of PC1 in 2016 by inferno color scale")
+a2 <- ggplot() + geom_raster(pc1sd3a2, mapping=aes(x=x, y=y, fill=layer)) + scale_fill_viridis(option="inferno") + ggtitle("Standard deviation of PC1 in 2014 by inferno color scale")
 a2
 # Legenda
 #     giallo: sd alta -> individua il passaggio da foresta a prateria 
@@ -481,4 +482,4 @@ a2
 
 grid.arrange(a1, a2, nrow=1) 
 # con le due immagini a confronto si nota la differenza nell'uso del suolo nei due periodi:
-#       nel 2016: c'è l'aumento della superficie delle miniere e l'aumento delle strade rispetto al 1989 con perdita di copertura forestale
+#       nel 2014: c'è l'aumento della superficie delle miniere e l'aumento delle strade rispetto al 1989 con perdita di copertura forestale
