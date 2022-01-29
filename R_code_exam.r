@@ -65,10 +65,10 @@ At2016
 # resolution : 1, 1  (x, y)
 # extent     : 0, 1000, 0, 990  (xmin, xmax, ymin, ymax)
 # crs        : NA 
-# source     : C:/esame_telerilevamento_2021/12_7-15-2016_McMurrayMain_labeled.png 
-# names      : X12_7.15.2016_McMurrayMain_labeled.1, X12_7.15.2016_McMurrayMain_labeled.2, X12_7.15.2016_McMurrayMain_labeled.3 
-# min values :                                    0,                                    0,                                    0 
-# max values :                                  255,                                  255,                                  255 
+# source     : C:/esame_telerilevamento_2021/12_7-15-2016_McMurrayMain.png 
+# names      : X12_7.15.2016_McMurrayMain.1, X12_7.15.2016_McMurrayMain.2, X12_7.15.2016_McMurrayMain.3 
+# min values :                            0,                            0,                            0 
+# max values :                          255,                          255,                          255 
 
 # La classe è un RasterBrick: sono 3 bande in formato raster
 # Ci sono 990.000 pixel per ogni banda
