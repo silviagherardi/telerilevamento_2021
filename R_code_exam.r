@@ -5,7 +5,7 @@
 # Una delle più grandi riserve di petrolio si trova nella foresta boreale in Canada, precisamente nell'Alberta nord-ovest
 # Luogo di studio: a nord della città di Fort McMurray, sulle sponde del fiume Athabasca
 # Le tecniche di estrazione del petrolio comprendono la deforestazione di parte della foresta boreale e questo crea delle miniere a cielo aperto
-# In questo progetto si vuole osservare lo sviluppo delle miniere dal 1989 al 2016: anno dell'incendio vicino alla città di Fort McMurray che ha distrutto parte della foresta
+# In questo progetto si vuole osservare lo sviluppo delle miniere dal 1989 al 2014
 
 # LIBRERIE 
 # Imposto le librerie necessarie per le indagini
@@ -32,7 +32,7 @@ setwd("C:/esame_telerilevamento_2021/")
 # Bande: 
 #       1: Swir - 2: Nir - 3: Red
 
-# img 2016: Landsat 8
+# img 2014: Landsat 8
 # Bande: 
 #       1: Swir - 2: Nir - 3: Red 
 
@@ -45,7 +45,7 @@ setwd("C:/esame_telerilevamento_2021/")
 # ogni immagine è composta da 3 bande
 # la funzione crea un oggetto che si chiama Rasterbrick: serie di bande in formato raster in un'unica immagine satellitare
 At1989 <- brick("4_8-6-1989_McMurrayMain.png")
-At2016 <- brick("12_7-15-2016_McMurrayMain.png")
+At2014 <- brick("11_9-28-2014_McMurrayMain.png")
 
 # Controllo le informazioni dei due Rasterbrick: 
 At1989
@@ -59,16 +59,16 @@ At1989
 # min values :                          0,                          0,                          0,                          0 
 # max values :                        255,                        255,                        255,                        255 
 
-At2016
+At2014
 # class      : RasterBrick 
-# dimensions : 990, 1000, 990000, 3  (nrow, ncol, ncell, nlayers)
+# dimensions : 990, 1000, 990000, 4  (nrow, ncol, ncell, nlayers)
 # resolution : 1, 1  (x, y)
 # extent     : 0, 1000, 0, 990  (xmin, xmax, ymin, ymax)
 # crs        : NA 
-# source     : C:/esame_telerilevamento_2021/12_7-15-2016_McMurrayMain.png 
-# names      : X12_7.15.2016_McMurrayMain.1, X12_7.15.2016_McMurrayMain.2, X12_7.15.2016_McMurrayMain.3 
-# min values :                            0,                            0,                            0 
-# max values :                          255,                          255,                          255 
+# source     : C:/esame_telerilevamento_2021/11_9-28-2014_McMurrayMain.png 
+# names      : X11_9.28.2014_McMurrayMain.1, X11_9.28.2014_McMurrayMain.2, X11_9.28.2014_McMurrayMain.3, X11_9.28.2014_McMurrayMain.4 
+# min values :                            0,                            0,                            0,                            0 
+# max values :                          255,                          255,                          255,                          255 
 
 # La classe è un RasterBrick: sono 3 bande in formato raster
 # Ci sono 990.000 pixel per ogni banda
@@ -76,7 +76,7 @@ At2016
 
 # Funzione plot: visualizzo le 3 bande di ciascuna immagine e i relativi valori di riflettanza nella legenda: 
 plot(At1989)
-plot(At2016)
+plot(At2014)
 # la legenda riporta i valori interi di riflettanza approssimati in una scala in bit da 0 a 255
 
 
@@ -90,11 +90,10 @@ plot(At2016)
 # Funzione par: metto le due immagini del 1989-2016 a confronto in un grafico con una riga e due colonne: 
 par(mfrow=c(1,2)) 
 plotRGB(At1989, r=1, g=2, b=3, stretch="Lin", main="Miniere nel 1989")
-plotRGB(At2016, r=1, g=2, b=3, stretch="Lin", main="Miniere nel 2016")
+plotRGB(At2014, r=1, g=2, b=3, stretch="Lin", main="Miniere nel 2014")
 # Verde: foresta boreale e praterie coltivate -> la vegetazione riflette molto il Nir (g=2 -> alto valore di riflettanza)
-# Viola: miniere, molto aumentate come superficie nel 2016 
+# Viola: miniere, molto aumentate come superficie nel 2014 
 # Blu: fiume, stagni sterili
-# Rossiccio: suolo nudo (foresta bruciata nel 2016)
 
 # ------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -117,7 +116,7 @@ cs <- colorRampPalette(c("dark blue","light blue","pink","red"))(100)
 
 # library(rasterVis) 
 # funzione levelplot: crea un grafico dove mette a confronto le due immagini in tempi diversi utilizzando un'unica legenda 
-levelplot(athabasca, col.regions=cs, main="Sviluppo delle miniere a cielo aperto nella provincia di Alberta", names.attr=c("2016" , "1989"))
+levelplot(athabasca, col.regions=cs, main="Sviluppo delle miniere a cielo aperto nella provincia di Alberta", names.attr=c("2014" , "1989"))
 # Si nota in rosa e rosso l'aumento delle miniere a cielo aperto e la diminuzione della foresta boreale 
 
 # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -131,8 +130,8 @@ levelplot(athabasca, col.regions=cs, main="Sviluppo delle miniere a cielo aperto
 # associo dei nomi immediati alle bande:
 nir1 <- At1989$X4_8.6.1989_McMurrayMain.2
 red1 <- At1989$X4_8.6.1989_McMurrayMain.3
-nir2 <- At2016$X12_7.15.2016_McMurrayMain.2
-red2 <- At2016$X12_7.15.2016_McMurrayMain.3
+nir2 <- At2014$X11_9.28.2014_McMurrayMain.2
+red2 <- At2014$X11_9.28.2014_McMurrayMain.3
 
 clr <- colorRampPalette(c('dark blue', 'yellow', 'red', 'black'))(100)
 
@@ -154,16 +153,16 @@ plot(ndvi2, col=clr, main="NDVI 2016")
 # metto le due immagini risultanti a confronto in un grafico con una riga e due colonne
 par(mfrow=c(1,2))
 plot(ndvi1, col=clr, main="NDVI 1989")
-plot(ndvi2, col=clr, main="NDVI 2016")
+plot(ndvi2, col=clr, main="NDVI 2014")
 
 
-# Cambiamento della vegetazione dal 1989 al 2016
+# Cambiamento della vegetazione dal 1989 al 2014
 # Differenza tra i due NDVI nei due tempi:
 cld <- colorRampPalette(c('dark blue', 'white', 'red'))(100)
 diffndvi <- ndvi1 - ndvi2
-levelplot(diffndvi, col.regions=cld, main="NDVI 1989 - NDVI 2016")
+levelplot(diffndvi, col.regions=cld, main="NDVI 1989 - NDVI 2014")
 # legenda:
-#       rosso: > diff -> aree con la maggior perdita di vegetazione per l'aumento delle miniere e a sud per l'incendio del 2016
+#       rosso: > diff -> aree con la maggior perdita di vegetazione per l'aumento delle miniere
 #       bianco: < diff -> aree con foresta boreale sana e intatta
 
 
@@ -204,9 +203,9 @@ p1c
 
 # facciamo il plot totale, sia di d1c che della sua mappa all'interno
 plot(p1c$map)
-# Classe 1: Foresta 
-# Classe 2: Prateria coltivata
-# Classe 3: Miniere
+# Classe 1 (bianco) : Prateria + Acqua 
+# Classe 2 (giallo) : Miniere  
+# Classe 3 (verde) : Foresta boreale 
 
 # Frequencies p1c$map 
 # ci chiediamo quanta % di foresta è stata persa 
@@ -214,25 +213,25 @@ plot(p1c$map)
 # funzione freq: funzione generale che genera tavole di frequenza e va a calcolarla
 freq(p1c$map)
 #         value  count
-# [1,]     1      489157 -> n. pixel di foresta
-# [2,]     2      454368 -> n. pixel di prateria 
-# [3,]     3      46475  -> n. pixel di miniere 
+# [1,]     1    474031  -> 474.031 pixel di prateria + acqua 
+# [2,]     2     53898  -> 53.898 pixel di miniera 
+# [3,]     3    462071  -> 462.071 pixel di foresta boreale 
 
 # calcoliamo la proporzione dei pixel per l'immagine p1c (consiste nella %)
 # facciamo la somma dei valori di pixel e la chiamiamo s1
-s1 <- 489157 + 454368 + 46475 
+s1 <-  474031 + 53898 + 462071
 prop1 <- freq(p1c$map) / s1 
 prop1
-#           value      count
-# [1,] 1.010101e-06   0.49409798 -> 49.4% di foresta boreale
-# [2,] 2.020202e-06   0.45895758 -> 45.9% di prateria
-# [3,] 3.030303e-06   0.04694444 -> 4.7% di miniere 
+#          value      count
+# [1,] 1.010101e-06   0.47881919  -> 47,9 % di prateria + acqua 
+# [2,] 2.020202e-06   0.05444242  -> 5,4 % di miniera 
+# [3,] 3.030303e-06   0.46673838  -> 46,7 % di foresta boreale 
 
 
-# Classificazione NON supervisionata per l'immagine del 2016
-# 4 classi:
+# Classificazione NON supervisionata per l'immagine del 2014
+# 3 classi:
 set.seed(42)
-p2c <- unsuperClass(At2016, nClasses=3)
+p2c <- unsuperClass(At2014, nClasses=3)
 
 p2c
 # unsuperClass results
@@ -249,27 +248,27 @@ p2c
 
 
 plot(p2c$map)
-# Classe 1: Foresta boreale
-# Classe 2: Miniere          
-# Classe 3: Praterie coltivate
+# Classe 1 (bianco) : Prateria + Acqua 
+# Classe 2 (giallo) : Miniere          
+# Classe 3 (verde) : Foresta boreale 
 
 
 # Frequencies p2c$map 
 freq(p2c$map)
-#         value  count
-# [1,]     1    397659  -> 397.659 pixel di foresta boreale
-# [2,]     2     92935  -> 92.935 pixel di miniere 
-# [3,]     3    499406  -> 499.406 pixel di praterie coltivate 
+#        value  count
+# [1,]     1    558016  -> 558.106 pixel di prateria + acqua 
+# [2,]     2    55961   -> 55.961 pixel di miniere 
+# [3,]     3    376023  -> 376.023 pixel di foresta 
 
 
 # facciamo la somma dei valori di pixel e la chiamiamo s2
-s2 <- 397659 + 92935 + 499406
+s2 <- 558016 + 55961 + 376023
 prop2 <- freq(p2c$map) / s2
 prop2 
-#         value       count
-# [1,] 1.010101e-06   0.40167576  -> 40.1% di foresta boreale
-# [2,] 2.020202e-06   0.09387374  -> 9.3% di miniere
-# [3,] 3.030303e-06   0.50445051  -> 50.4% di praterie coltivate 
+#            value      count
+# [1,] 1.010101e-06   0.56365253 -> 56,4 % di prateria + acqua 
+# [2,] 2.020202e-06   0.05652626 -> 5,7 % di miniera 
+# [3,] 3.030303e-06   0.37982121 -> 37,9 % di foresta 
 
 # Metto a confronto le due immagini classificate in un grafico con una riga e due colonne: 
 par(mfrow=c(1,2))
@@ -281,21 +280,21 @@ plot(p2c$map)
 # creo una tabella con 3 colonne
 # prima colonna -> copertura: prateria coltivata - foresta boreale - miniere 
 # seconda colonna -> % di classi dell'immagine p1c ->  percent_1989
-# terza colonna -> % di classi dell'immagine p2c -> percent_2016
+# terza colonna -> % di classi dell'immagine p2c -> percent_2014
 
-copertura <- c("Prateria coltivata","Foresta boreale","Miniere")
-percent_1989 <- c(45.9, 49.4, 4.7)
-percent_2016 <- c(50.4, 40.1, 9.3)
+copertura <- c("Foresta boreale","Miniere","Praterie/Acqua")
+percent_1989 <- c(46.7, 5.4, 47.8) 
+percent_2014 <- c(37.9, 5.7, 56.4) 
 
 # creiamo il dataframe
 # funzione data.frame: crea una tabella
 # argomenti della funzione: sono le 3 colonne che ho appena creato
-percentage <- data.frame(copertura, percent_1989, percent_2016)
+percentage <- data.frame(copertura, percent_1989, percent_2014)
 percentage
-#                copertura   percent_1989    percent_2016
-# 1 Prateria coltivata         45.9         50.4
-# 2    Foresta boreale         49.4         40.1
-# 3            Miniere          4.7          9.3
+#      copertura        percent_1989     percent_2014
+# 1    Foresta boreale         46.7         37.9
+# 2    Miniere                 5.4          5.7
+# 3    Praterie/Acqua          47.8         56.4
 
 
 
@@ -316,9 +315,9 @@ p1 <- ggplot(percentage, aes(x=copertura, y=percent_1989, color=copertura))  +  
 p1
 
 
-# p2c -> creo il grafico per l'immagine del 2016 (At2016)  
+# p2c -> creo il grafico per l'immagine del 2014 (At2014)  
 # funzione ggplot 
-p2 <- ggplot(percentage, aes(x=copertura, y=percent_2016, color=copertura))  +  geom_bar(stat="identity", fill="white")
+p2 <- ggplot(percentage, aes(x=copertura, y=percent_2014, color=copertura))  +  geom_bar(stat="identity", fill="white")
 p2
 
 # funzione grid.arrange: mette insieme dei vari plot di ggplot con le immagini
