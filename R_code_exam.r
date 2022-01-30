@@ -5,7 +5,7 @@
 # Una delle più grandi riserve di petrolio si trova nella foresta boreale in Canada, precisamente nell'Alberta nord-ovest
 # Luogo di studio: a nord della città di Fort McMurray, sulle sponde del fiume Athabasca
 # Le tecniche di estrazione del petrolio comprendono la deforestazione di parte della foresta boreale e questo crea delle miniere a cielo aperto
-# In questo progetto si vuole osservare lo sviluppo delle miniere dal 1989 al 2016
+# In questo progetto si vuole osservare lo sviluppo delle miniere dal 1989 al 2014
 
 # LIBRERIE 
 # Imposto le librerie necessarie per le indagini
@@ -35,8 +35,6 @@ setwd("C:/esame_telerilevamento_2021/")
 # img 2014: Landsat 8
 # Bande: 
 #       1: Swir - 2: Nir - 3: Red 
-
-# img 2016: Landsat 8
 
 # ------------------------------------------------------------------------------------------------------------------------------------------------------
 
